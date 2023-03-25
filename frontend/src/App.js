@@ -146,11 +146,21 @@ function App() {
                     label: <Box pad="small">
                       {dark ? "Light Mode" : "Dark Mode"}
                     </Box>,
+                    icon: (
+                    <Box pad="small">
+                      {dark ? <Moon /> : <Sun />}
+                    </Box>
+                    ),
                     onClick: () => {setDark(!dark)},
                     href: "",
                   },
                   {
                     label: <Box pad="small">Login</Box>,
+                    icon: (
+                      <Box pad="small">
+                        <User/>
+                      </Box>
+                      ),
                     href: "",
                   },
                 ]}
