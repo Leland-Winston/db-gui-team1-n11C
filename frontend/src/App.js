@@ -39,16 +39,20 @@ function App() {
       pad={{ left: "medium", right: "small", vertical: "small" }}
       elevation="none"
       {...props}
-    >
-    </Header>
+    ></Header>
   );
-  const CardTemplate = ({ title }) => {
+  const PostTemplate = ({ title, user, date }) => {
     return (
       <Card>
         <CardHeader pad="medium">
-          <Heading level={2} margin="none">
-            {title}
-          </Heading>
+          <Box pad="none" direction="column" justify="end">
+            <Heading level={2} margin="none">
+              {title}
+            </Heading>
+            <Heading level={4} margin="none">
+              {user}
+            </Heading>
+          </Box>
         </CardHeader>
         <CardBody pad="medium">
           <Paragraph maxLines={size === "small" ? 3 : undefined}>
@@ -59,7 +63,7 @@ function App() {
           </Paragraph>
         </CardBody>
         <CardFooter pad="medium" background="background-contrast">
-          Footer
+          {date}
         </CardFooter>
       </Card>
     );
@@ -133,88 +137,97 @@ function App() {
     <Grommet theme={theme} full themeMode={dark ? "dark" : "light"}>
       <Page>
         <AppBar>
-        <ResponsiveContext.Consumer>
-        {(size) =>
-          size === "small" ? (
-            <Box>
-              <Menu
-                a11yTitle="Navigation Menu"
-                dropProps={{ align: { top: "bottom", right: "right" } }}
-                icon={<MenuIcon color="active-text" />}
-                items={[
-                  {
-                    label: <Box pad="small">
-                      {dark ? "Light Mode" : "Dark Mode"}
-                    </Box>,
-                    icon: (
-                    <Box pad="small">
-                      {dark ? <Moon /> : <Sun />}
-                    </Box>
-                    ),
-                    onClick: () => {setDark(!dark)},
-                    href: "",
-                  },
-                  {
-                    label: <Box pad="small">Login</Box>,
-                    icon: (
-                      <Box pad="small">
-                        <User/>
-                      </Box>
+          <ResponsiveContext.Consumer>
+            {(size) =>
+              size === "small" ? (
+                <Box>
+                  <Menu
+                    a11yTitle="Navigation Menu"
+                    dropProps={{ align: { top: "bottom", right: "right" } }}
+                    icon={<MenuIcon color="active-text" />}
+                    items={[
+                      {
+                        label: (
+                          <Box pad="small">
+                            {dark ? "Light Mode" : "Dark Mode"}
+                          </Box>
+                        ),
+                        icon: (
+                          <Box pad="small">{dark ? <Moon /> : <Sun />}</Box>
+                        ),
+                        onClick: () => {
+                          setDark(!dark);
+                        },
+                        href: "",
+                      },
+                      {
+                        label: <Box pad="small">Login</Box>,
+                        icon: (
+                          <Box pad="small">
+                            <User />
+                          </Box>
+                        ),
+                        href: "",
+                      },
+                    ]}
+                  />
+                </Box>
+              ) : (
+                <Box
+                  direction="row"
+                  gap="medium"
+                >
+                  <Button
+                    a11yTitle={
+                      dark ? "Switch to Light Mode" : "Switch to Dark Mode"
+                    }
+                    icon={dark ? <Moon /> : <Sun />}
+                    onClick={() => setDark(!dark)}
+                    tip={{
+                      content: (
+                        <Box
+                          pad="small"
+                          round="small"
+                          background={dark ? "dark-1" : "light-3"}
+                        >
+                          {dark
+                            ? "Switch to Light Mode"
+                            : "Switch to Dark Mode"}
+                        </Box>
                       ),
-                    href: "",
-                  },
-                ]}
-              />
-            </Box>
-          ) : (
-            <Box direction="row" gap="medium">
-              <Button
-                a11yTitle={
-                  dark ? "Switch to Light Mode" : "Switch to Dark Mode"
-                }
-                icon={dark ? <Moon /> : <Sun />}
-                onClick={() => setDark(!dark)}
-                tip={{
-                  content: (
-                    <Box
-                      pad="small"
-                      round="small"
-                      background={dark ? "dark-1" : "light-3"}
-                    >
-                      {dark ? "Switch to Light Mode" : "Switch to Dark Mode"}
-                    </Box>
-                  ),
-                  plain: true,
-                }}
-              />
-              <Button
-                icon={<User />}
-                onClick={() => {alert("Login")}}
-                a11yTitle={"Login"}
-                tip={{
-                  content: (
-                    <Box
-                      pad="small"
-                      round="small"
-                      background={dark ? "dark-1" : "light-3"}
-                    >
-                      {"Login"}
-                    </Box>
-                  ),
-                  plain: true,
-                }}
-              />
-            </Box>
-          )
-        }
-      </ResponsiveContext.Consumer>
+                      plain: true,
+                    }}
+                  />
+                  <Button
+                    icon={<User />}
+                    onClick={() => {
+                      alert("Login");
+                    }}
+                    a11yTitle={"Login"}
+                    tip={{
+                      content: (
+                        <Box
+                          pad="small"
+                          round="small"
+                          background={dark ? "dark-1" : "light-3"}
+                        >
+                          {"Login"}
+                        </Box>
+                      ),
+                      plain: true,
+                    }}
+                  />
+                </Box>
+              )
+            }
+          </ResponsiveContext.Consumer>
         </AppBar>
         <PageContent>
-          <PageHeader title="Welcome to Grommet!" />
+          <PageHeader title="Popular Posts" />
           <Grid columns="medium" gap="large" pad={{ bottom: "large" }}>
-            <CardTemplate title={"Card 1"} />
-            <CardTemplate title={"Card 2"} />
-            <CardTemplate title={"Card 3"} />
+            <PostTemplate title={"I Love Cars"} user={"user1"} date={"Jan 1"} />
+            <PostTemplate title={"Subaru"} user={"John Doe"} date={"Jan 4"} />
+            <PostTemplate title={"Ford"} user={"user2"} date={"Sep 18"} />
           </Grid>
         </PageContent>
       </Page>
