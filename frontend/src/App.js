@@ -189,7 +189,7 @@ function App() {
               />
               <Button
                 icon={<User />}
-                onClick={() => {}}
+                onClick={() => {alert("Login")}}
                 a11yTitle={"Login"}
                 tip={{
                   content: (
