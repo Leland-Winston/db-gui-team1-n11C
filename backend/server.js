@@ -48,16 +48,15 @@ app.get('/db', (req, res) => {
 })
 
 app.post('/user', (req, res) => {
-    const { first, last, age, admin } = req.body
-    const query = `INSERT INTO users (first_name, last_name, age, admin) VALUES ('${first}', '${last}', ${age}, ${admin})`
+    const newUser = req.body;
+    console.log(newUser);
+    const query = `INSERT INTO users (username, password, email, admin) VALUES ('${newUser.username}', '${newUser.password}', ${newUser.email}, ${newUser.admin})`
     connection.query(query, (err, rows, fields) => {
         if (err) throw err
-
         console.log(rows)
         res.status(200)
         res.send("Successfully added user!")
     })
-})
 
 app.get('/users', (req, res) => {
     connection.query(`SELECT * FROM users;`, (err, rows, fields) => {
