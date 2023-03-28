@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { Login } from "./pages/login.jsx";
 import {
   Anchor,
   Box,
@@ -167,6 +168,7 @@ function App() {
           </Grid>
         </PageContent>
       </Page>
+      <Login></Login>
     </Grommet>
   );
 }

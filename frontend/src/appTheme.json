@@ -203,7 +203,7 @@
           }
         },
         "position": "inner",
-        "side": "all"
+        "side": "bottom"
       },
       "content": {
         "pad": "small"
