@@ -1,6 +1,10 @@
-// create a login page using grommet components
-import React from "react";
+// import components
 import { Grommet, SelectMultiple } from "grommet";
+import { PasswordField } from "../components/PasswordField";
+import { deepMerge } from "grommet/utils";
+import appTheme from "../appTheme.json";
+import React from "react";
+
 import {
   Box,
   Button,
@@ -11,9 +15,6 @@ import {
   Select,
   TextInput,
 } from "grommet";
-import { PasswordField } from "../components/PasswordField";
-import { deepMerge } from "grommet/utils";
-import appTheme from "../appTheme.json";
 
 const theme = deepMerge(grommet, appTheme);
 const options = ["Ford", "Toyota", "Subaru", "Kia", "Honda", "Hyundai"];
