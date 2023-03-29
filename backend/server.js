@@ -20,7 +20,9 @@ connection.connect()
 app.get('/', (req, res) => {
     res.send('Hello World!')
 })
-
+app.post('/', (req, res) =>{
+    res.send("posted")
+})
 app.put('/parse', (req, res) => {
     console.log(req.body)
 
@@ -47,12 +49,11 @@ app.get('/db', (req, res) => {
     })
 })
 
-app.post('/user', (req, res) => {
+app.post('/user/:id', (req, res) => {
     const { first, last, age, admin } = req.body
     const query = `INSERT INTO users (first_name, last_name, age, admin) VALUES ('${first}', '${last}', ${age}, ${admin})`
     connection.query(query, (err, rows, fields) => {
         if (err) throw err
-
         console.log(rows)
         res.status(200)
         res.send("Successfully added user!")
