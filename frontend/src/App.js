@@ -1,6 +1,10 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { Login } from "./pages/login.jsx";
+
+import { Login } from "./pages/login.js";
+import { PostTemplate } from "./components/PostTemplate.jsx";
+import { AppBar } from "./components/AppBar.jsx";
+
 import {
   Anchor,
   Box,
@@ -23,52 +27,19 @@ import {
   ResponsiveContext,
   Text,
 } from "grommet";
+
 import { deepMerge } from "grommet/utils";
 import { Moon, Sun, Close, Send, User, Menu as MenuIcon } from "grommet-icons";
 import appTheme from "./appTheme.json";
 
 const theme = deepMerge(grommet, appTheme);
 
-function App() {
+export default function App() {
   const url = "http://localhost:8000";
   const [dark, setDark] = useState(true);
-  const size = React.useContext(ResponsiveContext);
 
-  const AppBar = (props) => (
-    <Header
-      background="brand"
-      pad={{ left: "medium", right: "small", vertical: "small" }}
-      elevation="none"
-      {...props}
-    ></Header>
-  );
-  const PostTemplate = ({ title, user, date }) => {
-    return (
-      <Card>
-        <CardHeader pad="medium">
-          <Box pad="none" direction="column" justify="end">
-            <Heading level={2} margin="none">
-              {title}
-            </Heading>
-            <Heading level={4} margin="none">
-              {user}
-            </Heading>
-          </Box>
-        </CardHeader>
-        <CardBody pad="medium">
-          <Paragraph maxLines={size === "small" ? 3 : undefined}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas
-            porttitor non nulla ac vehicula. Aliquam erat volutpat. Mauris
-            auctor faucibus est at mattis. Aliquam a enim ac nisi aliquam
-            consectetur et ac velit. Mauris ut imperdiet libero.
-          </Paragraph>
-        </CardBody>
-        <CardFooter pad="medium" background="background-contrast">
-          {date}
-        </CardFooter>
-      </Card>
-    );
-  };
+  // use state for page view
+  const [view, setView] = useState("home");
 
   return (
     <Grommet theme={theme} full themeMode={dark ? "dark" : "light"}>
@@ -138,7 +109,7 @@ function App() {
                   <Button
                     icon={<User />}
                     onClick={() => {
-                      alert("Login");
+                      setView("login");
                     }}
                     a11yTitle={"Login"}
                     tip={{
@@ -154,23 +125,50 @@ function App() {
                       plain: true,
                     }}
                   />
+
+                  <Button 
+                  icon={<Close/>}
+                  onClick={() => {
+                    setView("home");
+                  }}
+                  a11yTitle={"Close"}
+                  tip={{
+                    content: (
+                      <Box
+                        pad="small"
+                        round="small"
+                        background={dark ? "dark-1" : "light-3"}
+                      >
+                        {"Close"}
+                      </Box>
+                    ),
+                    plain: true,
+                  }}
+                  />
                 </Box>
               )
             }
           </ResponsiveContext.Consumer>
         </AppBar>
+
         <PageContent>
+            
+          {  view == "home" && 
+          <>
           <PageHeader title="Popular Posts" />
           <Grid columns="medium" gap="large" pad={{ bottom: "large" }}>
             <PostTemplate title={"I Love Cars"} user={"user1"} date={"Jan 1"} />
             <PostTemplate title={"Subaru"} user={"John Doe"} date={"Jan 4"} />
             <PostTemplate title={"Ford"} user={"user2"} date={"Sep 18"} />
           </Grid>
+          </>
+          ||
+          <Login/>
+        }
         </PageContent>
+
+
       </Page>
-      <Login></Login>
     </Grommet>
   );
 }
-
-export default App;
