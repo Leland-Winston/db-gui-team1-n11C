@@ -2,10 +2,17 @@ import React from "react";
 import { useState, useContext } from "react";
 import { Box, Button, Header, Menu, ResponsiveContext, Text } from "grommet";
 import { deepMerge } from "grommet/utils";
-import { Moon, Sun, Close, Send, User, Menu as MenuIcon } from "grommet-icons";
-import { NavLink } from "react-router-dom";
-function AppBar({ setView, setDark, dark }) {
+import { Moon, Sun, Close, Send, User, Menu as MenuIcon, ContactInfo, Logout } from "grommet-icons";
+import { NavLink, useNavigate } from "react-router-dom";
+import UserContext from "../UserContext";
+function AppBar({ setView, setDark, dark, setCurrentUser }) {
   const size = useContext(ResponsiveContext);
+  const user = useContext(UserContext);
+  const logout = () => {
+    setCurrentUser(null);
+    navigate('/')
+  }
+  let navigate = useNavigate();
   return (
     <>
 
@@ -26,11 +33,8 @@ function AppBar({ setView, setDark, dark }) {
             onClick={() => setDark(!dark)}
             tip={{
               content: (
-                <Box
-                  pad="small"
-                  round="small"
-                  background={dark ? "dark-1" : "light-3"}
-                >
+                <Box pad="small" round="small"
+                  background={dark ? "dark-1" : "light-3"}>
                   {dark
                     ? "Switch to Light Mode"
                     : "Switch to Dark Mode"}
@@ -40,18 +44,22 @@ function AppBar({ setView, setDark, dark }) {
             }}
           />
 
-          <NavLink to="/login">
+          <NavLink to={user == null && "/login"
+            || ("/user /" + user)}>
             <Button
-              icon={<User color="light-1" />}
+              icon={
+                user == null && <User color="light-1" />
+                ||
+                <ContactInfo color="light-1" />}
               a11yTitle={"Login"}
               tip={{
                 content: (
-                  <Box
-                    pad="small"
-                    round="small"
+                  <Box pad="small" round="small"
                     background={dark ? "dark-1" : "light-3"}
                   >
-                    {"Login"}
+                    {user == null && "Login"
+                      ||
+                      "My Profile"}
                   </Box>
                 ),
                 plain: true,
@@ -59,7 +67,20 @@ function AppBar({ setView, setDark, dark }) {
 
             />
           </NavLink>
-
+          {user !== null &&
+            < Button
+              icon={<Logout color='light-1' />}
+              tip={{
+                content: (
+                  <Box pad="small" round="small"
+                    background={dark ? "dark-1" : "light-3"}
+                  >
+                    Logout
+                  </Box>
+                ),
+                plain: true,
+              }}
+              onClick={() => logout()} />}
         </Box>
       </Header>
 

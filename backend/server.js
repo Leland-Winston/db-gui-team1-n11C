@@ -68,7 +68,14 @@ app.get('/users', (req, res) => {
         res.send(rows)
     })
 })
-
+app.get('/users/username/:username', (req, res)=>{
+    let name = req.params.username;
+    connection.query(`SELECT * FROM users U WHERE U.username='${name}'`, (err, rows, fields)=>{
+        if (err) throw err
+        res.status(200)
+        res.send(rows)
+    })
+})
 app.put('/users/clear', (req, res) => {
     connection.query(`DELETE FROM users;`, (err, rows, fields) => {
         if (err) throw err
@@ -77,7 +84,6 @@ app.put('/users/clear', (req, res) => {
         res.send("Successfully cleared users!")
     })
 })
-
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
 })
