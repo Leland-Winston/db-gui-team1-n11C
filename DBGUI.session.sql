@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS garages(
 );
 CREATE TABLE IF NOT EXISTS memberships(
   garage_id INT PRIMARY KEY,
-  member_id INT NOT NULL,
+  member_id INT NOT NULL
 );
 CREATE TABLE IF NOT EXISTS awards(
   award_type INT NOT NULL,
