@@ -17,6 +17,7 @@ import { Moon, Sun, Close, Send, User, Menu as MenuIcon } from "grommet-icons";
 import appTheme from "./appTheme.json";
 import LandingPage from "./pages/LandingPage.js";
 import UserContext from "./UserContext.js";
+import { Register } from "./pages/user/Register.jsx";
 
 const theme = deepMerge(grommet, appTheme);
 
@@ -33,6 +34,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage/>}/>
         <Route path="/login" element={<Login setCurrentUser={_setCurrentUser}/>}/>
+        <Route path="/register" element={<Register/>}/>
       </Routes>
       </Grommet>
     </UserContext.Provider>

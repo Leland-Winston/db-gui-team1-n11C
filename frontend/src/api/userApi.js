@@ -6,3 +6,9 @@ export const getUserByUsername = (username) =>{
     .then(x=>x.data)
     .catch(err=>err)
 }
+export const createUser = (user) =>{
+    console.log("creating" + user)
+    return axios.post(url + '/users', user)
+    .then(x=>x.data)
+    .catch(err=>err)
+}

@@ -49,14 +49,13 @@ app.get('/db', (req, res) => {
     })
 })
 
-app.post('/user/:id', (req, res) => {
-    const { first, last, age, admin } = req.body
-    const query = `INSERT INTO users (first_name, last_name, age, admin) VALUES ('${first}', '${last}', ${age}, ${admin})`
+app.post('/users', (req, res) => {
+    const { username, password, admin } = req.body
+    const query = `INSERT INTO users (username, password, admin) VALUES ('${username}', '${password}', ${admin})`
     connection.query(query, (err, rows, fields) => {
         if (err) throw err
-        console.log(rows)
         res.status(200)
-        res.send("Successfully added user!")
+        res.send(rows)
     })
 })
 
@@ -84,6 +83,56 @@ app.put('/users/clear', (req, res) => {
         res.send("Successfully cleared users!")
     })
 })
+
+//POSTS
+//*************************************************************/
+app.post('/posts', (req, res)=>{
+    const {author, title, content, parent} = req.body;
+    const query = `INSERT INTO posts (author, title, content, parent) VALUES (${author}, ${title}, ${content}, ${parent})`
+    connection.query(query, (err, rows, fields)=>{
+        if(err) throw err;
+        res.status(200)
+        res.send("created post")
+    })
+})
+app.get('/posts', (req, res)=>{
+    const query = `SELECT * FROM posts P WHERE P.parent IS NULL`
+    connection.query(query, (err, rows, fields)=>{
+        if(err) throw err
+        res.status(200)
+        res.send(rows)
+    })
+})
+app.get('/posts/garage/:id', (req, res)=>{
+    const id = req.params.id
+    const query = `SELECT * FROM posts P WHERE P.parent IS NULL AND P.garage=${garage}`
+    connection.query(query, (err, rows, fields)=>{
+        if(err) throw err
+        res.status(200)
+        res.send(rows)
+    })
+})
+app.get('/posts/author/:id', (req,res)=>{
+    const id = req.params.id;
+    const query = `SELECT * FROM posts P WHERE P.author=${id}`
+    connection.query(query, (err, rows, fields)=>{
+        if(err) throw err
+        res.status(200)
+        res.send(rows)
+    })
+})
+app.get('/posts/comments/:id', (req,res)=>{
+    const id = req.params.id;
+    const query = `SELECT * FROM posts P WHERE P.parent=${id}`
+    connection.query(query, (err, rows, fields)=>{
+        if(err) throw err
+        res.status(200)
+        res.send(rows)
+    })
+})
+//GARAGES
+//*************************************************************/
+
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
 })

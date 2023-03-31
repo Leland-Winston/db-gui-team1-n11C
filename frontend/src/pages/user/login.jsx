@@ -1,6 +1,6 @@
 // create a login page using grommet components
 import React, { useContext, useState } from "react";
-import { Grommet, PageContent, SelectMultiple, Text } from "grommet";
+import { Anchor, Grommet, PageContent, SelectMultiple, Text } from "grommet";
 import {
   Box,
   Button,
@@ -17,7 +17,8 @@ import { deepMerge } from "grommet/utils";
 import appTheme from "../../appTheme.json";
 import UserContext from "../../UserContext";
 import { getUserByUsername } from "../../api/userApi";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate, NavLink } from "react-router-dom";
+import { Register } from "./Register";
 const theme = deepMerge(grommet, appTheme);
 const options = ["Ford", "Toyota", "Subaru", "Kia", "Honda", "Hyundai"];
 const credentials = {
@@ -26,15 +27,17 @@ const credentials = {
 }
 export const Login = ({ setCurrentUser }) => {
   let navigate = useNavigate();
+
   let [validCredentials, setValidCredentials] = useState(true);
-  const [formValues, setFormValues] = useState(credentials);
+  let [formValues, setFormValues] = useState(credentials);
+
   const _setFormValue = (delta) => {
     setFormValues({ ...formValues, ...delta })
   }
   const login = () => {
     console.log(formValues);
     getUserByUsername(formValues.username).then(x => {
-      if (x[0]) {
+      if (!!x[0]) {
         setCurrentUser({
           username: x[0].username,
           id: x[0].user_id
@@ -49,7 +52,9 @@ export const Login = ({ setCurrentUser }) => {
 
   return (
     <Page>
+
       <PageContent>
+
         <Box align="center">
           <Form>
             <Box align="center" pad="small" border="top">
@@ -86,9 +91,15 @@ export const Login = ({ setCurrentUser }) => {
                 <></>
               }
             </Box>
+            <Box align="center" pad="small">
+              <NavLink to="/register"
+                style={{ textDecoration: "none" }}>
+                <Anchor color="#B46700" a11yTitle="Create Account">Create Account</Anchor>
+              </NavLink>
+            </Box>
           </Form>
         </Box>
-      </PageContent>
-    </Page>
+      </PageContent >
+    </Page >
   );
 };

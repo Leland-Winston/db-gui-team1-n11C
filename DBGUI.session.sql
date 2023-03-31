@@ -6,3 +6,34 @@ CREATE TABLE IF NOT EXISTS users(
   password VARCHAR(255) NOT NULL,
   admin BOOLEAN NOT NULL DEFAULT FALSE
 );
+CREATE TABLE IF NOT EXISTS profiles(
+  profile_id INT NOT NULL,
+  bio VARCHAR(1000),
+  carma INT DEFAULT 0
+);
+CREATE TABLE IF NOT EXISTS posts(
+  post_id INT AUTO_INCREMENT PRIMARY KEY,
+  author INT NOT NULL,
+  garage_id INT NOT NULL,
+  title VARCHAR(255) NOT NULL,
+  content VARCHAR(2000) NOT NULL,
+  parent INT DEFAULT NULL,
+  rating INT DEFAULT 0
+);
+CREATE TABLE IF NOT EXISTS garages(
+  garage_id INT AUTO_INCREMENT PRIMARY KEY,
+  creator INT NOT NULL,
+  garage_name VARCHAR(100) NOT NULL,
+  garage_description VARCHAR(1000) NOT NULL,
+  num_posts INT DEFAULT 0
+);
+CREATE TABLE IF NOT EXISTS memberships(
+  garage_id INT PRIMARY KEY,
+  member_id INT NOT NULL,
+);
+CREATE TABLE IF NOT EXISTS awards(
+  award_type INT NOT NULL,
+  donor_id INT NOT NULL,
+  recipient_id INT NOT NULL,
+  post_id INT NOT NULL
+);
