@@ -1,11 +1,9 @@
 import { Card, CardBody, CardHeader, Heading, Page, PageContent } from "grommet";
 import PostTemplate from "../../components/PostTemplate";
 import { Sidebar } from "grommet-icons";
+import React from "react";
 
 export const ProfileView = ({user}) => {
-    
-
-
     return (<>
     <Page>
         <PageContent>
