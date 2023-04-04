@@ -16,7 +16,7 @@ function LandingPage(){
         <Page>
         <PageContent>
           <PageHeader title="Popular Posts" />
-          <Grid columns="medium" gap="large" pad={{ bottom: "large" }}>
+          <Grid rows="small" gap="large" pad={{ bottom: "large" }}>
             <PostTemplate title={"I Love Cars"} user={"user1"} date={"Jan 1"} />
           </Grid>
         </PageContent>

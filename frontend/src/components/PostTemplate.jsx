@@ -31,17 +31,17 @@ const PostTemplate = ({ title, user, date }) => {
   const size = React.useContext(ResponsiveContext);
   return (
     <Card>
-      <CardHeader pad="medium">
+      <CardHeader pad="small">
         <Box pad="none" direction="column" justify="end">
-          <Heading level={2} margin="none">
+          <Heading level={4} margin="none">
             {title}
           </Heading>
-          <Heading level={4} margin="none">
+          <Heading level={6} margin="none">
             {user}
           </Heading>
         </Box>
       </CardHeader>
-      <CardBody pad="medium">
+      <CardBody pad="small">
         <Paragraph maxLines={size === "small" ? 3 : undefined}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas
           porttitor non nulla ac vehicula. Aliquam erat volutpat. Mauris
@@ -49,7 +49,7 @@ const PostTemplate = ({ title, user, date }) => {
           consectetur et ac velit. Mauris ut imperdiet libero.
         </Paragraph>
       </CardBody>
-      <CardFooter pad="medium" background="background-contrast">
+      <CardFooter pad="small" background="background-contrast">
         {date}
       </CardFooter>
     </Card>

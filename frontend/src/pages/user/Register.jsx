@@ -86,8 +86,8 @@ export const Register = () => {
                                     margin="small"
                                     align="center"
                                     round="small"
-                                    border>
-                                    <TextInput plain name="password" />
+                                    >
+                                    <PasswordField />
                                 </Box>
                             </FormField>
                         </Box>
@@ -102,8 +102,8 @@ export const Register = () => {
                                     margin="small"
                                     align="center"
                                     round="small"
-                                    border>
-                                    <TextInput plain name="confirmPassword" />
+                                    >
+                                    <PasswordField />
                                 </Box>
                             </FormField>
                         </Box>
