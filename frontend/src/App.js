@@ -1,23 +1,17 @@
-import axios from "axios";
 import React, { useContext, useState } from "react";
-import {Router, Routes, Route} from 'react-router-dom';
+import {Routes, Route} from 'react-router-dom';
 import { Login } from "./pages/user/login.jsx";
-import PostTemplate from "./components/PostTemplate.jsx";
 import AppBar from "./components/AppBar.jsx";
 import {
-  Grid,
   Grommet,
   grommet,
-  Page,
-  PageContent,
-  PageHeader
 } from "grommet";
 import { deepMerge } from "grommet/utils";
-import { Moon, Sun, Close, Send, User, Menu as MenuIcon } from "grommet-icons";
 import appTheme from "./appTheme.json";
 import LandingPage from "./pages/LandingPage.js";
 import UserContext from "./UserContext.js";
 import { Register } from "./pages/user/Register.jsx";
+import { ProfileView } from "./pages/user/ProfileView";
 
 const theme = deepMerge(grommet, appTheme);
 
@@ -35,6 +29,7 @@ function App() {
         <Route path="/" element={<LandingPage/>}/>
         <Route path="/login" element={<Login setCurrentUser={_setCurrentUser}/>}/>
         <Route path="/register" element={<Register/>}/>
+        <Route path="/profile" element={<ProfileView user={currentUser}/>}/>
       </Routes>
       </Grommet>
     </UserContext.Provider>

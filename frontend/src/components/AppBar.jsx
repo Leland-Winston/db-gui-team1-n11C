@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useContext } from "react";
 import { Box, Button, Header, Menu, ResponsiveContext, Text } from "grommet";
 import { deepMerge } from "grommet/utils";
-import { Moon, Sun, Close, Send, User, Menu as MenuIcon, ContactInfo, Logout, Login } from "grommet-icons";
+import { Moon, Sun, Close, Send, User, Menu as MenuIcon, ContactInfo, Logout, Login, HomeRounded } from "grommet-icons";
 import { NavLink, useNavigate } from "react-router-dom";
 import UserContext from "../UserContext";
 function AppBar({ setView, setDark, dark, setCurrentUser }) {
@@ -44,7 +44,7 @@ function AppBar({ setView, setDark, dark, setCurrentUser }) {
           />
 
           <NavLink to={user == null && "/login"
-            || ("/user /" + user)}>
+            || ("/profile/" + user.username)}>
             <Button
               icon={
                 user == null && <Login color="light-1" />
@@ -63,7 +63,7 @@ function AppBar({ setView, setDark, dark, setCurrentUser }) {
                 ),
                 plain: true,
               }}
-
+              
             />
           </NavLink>
           {user !== null &&

@@ -27,7 +27,7 @@ import {
   Text,
 } from "grommet";
 
-const PostTemplate = ({ title, user, date }) => {
+const PostTemplate = ({ title, user, date, text }) => {
   const size = React.useContext(ResponsiveContext);
   return (
     <Card>
@@ -42,11 +42,8 @@ const PostTemplate = ({ title, user, date }) => {
         </Box>
       </CardHeader>
       <CardBody pad="small">
-        <Paragraph maxLines={size === "small" ? 3 : undefined}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas
-          porttitor non nulla ac vehicula. Aliquam erat volutpat. Mauris
-          auctor faucibus est at mattis. Aliquam a enim ac nisi aliquam
-          consectetur et ac velit. Mauris ut imperdiet libero.
+        <Paragraph maxLines={size === "small" ? 1 : 5} margin={{ top: 'none' }}>
+          {text}
         </Paragraph>
       </CardBody>
       <CardFooter pad="small" background="background-contrast">

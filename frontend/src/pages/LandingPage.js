@@ -17,7 +17,9 @@ function LandingPage(){
         <PageContent>
           <PageHeader title="Popular Posts" />
           <Grid rows="small" gap="large" pad={{ bottom: "large" }}>
-            <PostTemplate title={"I Love Cars"} user={"user1"} date={"Jan 1"} />
+            <PostTemplate title={"I Love Cars"} user={"user1"} date={"Jan 1"} text={"Cars are my favorite"}/>
+            <PostTemplate title={"I Love Cars"} user={"user1"} date={"Jan 1"} text={"Cars are my favorite"}/>
+            <PostTemplate title={"I Love Cars"} user={"user1"} date={"Jan 1"} text={"Cars are my favorite"}/>
           </Grid>
         </PageContent>
         
