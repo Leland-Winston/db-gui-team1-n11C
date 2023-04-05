@@ -87,8 +87,10 @@ app.put('/users/clear', (req, res) => {
 //POSTS
 //*************************************************************/
 app.post('/posts', (req, res)=>{
-    const {author, title, content, parent} = req.body;
-    const query = `INSERT INTO posts (author, title, content, parent) VALUES (${author}, ${title}, ${content}, ${parent})`
+    
+    const {author, title, content, parent, garage} = req.body;
+    console.log("creating post from" + author);
+    const query = `INSERT INTO posts (author, title, content, parent, garage) VALUES ('${author}', '${title}', '${content}', ${parent}, '${garage}')`
     connection.query(query, (err, rows, fields)=>{
         if(err) throw err;
         res.status(200)
@@ -105,7 +107,7 @@ app.get('/posts', (req, res)=>{
 })
 app.get('/posts/garage/:id', (req, res)=>{
     const id = req.params.id
-    const query = `SELECT * FROM posts P WHERE P.parent IS NULL AND P.garage=${garage}`
+    const query = `SELECT * FROM posts P WHERE P.garage='${id}'`
     connection.query(query, (err, rows, fields)=>{
         if(err) throw err
         res.status(200)
@@ -132,7 +134,25 @@ app.get('/posts/comments/:id', (req,res)=>{
 })
 //GARAGES
 //*************************************************************/
-
+app.get('/garages/:name', (req,res)=>{
+    const name = req.params.name;
+    const query = `SELECT * from garages G where G.name='${name}'`
+    connection.query(query, (err, rows, fields)=>{
+        if(err) throw err
+        res.status(200)
+        res.send(rows);
+    })
+})
+app.post('/garages', (req,res)=>{
+    console.log(req.body)
+    const {name, creator, description} = req.body;
+    const query = `INSERT INTO garages (name, creator, description) VALUES ('${name}', '${creator}', '${description}')`
+    connection.query(query, (err, rows, fields)=>{
+        if(err) throw err
+        res.status(200)
+        res.send(name + " created")
+    })
+})  
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
 })

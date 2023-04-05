@@ -13,8 +13,8 @@ CREATE TABLE IF NOT EXISTS profiles(
 );
 CREATE TABLE IF NOT EXISTS posts(
   post_id INT AUTO_INCREMENT PRIMARY KEY,
-  author INT NOT NULL,
-  garage_id INT NOT NULL,
+  author VARCHAR(255) NOT NULL,
+  garage VARCHAR(255) NOT NULL,
   title VARCHAR(255) NOT NULL,
   content VARCHAR(2000) NOT NULL,
   parent INT DEFAULT NULL,
@@ -22,9 +22,9 @@ CREATE TABLE IF NOT EXISTS posts(
 );
 CREATE TABLE IF NOT EXISTS garages(
   garage_id INT AUTO_INCREMENT PRIMARY KEY,
-  creator INT NOT NULL,
-  garage_name VARCHAR(100) NOT NULL,
-  garage_description VARCHAR(1000) NOT NULL,
+  creator VARCHAR(255) NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  description VARCHAR(1000) NOT NULL,
   num_posts INT DEFAULT 0
 );
 CREATE TABLE IF NOT EXISTS memberships(
@@ -37,3 +37,4 @@ CREATE TABLE IF NOT EXISTS awards(
   recipient_id INT NOT NULL,
   post_id INT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS likes(user_id INT NOT NULL, post_id INT NOT NULL);

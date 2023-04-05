@@ -7,8 +7,8 @@ export const createPost = (post) =>{
 export const getPosts = () =>{
     return axios.get(url + '/posts').then(x=>x.data).catch(err=>err)
 }
-export const getPostsByGarageId = (id)=>{
-    return axios.get(url + '/posts/garage/' + id).then(x=>x.data).catch(err=>err)
+export const getPostsByGarageName = (name)=>{
+    return axios.get(url + '/posts/garage/' + name).then(x=>x.data).catch(err=>err)
 }
 export const getAllPostsAndComments = () =>{
     return axios.get(url + '/posts/all').then(x=>x.data).catch(err=>err)
