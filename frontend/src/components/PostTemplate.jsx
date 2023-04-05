@@ -33,17 +33,19 @@ const PostTemplate = ({title, user, date, text, comments }) => {
   return (
     <Card>
       <CardHeader pad="small">
-        <Box pad="large" direction="column" justify="end">
+        <Box pad="large" direction="column" justify="end" >
           <Heading level={4} margin="none" align = "center">
             {title}
           </Heading>
           <Heading level={6} margin="none">
-            {user} <br></br>
+            {user}
+          </Heading>
+          <Heading level={6} margin="none">
             {date}
           </Heading>
         </Box>
-      </CardHeader>
 
+      </CardHeader>
       <CardBody pad="large">
         <Paragraph maxLines={size === "small" ? 1 : 10} margin = {{ top: 'none'}}>
           {text}
