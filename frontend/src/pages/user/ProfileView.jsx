@@ -4,9 +4,6 @@ import { Sidebar } from "grommet-icons";
 import React from "react";
 
 export const ProfileView = ({user}) => {
-    
-
-
     return (<>
     <Page>
         <PageContent>
@@ -24,7 +21,6 @@ export const ProfileView = ({user}) => {
             
         </Sidebar>
         </PageContent>
-    </Page>
-        
+    </Page>  
     </>)
 }

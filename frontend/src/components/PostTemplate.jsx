@@ -25,31 +25,54 @@ import {
   Paragraph,
   ResponsiveContext,
   Text,
+  InfiniteScroll
 } from "grommet";
 
-const PostTemplate = ({ title, user, date, text }) => {
+const PostTemplate = ({title, user, date, text, comments }) => {
   const size = React.useContext(ResponsiveContext);
   return (
     <Card>
       <CardHeader pad="small">
-        <Box pad="none" direction="column" justify="end">
-          <Heading level={4} margin="none">
+        <Box pad="large" direction="column" justify="end">
+          <Heading level={4} margin="none" align = "center">
             {title}
           </Heading>
           <Heading level={6} margin="none">
-            {user}
+            {user} <br></br>
+            {date}
           </Heading>
         </Box>
       </CardHeader>
-      <CardBody pad="small">
-        <Paragraph maxLines={size === "small" ? 1 : 5} margin={{ top: 'none' }}>
+
+      <CardBody pad="large">
+        <Paragraph maxLines={size === "small" ? 1 : 10} margin = {{ top: 'none'}}>
           {text}
         </Paragraph>
+
+        <InfiniteScroll comments = {comments} />
+          {comments.map((comment) => (
+            <Card>
+              <CardHeader pad="small">
+                <Box pad="large" direction="column" justify="end">
+                  <Heading level={4} margin="none" align = "center">
+                    {comment.username}
+                  </Heading>
+                  <Heading level={6} margin="none">
+                    {comment.date}
+                  </Heading>
+                </Box>
+              </CardHeader>
+
+              <CardBody pad = "large">
+                  <Paragraph maxLines={size === "small" ? 1 : 10} margin = {{ top: 'none'}}>
+                    {comment.text}
+                  </Paragraph>
+              </CardBody>
+            </Card>
+          ))}
       </CardBody>
-      <CardFooter pad="small" background="background-contrast">
-        {date}
-      </CardFooter>
     </Card>
   );
 };
+
 export default PostTemplate;
