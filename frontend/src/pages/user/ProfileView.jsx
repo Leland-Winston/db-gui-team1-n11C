@@ -4,16 +4,18 @@ import { Sidebar } from "grommet-icons";
 import React from "react";
 import { useParams } from "react-router-dom";
 import { getUserByUsername } from "../../api/userApi";
-export const ProfileView = ({ user }) => {
+import { useState } from "react";
+export const ProfileView = () => {
     const s = useParams().username;
     let data = {
         username: ""
     };
+    const [user, setUser] = useState({});
 
-    getUserByUsername(s).then(x => { data = x[0] })
+    getUserByUsername(s).then(x => { setUser(x[0]) })
     return (
-        data.username != "" && <>
-            {data.username}
+        user.username != "" && <>
+            {user.username}
             <Page>
                 <PageContent>
                     <Card>
