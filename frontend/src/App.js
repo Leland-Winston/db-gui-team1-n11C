@@ -29,11 +29,10 @@ function App() {
         <Route path="/" element={<LandingPage/>}/>
         <Route path="/login" element={<Login setCurrentUser={_setCurrentUser}/>}/>
         <Route path="/register" element={<Register/>}/>
-        <Route path="/profile" element={<ProfileView user={currentUser}/>}/>
+        <Route path="/profile/:username" element={<ProfileView/>}/>
       </Routes>
       </Grommet>
     </UserContext.Provider>
-
     </>
   );
 }
