@@ -107,6 +107,17 @@ app.delete('/users/:id', (req, res) => {
     })
 })
 
+app.put('/users/password/:username', (req, res) => {
+    let name = req.params.username;
+    let newPassword = req.body.password;
+    connection.query(`UPDATE users SET password='${newPassword}' WHERE username='${name}';`, (err, rows, fields) => {
+        if (err) throw err
+
+        res.status(200)
+        res.send("Successfully updated password!")
+    })
+})
+
 //POSTS
 //*************************************************************/
 app.post('/posts', (req, res)=>{
