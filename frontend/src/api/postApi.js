@@ -21,38 +21,8 @@ export const getPostsByAuthorId = (author) =>{
     .then(x=>x.data)
     .catch(err=>err)
 }
-export const getCommentsFromPost = (post)=>{
-    let commentTree = [];
+export const getCommentsFromPost = async (post)=>{
     return axios.get(url + '/comments/' + post)
-    .then(x=>{
-        constructCommentTree(x.data, commentTree);
-        console.log(commentTree)
-        return commentTree;
-    })
+    .then(x=>x.data)
     .catch(err=>err)
-}
-const constructCommentTree = (allComments, commentTree)=>{
-    allComments.forEach(newComment=>{
-        if(newComment.parent !== null){ //comment is not a root
-            commentTree.forEach(root=>{
-                //recursively insert into each root
-                recusriveInsert(newComment, root)
-            })
-        }
-        else{ //add new root
-            commentTree.push({...newComment, ...{children:[]}})
-        }
-    })
-}
-const recusriveInsert = (newComment, root)=>{
-    if(newComment.parent == root.comment_id){
-        root.children.push({...newComment, ...{children:[]}})
-    }
-    else{
-        if(root.children.length > 0){
-            root.children.forEach(c=>{
-                recusriveInsert(newComment,c)
-            })
-        }
-    }   
 }
