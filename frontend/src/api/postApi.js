@@ -23,3 +23,8 @@ export const getCommentsFromPostId = (id) =>{
     .then(x=>x.data)
     .catch(err=>err)
 }
+export const getNestedComments = (post) =>{
+    let comments = [];
+    axios.get(url + '/posts/comments/' + post)
+    .then(c=>console.log(c))
+}
