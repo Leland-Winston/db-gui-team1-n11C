@@ -37,3 +37,10 @@ CREATE TABLE IF NOT EXISTS awards(
   recipient_id INT NOT NULL,
   post_id INT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS comments(
+  comment_id INT AUTO_INCREMENT PRIMARY KEY,
+  author INT NOT NULL,
+  post_id INT NOT NULL,
+  content VARCHAR(1000) NOT NULL,
+  rating INT DEFAULT 0
+);

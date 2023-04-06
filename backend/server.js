@@ -84,6 +84,29 @@ app.put('/users/clear', (req, res) => {
     })
 })
 
+app.put('/users/username/:username', (req, res) => {
+    let name = req.params.username;
+    let newName = req.body.username;
+    connection.query(`UPDATE users SET username='${newName}' WHERE username='${name}';`, (err, rows, fields) => {
+        if (err) throw err
+
+        res.status(200)
+        res.send("Successfully updated username!")
+    })
+})
+
+app.delete('/users/:id', (req, res) => { 
+    let id = req.params.id;
+    connection.query(`DELETE FROM users WHERE user_id=${id};
+                       DELETE FROM posts WHERE author=${id};
+                       DELETE FROM comments WHERE author=${id};`, (err, rows, fields) => {
+        if (err) throw err
+
+        res.status(200)
+        res.send("Successfully deleted user and associated data!")
+    })
+})
+
 //POSTS
 //*************************************************************/
 app.post('/posts', (req, res)=>{
