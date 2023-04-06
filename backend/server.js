@@ -121,9 +121,9 @@ app.get('/posts/author/:id', (req,res)=>{
         res.send(rows)
     })
 })
-app.get('/posts/comments/:id', (req,res)=>{
+app.get('/comments/:id', (req,res)=>{
     const id = req.params.id;
-    const query = `SELECT * FROM posts P WHERE P.parent=${id}`
+    const query = `SELECT * FROM comments C WHERE C.post_id=${id}`
     connection.query(query, (err, rows, fields)=>{
         if(err) throw err
         res.status(200)
@@ -133,6 +133,17 @@ app.get('/posts/comments/:id', (req,res)=>{
 //GARAGES
 //*************************************************************/
 
+//COMMENTS
+//*************************************************************/
+app.post('/comments', (req,res)=>{
+    const {post_id, author, parent, content} = req.body;
+    const query = `INSERT INTO comments (post_id, author, parent, content) VALUES (${post_id}, '${author}', ${parent}, '${content}')`
+    connection.query(query, (err, rows, fields)=>{
+        if(err) throw err
+        res.status(200)
+        res.send(rows)
+    })
+})
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
 })

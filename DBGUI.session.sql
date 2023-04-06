@@ -22,7 +22,9 @@ CREATE TABLE IF NOT EXISTS posts(
 CREATE TABLE IF NOT EXISTS comments(
   comment_id INT AUTO_INCREMENT PRIMARY KEY,
   post_id INT NOT NULL,
+  author VARCHAR(255),
   parent INT,
+  content VARCHAR(1000),
   rating INT DEFAULT 0
 );
 CREATE TABLE IF NOT EXISTS garages(

@@ -1,6 +1,5 @@
 import axios from "axios";
 const url = 'http://localhost:8000';
-
 export const createPost = (post) =>{
     return axios.post(url + '/posts').then(x=>x.data).catch(err=>err)
 }
@@ -18,13 +17,8 @@ export const getPostsByAuthorId = (author) =>{
     .then(x=>x.data)
     .catch(err=>err)
 }
-export const getCommentsFromPostId = (id) =>{
-    return axios.get(url + '/posts/comments/' + id)
+export const getCommentsFromPost = (post)=>{
+    return axios.get(url + '/comments/' + post)
     .then(x=>x.data)
     .catch(err=>err)
-}
-export const getNestedComments = (post) =>{
-    let comments = [];
-    axios.get(url + '/posts/comments/' + post)
-    .then(c=>console.log(c))
 }
