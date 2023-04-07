@@ -1,28 +1,45 @@
 import axios from "axios";
 import { useState } from "react";
-const url = 'http://localhost:8000';
-export const createPost = (post) =>{
-    return axios.post(url + '/posts').then(x=>x.data).catch(err=>err)
-}
-export const getPosts = () =>{
-    return axios.get(url + '/posts').then(x=>x.data).catch(err=>err)
-}
-export const getPostById = (id) =>{
-    return axios.get(url + '/posts/' + id).then(x=>x.data).catch(err=>err)
-}
-export const getPostsByGarageId = (id)=>{
-    return axios.get(url + '/posts/garage/' + id).then(x=>x.data).catch(err=>err)
-}
-export const getAllPostsAndComments = () =>{
-    return axios.get(url + '/posts/all').then(x=>x.data).catch(err=>err)
-}
-export const getPostsByAuthorId = (author) =>{
-    return axios.get(url + '/posts/author/' + author)
-    .then(x=>x.data)
-    .catch(err=>err)
-}
-export const getCommentsFromPost = async (post)=>{
-    return axios.get(url + '/comments/' + post)
-    .then(x=>x.data)
-    .catch(err=>err)
-}
+const url = "http://localhost:8000";
+export const createPost = (post) => {
+  return axios
+    .post(url + "/posts")
+    .then((x) => x.data)
+    .catch((err) => err);
+};
+export const getPosts = () => {
+  return axios
+    .get(url + "/posts")
+    .then((x) => x.data)
+    .catch((err) => err);
+};
+export const getPostById = (id) => {
+  return axios
+    .get(url + "/posts/" + id)
+    .then((x) => x.data)
+    .catch((err) => err);
+};
+export const getPostsByGarageName = (name) => {
+  return axios
+    .get(url + "/posts/garage/" + name)
+    .then((x) => x.data)
+    .catch((err) => err);
+};
+export const getAllPostsAndComments = () => {
+  return axios
+    .get(url + "/posts/all")
+    .then((x) => x.data)
+    .catch((err) => err);
+};
+export const getPostsByAuthorId = (author) => {
+  return axios
+    .get(url + "/posts/author/" + author)
+    .then((x) => x.data)
+    .catch((err) => err);
+};
+export const getCommentsFromPost = async (post) => {
+  return axios
+    .get(url + "/comments/" + post)
+    .then((x) => x.data)
+    .catch((err) => err);
+};
