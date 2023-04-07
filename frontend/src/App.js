@@ -13,6 +13,7 @@ import UserContext from "./UserContext.js";
 import { Register } from "./pages/user/Register.jsx";
 import { ProfileView } from "./pages/user/ProfileView";
 import GarageView from "./pages/garages/GarageView.jsx";
+import PostView from "./pages/posts/PostView.jsx";
 
 const theme = deepMerge(grommet, appTheme);
 
@@ -32,6 +33,7 @@ function App() {
         <Route path="/register" element={<Register/>}/>
         <Route path="/profile/:username" element={<ProfileView/>}/>
         <Route path="/garage/:garagename" element={<GarageView/>}/>
+        <Route path="/garage/:garage/post/:post" element={<PostView/>}/>
       </Routes>
       </Grommet>
     </UserContext.Provider>
