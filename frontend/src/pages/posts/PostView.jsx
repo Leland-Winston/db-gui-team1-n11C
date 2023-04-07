@@ -56,7 +56,6 @@ export default function PostView() {
         <>
             <h1>{currPost.title}</h1>
             <h6>{currPost.content}</h6>
-            <button onClick={() => console.log(commentTree)}>xdd</button>
             {commentTree.map(c => {
                 return <Comment comment={c}></Comment>
             })}

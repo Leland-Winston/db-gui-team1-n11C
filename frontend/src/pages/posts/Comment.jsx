@@ -5,8 +5,9 @@ export default function Comment({ comment, onClick }) {
     return (<>
 
         <Card>
-            <CardHeader background={{ color: "brand" }}>
-                <h3>{comment.author}</h3>
+            <CardHeader background={{ color: "brand" }}
+                pad={'xxsmall'}>
+                <h4>{comment.author}</h4>
             </CardHeader>
             <CardBody>
                 <p>{comment.content}</p>
@@ -17,8 +18,6 @@ export default function Comment({ comment, onClick }) {
                 })}
             </CardFooter>
         </Card>
-
-
 
     </>)
 }
