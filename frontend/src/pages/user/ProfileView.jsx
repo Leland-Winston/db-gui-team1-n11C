@@ -1,36 +1,60 @@
-import { Card, CardBody, CardHeader, Heading, Page, PageContent } from "grommet";
+import {
+  Avatar,
+  Box,
+  Card,
+  CardBody,
+  CardHeader,
+  Heading,
+  Grid,
+  Page,
+  PageContent,
+  Tag,
+} from "grommet";
 import PostTemplate from "../../components/PostTemplate";
-import { Sidebar } from "grommet-icons";
+import { Car, Sidebar } from "grommet-icons";
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getUserByUsername } from "../../api/userApi";
 import { useState } from "react";
 export const ProfileView = () => {
-    const s = useParams().username;
-    let data = {
-        username: ""
-    };
-    const [user, setUser] = useState({});
-    useEffect(() => {getUserByUsername(s).then(x => { setUser(x[0]) })}, [])
+  const s = useParams().username;
+  let data = {
+    username: "",
+    posts: [],
+  };
+  const [user, setUser] = useState({});
+  useEffect(() => {
+    getUserByUsername(s).then((x) => {
+      setUser(x[0]);
+    });
+  }, []);
 
-    return (
-        user.username != "" && <>
-            {user.username}
-            <Page>
-                <PageContent>
-                    <Card>
-                        <CardHeader>
-                            <Heading>My Posts</Heading>
-                        </CardHeader>
-                        <CardBody>
-
-                        </CardBody>
-                    </Card>
-                    <Sidebar>
-
-                    </Sidebar>
-                </PageContent>
-            </Page>
-
-        </>)
-}
+  return (
+    user.username != "" && (
+      <>
+        <Page>
+          <PageContent>
+            <Card margin="small">
+              <CardHeader>
+                <Box pad="small" direction="row" align="center" gap="large" fill="horizontal">
+                  <Heading level={2}>{user.username}</Heading>
+                  <Avatar background="brand" size="xlarge">
+                    <Car size="large"></Car>
+                  </Avatar>
+                </Box>
+              </CardHeader>
+              <CardBody>
+                <Box direction="row" gap="small" pad="small">
+                  <Tag value="tag 1"></Tag>
+                  <Tag value="tag 2"></Tag>
+                </Box>
+              </CardBody>
+            </Card>
+            {}
+            {/* map user's posts here into post templates */}
+          </PageContent>
+        </Page>
+      </>
+    )
+  );
+};
