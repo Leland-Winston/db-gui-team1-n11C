@@ -1,7 +1,7 @@
 import { Card, CardBody, CardHeader, Heading, Page, PageContent } from "grommet";
 import PostTemplate from "../../components/PostTemplate";
 import { Sidebar } from "grommet-icons";
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getUserByUsername } from "../../api/userApi";
 import { useState } from "react";
@@ -11,8 +11,8 @@ export const ProfileView = () => {
         username: ""
     };
     const [user, setUser] = useState({});
+    useEffect(() => {getUserByUsername(s).then(x => { setUser(x[0]) })}, [])
 
-    getUserByUsername(s).then(x => { setUser(x[0]) })
     return (
         user.username != "" && <>
             {user.username}
