@@ -1,4 +1,4 @@
-import { Box, Card, CardBody, CardFooter, CardHeader, Header } from "grommet";
+import { Accordion, AccordionPanel, Box, Card, CardBody, CardFooter, CardHeader, Header } from "grommet";
 import react from "react";
 
 export default function Comment({ comment, onClick }) {
@@ -6,16 +6,22 @@ export default function Comment({ comment, onClick }) {
 
         <Card>
             <CardHeader background={{ color: "brand" }}
-                pad={'xxsmall'}>
+                pad={'xsmall'}>
                 <h4>{comment.author}</h4>
             </CardHeader>
             <CardBody>
                 <p>{comment.content}</p>
             </CardBody>
             <CardFooter>
-                {comment.children.map(c => {
-                    return <Comment comment={c}></Comment>
-                })}
+                <Accordion>
+                    <AccordionPanel>
+                        {comment.children.map(c => {
+                            return <Comment comment={c}></Comment>
+                        })}
+                    </AccordionPanel>
+
+                </Accordion>
+
             </CardFooter>
         </Card>
 

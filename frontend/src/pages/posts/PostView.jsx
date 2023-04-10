@@ -2,6 +2,7 @@ import react, { useEffect, useState, useContext } from "react";
 import { getCommentsFromPost, getPostById } from "../../api/postApi";
 import { useParams } from "react-router-dom";
 import Comment from "./Comment";
+import { Page, Box, Grid, Card, CardBody, CardHeader, CardFooter, PageContent } from "grommet";
 const constructCommentTree = async (allComments, commentTree) => {
     allComments.forEach(newComment => {
         if (newComment.parent !== null) { //comment is not a root
@@ -54,11 +55,42 @@ export default function PostView() {
     return (
         !!currPost &&
         <>
-            <h1>{currPost.title}</h1>
-            <h6>{currPost.content}</h6>
-            {commentTree.map(c => {
-                return <Comment comment={c}></Comment>
-            })}
+            <Page kind="narrow">
+                <PageContent>
+
+                    <Card>
+                        <CardHeader>
+                            <Grid
+                                rows={['xxsmall', 'xsmall']}
+                                columns={['small', 'large']}
+                                gap="small"
+                                areas={[
+                                    { name: 'rating', start: [0, 1], end: [0, 1] },
+                                    { name: 'title', start: [1, 1], end: [1, 1] },
+                                ]}
+                            >
+                                <Box gridArea="rating" background="dark-2" >
+                                    <h2>{currPost.rating}</h2>
+                                </Box>
+                                <Box gridArea="title" background="light-2">
+                                    <h3>{currPost.title}</h3>
+                                </Box>
+                                <h6>{currPost.author}</h6>
+
+                            </Grid>
+                        </CardHeader>
+                        <CardBody>
+                            <p>{currPost.content}</p>
+                        </CardBody>
+                        <CardFooter>
+                            {commentTree.map(c => {
+                                return <Comment comment={c}></Comment>
+                            })}
+                        </CardFooter>
+                    </Card>
+
+                </PageContent>
+            </Page>
         </>
     )
 }
