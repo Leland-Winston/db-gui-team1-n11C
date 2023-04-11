@@ -13,11 +13,14 @@ export const getPostsByGarageId = (id)=>{
 export const getAllPostsAndComments = () =>{
     return axios.get(url + '/posts/all').then(x=>x.data).catch(err=>err)
 }
-export const getPostsByAuthorId = (author) =>{
+export const getPostsByAuthorId = (author) => new Promise((resolve, reject) =>{
     return axios.get(url + '/posts/author/' + author)
-    .then(x=>x.data)
-    .catch(err=>err)
-}
+    .then(x=> resolve(x.data))
+    .catch(error => {
+        alert(error);
+        reject(error);
+    })
+})
 export const getCommentsFromPostId = (id) =>{
     return axios.get(url + '/posts/comments/' + id)
     .then(x=>x.data)

@@ -8,6 +8,11 @@ import {
   Grid,
   Page,
   PageContent,
+  Table,
+  TableBody,
+  TableRow,
+  TableCell,
+  TableHeader,
   Tag,
 } from "grommet";
 import PostTemplate from "../../components/PostTemplate";
@@ -15,19 +20,23 @@ import { Car, Sidebar } from "grommet-icons";
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getUserByUsername } from "../../api/userApi";
+import { getPostsByAuthorId } from "../../api/postApi";
 import { useState } from "react";
 export const ProfileView = () => {
-  const s = useParams().username;
-  let data = {
-    username: "",
-    posts: [],
-  };
+  const params = useParams();
+  // let data = {
+  //   username: "",
+  // };
   const [user, setUser] = useState({});
+  const [ posts, setPosts ] = useState([]);
   useEffect(() => {
-    getUserByUsername(s).then((x) => {
+    getUserByUsername(params.username).then((x) => {
       setUser(x[0]);
     });
   }, []);
+  useEffect(() => {
+    getPostsByAuthorId(params.id).then(x => setPosts(x));
+  }, [])
 
   return (
     user.username != "" && (
@@ -50,8 +59,27 @@ export const ProfileView = () => {
                 </Box>
               </CardBody>
             </Card>
-            {}
             {/* map user's posts here into post templates */}
+            <Card margin="small">
+            <Table>
+              <TableHeader>
+                <Box margin="small">
+                <Heading>My Posts</Heading>
+                </Box>
+                </TableHeader>
+            <TableBody>
+            {
+              posts.map(post => <TableRow key={post.post_id}>
+              <TableCell><PostTemplate title={post.title}
+                                        user={user.username}
+                                        date={"jan 1"}
+                                        text={post.content}></PostTemplate></TableCell>
+              </TableRow>
+              )
+            }
+            </TableBody>
+            </Table>
+            </Card>
           </PageContent>
         </Page>
       </>
