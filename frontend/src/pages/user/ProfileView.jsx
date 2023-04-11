@@ -1,36 +1,88 @@
-import { Card, CardBody, CardHeader, Heading, Page, PageContent } from "grommet";
+import {
+  Avatar,
+  Box,
+  Card,
+  CardBody,
+  CardHeader,
+  Heading,
+  Grid,
+  Page,
+  PageContent,
+  Table,
+  TableBody,
+  TableRow,
+  TableCell,
+  TableHeader,
+  Tag,
+} from "grommet";
 import PostTemplate from "../../components/PostTemplate";
-import { Sidebar } from "grommet-icons";
-import React from "react";
+import { Car, Sidebar } from "grommet-icons";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getUserByUsername } from "../../api/userApi";
+import { getPostsByAuthorId } from "../../api/postApi";
 import { useState } from "react";
 export const ProfileView = () => {
-    const s = useParams().username;
-    let data = {
-        username: ""
-    };
-    const [user, setUser] = useState({});
+  const params = useParams();
+  // let data = {
+  //   username: "",
+  // };
+  const [user, setUser] = useState({});
+  const [ posts, setPosts ] = useState([]);
+  useEffect(() => {
+    getUserByUsername(params.username).then((x) => {
+      setUser(x[0]);
+    });
+  }, []);
+  useEffect(() => {
+    getPostsByAuthorId(params.id).then(x => setPosts(x));
+  }, [])
 
-    getUserByUsername(s).then(x => { setUser(x[0]) })
-    return (
-        user.username != "" && <>
-            {user.username}
-            <Page>
-                <PageContent>
-                    <Card>
-                        <CardHeader>
-                            <Heading>My Posts</Heading>
-                        </CardHeader>
-                        <CardBody>
-
-                        </CardBody>
-                    </Card>
-                    <Sidebar>
-
-                    </Sidebar>
-                </PageContent>
-            </Page>
-
-        </>)
-}
+  return (
+    user.username != "" && (
+      <>
+        <Page>
+          <PageContent>
+            <Card margin="small">
+              <CardHeader>
+                <Box pad="small" direction="row" align="center" gap="large" fill="horizontal">
+                  <Heading level={2}>{user.username}</Heading>
+                  <Avatar background="brand" size="xlarge">
+                    <Car size="large"></Car>
+                  </Avatar>
+                </Box>
+              </CardHeader>
+              <CardBody>
+                <Box direction="row" gap="small" pad="small">
+                  <Tag value="tag 1"></Tag>
+                  <Tag value="tag 2"></Tag>
+                </Box>
+              </CardBody>
+            </Card>
+            {/* map user's posts here into post templates */}
+            <Card margin="small">
+            <Table>
+              <TableHeader>
+                <Box margin="small">
+                <Heading>My Posts</Heading>
+                </Box>
+                </TableHeader>
+            <TableBody>
+            {
+              posts.map(post => <TableRow key={post.post_id}>
+              <TableCell><PostTemplate title={post.title}
+                                        user={user.username}
+                                        date={"jan 1"}
+                                        text={post.content}></PostTemplate></TableCell>
+              </TableRow>
+              )
+            }
+            </TableBody>
+            </Table>
+            </Card>
+          </PageContent>
+        </Page>
+      </>
+    )
+  );
+};

@@ -107,15 +107,24 @@ app.get("/posts", (req, res) => {
     res.send(rows);
   });
 });
-app.get("/posts/:id", (req, res) => {
-    const id = req.params.id;
-    const query = `SELECT * FROM posts P WHERE P.post_id=${id}`;
-    connection.query(query, (err, rows, fields) => {
-      if (err) throw err;
-      res.status(200);
-      res.send(rows);
-    });
+app.post("/posts", (req, res) => {
+  const { author, title, content, parent, garage_id } = req.body;
+  const query = `INSERT INTO posts (author, title, content, parent, garage_id) VALUES (${author}, '${title}', '${content}', ${parent}, ${garage_id})`;
+  connection.query(query, (err, rows, fields) => {
+    if (err) throw err;
+    res.status(200);
+    res.send("created post");
   });
+});
+app.get("/posts/author/:id", (req, res) => {
+  const id = req.params.id;
+  const query = `SELECT * FROM posts P WHERE P.post_id=${id}`;
+  connection.query(query, (err, rows, fields) => {
+    if (err) throw err;
+    res.status(200);
+    res.send(rows);
+  });
+});
 app.get("/posts/garage/:id", (req, res) => {
   const id = req.params.id;
   const query = `SELECT * FROM posts P WHERE P.garage='${id}'`;

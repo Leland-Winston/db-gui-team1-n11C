@@ -1,9 +1,9 @@
 import axios from "axios";
-import { useState } from "react";
 const url = "http://localhost:8000";
+
 export const createPost = (post) => {
   return axios
-    .post(url + "/posts")
+    .post(url + "/posts", post)
     .then((x) => x.data)
     .catch((err) => err);
 };
@@ -13,15 +13,9 @@ export const getPosts = () => {
     .then((x) => x.data)
     .catch((err) => err);
 };
-export const getPostById = (id) => {
+export const getPostsByGarageId = (id) => {
   return axios
-    .get(url + "/posts/" + id)
-    .then((x) => x.data)
-    .catch((err) => err);
-};
-export const getPostsByGarageName = (name) => {
-  return axios
-    .get(url + "/posts/garage/" + name)
+    .get(url + "/posts/garage/" + id)
     .then((x) => x.data)
     .catch((err) => err);
 };
@@ -31,15 +25,23 @@ export const getAllPostsAndComments = () => {
     .then((x) => x.data)
     .catch((err) => err);
 };
-export const getPostsByAuthorId = (author) => {
+export const getPostsByAuthorId = (author) =>
+  new Promise((resolve, reject) => {
+    return axios
+      .get(url + "/posts/author/" + author)
+      .then((x) => resolve(x.data))
+      .catch((error) => {
+        alert(error);
+        reject(error);
+      });
+  });
+export const getCommentsFromPostId = (id) => {
   return axios
-    .get(url + "/posts/author/" + author)
+    .get(url + "/posts/comments/" + id)
     .then((x) => x.data)
     .catch((err) => err);
 };
-export const getCommentsFromPost = async (post) => {
-  return axios
-    .get(url + "/comments/" + post)
-    .then((x) => x.data)
-    .catch((err) => err);
+export const getNestedComments = (post) => {
+  let comments = [];
+  axios.get(url + "/posts/comments/" + post).then((c) => console.log(c));
 };
