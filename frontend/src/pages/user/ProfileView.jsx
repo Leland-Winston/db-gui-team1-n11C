@@ -1,6 +1,7 @@
 import {
   Avatar,
   Box,
+  Button,
   Card,
   CardBody,
   CardHeader,
@@ -18,7 +19,7 @@ import {
 import PostTemplate from "../../components/PostTemplate";
 import { Car, Sidebar } from "grommet-icons";
 import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { getUserByUsername } from "../../api/userApi";
 import { getPostsByAuthorId } from "../../api/postApi";
 import { useState } from "react";
@@ -79,6 +80,11 @@ export const ProfileView = () => {
             }
             </TableBody>
             </Table>
+            <NavLink to={("/newpost/2/1")} >
+            <Button>
+              Create New Post
+            </Button>
+            </NavLink>
             </Card>
           </PageContent>
         </Page>
