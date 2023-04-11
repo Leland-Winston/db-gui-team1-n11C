@@ -87,8 +87,8 @@ app.put('/users/clear', (req, res) => {
 //POSTS
 //*************************************************************/
 app.post('/posts', (req, res)=>{
-    const {author, title, content, parent} = req.body;
-    const query = `INSERT INTO posts (author, title, content, parent) VALUES (${author}, ${title}, ${content}, ${parent})`
+    const {author, title, content, parent, garage_id} = req.body;
+    const query = `INSERT INTO posts (author, title, content, parent, garage_id) VALUES (${author}, '${title}', '${content}', ${parent}, ${garage_id})`
     connection.query(query, (err, rows, fields)=>{
         if(err) throw err;
         res.status(200)

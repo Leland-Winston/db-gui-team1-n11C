@@ -25,6 +25,7 @@ import {
   Paragraph,
   ResponsiveContext,
   Text,
+  ThumbsRating
 } from "grommet";
 
 const PostTemplate = ({ title, user, date, text }) => {
@@ -48,6 +49,7 @@ const PostTemplate = ({ title, user, date, text }) => {
       </CardBody>
       <CardFooter pad="small" background="background-contrast">
         {date}
+        <ThumbsRating></ThumbsRating>
       </CardFooter>
     </Card>
   );

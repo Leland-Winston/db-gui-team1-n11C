@@ -2,7 +2,7 @@ import axios from "axios";
 const url = 'http://localhost:8000';
 
 export const createPost = (post) =>{
-    return axios.post(url + '/posts').then(x=>x.data).catch(err=>err)
+    return axios.post(url + '/posts', post).then(x=>x.data).catch(err=>err)
 }
 export const getPosts = () =>{
     return axios.get(url + '/posts').then(x=>x.data).catch(err=>err)
