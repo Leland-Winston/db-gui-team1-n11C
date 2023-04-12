@@ -35,13 +35,24 @@ export const getPostsByAuthorId = (author) =>
         reject(error);
       });
   });
-export const getCommentsFromPostId = (id) => {
-  return axios
-    .get(url + "/posts/comments/" + id)
-    .then((x) => x.data)
-    .catch((err) => err);
-};
 export const getNestedComments = (post) => {
   let comments = [];
   axios.get(url + "/posts/comments/" + post).then((c) => console.log(c));
 };
+export const getPostById = (id) => {
+  return axios
+    .get(url + "/posts/" + id)
+    .then((x) => x.data)
+    .catch((err) => err);
+};
+export const getCommentsFromPost = (id) => {
+  return axios
+    .get(url + "/comments/" + id)
+    .then((x) => x.data)
+    .catch((err) => err);
+};
+export const getPostsByGarageName = (name)=>{
+  return axios.get(url + '/posts/garage/' +name)
+  .then(x=>x.data)
+  .catch(err=>err)
+}

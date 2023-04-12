@@ -11,6 +11,7 @@ import { Register } from "./pages/user/Register.jsx";
 import { ProfileView } from "./pages/user/ProfileView";
 import { NewPost } from "./pages/user/NewPost";
 import PostView from "./pages/posts/PostView.jsx";
+import GarageView from "./pages/garages/GarageView.jsx"
 const theme = deepMerge(grommet, appTheme);
 
 function App() {
