@@ -17,7 +17,7 @@ import { deepMerge } from "grommet/utils";
 import appTheme from "../../appTheme.json";
 import UserContext from "../../UserContext";
 import { getUserByUsername } from "../../api/userApi";
-import { Link, useNavigate, NavLink } from "react-router-dom";
+import { Link, useNavigate, NavLink, useParams } from "react-router-dom";
 import { Register } from "./Register";
 const theme = deepMerge(grommet, appTheme);
 const options = ["Ford", "Toyota", "Subaru", "Kia", "Honda", "Hyundai"];
@@ -25,9 +25,8 @@ const credentials = {
   username: '',
   password: ''
 }
-export const Login = ({ setCurrentUser }) => {
+export const Login = ({ setCurrentUser, redirect }) => {
   let navigate = useNavigate();
-
   let [validCredentials, setValidCredentials] = useState(true);
   let [formValues, setFormValues] = useState(credentials);
 
@@ -42,7 +41,7 @@ export const Login = ({ setCurrentUser }) => {
           username: x[0].username,
           id: x[0].user_id
         });
-        navigate('/', { replace: true })
+        navigate(redirect ? "/" + redirect : "/")
       }
       else {
         setValidCredentials(false)

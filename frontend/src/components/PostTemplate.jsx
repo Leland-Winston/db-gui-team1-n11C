@@ -27,28 +27,44 @@ import {
   Text,
   ThumbsRating
 } from "grommet";
+import { useNavigate } from "react-router-dom";
 
-const PostTemplate = ({ title, user, date, text }) => {
+const PostTemplate = ({ currPost }) => {
+  let navigate = useNavigate();
   const size = React.useContext(ResponsiveContext);
+  let [isHover, setIsHover] = useState(false);
+  const handleMouseEnter = () => {
+    setIsHover(true);
+  };
+  const handleMouseLeave = () => {
+    setIsHover(false);
+  };
+
   return (
     <Card>
-      <CardHeader pad="small">
-        <Box pad="none" direction="column" justify="end">
-          <Heading level={4} margin="none">
-            {title}
-          </Heading>
-          <Heading level={6} margin="none">
-            {user}
-          </Heading>
-        </Box>
-      </CardHeader>
-      <CardBody pad="small">
-        <Paragraph maxLines={size === "small" ? 1 : 5} margin={{ top: 'none' }}>
-          {text}
-        </Paragraph>
-      </CardBody>
+      <div style={{ cursor: 'pointer' }} onClick={() => navigate('/garage/' + currPost.garage + '/post/' + currPost.post_id)}>
+
+        <CardHeader pad="small">
+          <Box pad="none" direction="column" justify="end">
+            <Heading level={4} margin="none"
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+              style={isHover ? { textDecoration: 'underline' } : { textDecoration: 'none' }}>
+              {currPost.title}
+            </Heading>
+            <Heading level={6} margin="none">
+              {currPost.user}
+            </Heading>
+          </Box>
+        </CardHeader>
+        <CardBody pad="small">
+          <Paragraph maxLines={size === "small" ? 1 : 5} margin={{ top: 'none' }}>
+            {currPost.content}
+          </Paragraph>
+        </CardBody>
+      </div>
+
       <CardFooter pad="small" background="background-contrast">
-        {date}
         <ThumbsRating></ThumbsRating>
       </CardFooter>
     </Card>

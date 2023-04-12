@@ -8,11 +8,12 @@ import UserContext from "../UserContext";
 function AppBar({ setView, setDark, dark, setCurrentUser }) {
   const size = useContext(ResponsiveContext);
   const user = useContext(UserContext);
+  let navigate = useNavigate();
+
   const logout = () => {
     setCurrentUser(null);
     navigate('/')
   }
-  let navigate = useNavigate();
   return (
     <>
       <Header
@@ -63,7 +64,7 @@ function AppBar({ setView, setDark, dark, setCurrentUser }) {
                 ),
                 plain: true,
               }}
-              
+
             />
           </NavLink>
           {user !== null &&

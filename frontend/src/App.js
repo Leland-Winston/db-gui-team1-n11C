@@ -30,15 +30,12 @@ function App() {
           ></AppBar>
           <Routes>
             <Route path="/" element={<LandingPage />} />
-            <Route
-              path="/login"
-              element={<Login setCurrentUser={_setCurrentUser} />}
-            />
+            <Route path="/login" element={<Login setCurrentUser={_setCurrentUser}/>}/>
             <Route path="/register" element={<Register />} />
             <Route path="/profile/:username" element={<ProfileView />} />
             <Route path="/garage/:garagename" element={<GarageView />} />
             <Route path="/garage/:garage/post/:post" element={<PostView />} />
-            <Route path="/newpost/:username/:garage" element={<NewPost />} />
+            <Route path="/newpost/:garage" element={<NewPost />} />
           </Routes>
         </Grommet>
       </UserContext.Provider>

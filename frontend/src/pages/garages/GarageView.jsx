@@ -1,23 +1,27 @@
 import React from "react";
 import { useState, useContext, useEffect } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams, useNavigate, Link, useLocation, NavLink } from "react-router-dom";
 import UserContext from "../../UserContext";
 import { getGarageByName } from "../../api/garageApi";
 import { getPostsByGarageName } from "../../api/postApi";
 import PostTemplate from "../../components/PostTemplate";
 import { Page, PageContent, Grid, Button, Box, Card, CardHeader, CardBody, CardFooter, Heading, Paragraph } from "grommet";
 export default function GarageView() {
+    let navigate = useNavigate();
     let currUser = useContext(UserContext);
     let garageName = useParams().garagename;
     let [currGarage, setCurrGarage] = useState(null);
     let [posts, setPosts] = useState([]);
     useEffect(() => {
-        getGarageByName(garageName).then(x => {
+        const loadData = async () => getGarageByName(garageName).then(x => {
             if (!!x[0]) {
                 setCurrGarage(x[0])
-                getPostsByGarageName(currGarage.name).then(y => setPosts(y))
             }
         })
+        const loadPosts = async () => getPostsByGarageName(garageName).then(x => {
+            setPosts(x)
+        })
+        loadData().then(loadPosts())
     }, [])
 
     return (
@@ -31,22 +35,18 @@ export default function GarageView() {
                         gap="small"
                         areas={[
                             { name: 'posts', start: [0, 1], end: [0, 1] },
-                            { name: 'main', start: [1, 1], end: [1, 1] },
+                            { name: 'info', start: [1, 1], end: [1, 1] },
                         ]}
                     >
                         <Box gridArea="posts">
                             {posts.length > 0 && posts.map(p => {
-                                if (p.parent == null) {
-                                    return (<>
-                                        <div>
-                                            <PostTemplate title={p.title} user={p.author} date={null} text={p.content} />
-                                        </div>
-                                    </>
-                                    )
-                                }
+                                return (<>
+                                    <PostTemplate currPost={p} />
+                                </>
+                                )
                             })}
                         </Box>
-                        <Box gridArea="main">
+                        <Box gridArea="info">
                             <Card>
                                 <CardHeader pad="small">
                                     <Box pad="none" direction="column" justify="end">
@@ -59,13 +59,16 @@ export default function GarageView() {
                                     <Paragraph>
                                         {currGarage.description}
                                     </Paragraph>
-                                    <Button label="Create Post" primary fill="horizontal"></Button>
+                                    <Button label="Create Post" primary fill="horizontal"
+                                        onClick={() => navigate(
+                                            currUser ? '/newpost/' + currGarage.name
+                                                : '/login')}></Button>
                                 </CardBody>
                             </Card>
                         </Box>
                     </Grid>
                 </PageContent>
-            </Page>
+            </Page >
         </>
         ||
         <>

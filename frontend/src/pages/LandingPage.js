@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import {
   Box,
   Button,
+    Card,
+    CardHeader,
     Grid,
+    Header,
     Page,
     PageContent,
     PageHeader,
@@ -31,11 +34,15 @@ function LandingPage(){
     rows={['flex']}
     gap="small"
   >
-      <Box gridArea="nav" background="dark-1" pad="medium" height="max-content"
+      <Box gridArea="nav" >
+        <Card pad={{bottom:"medium", horizontal:"medium"}} height="max-content"
+      border="white"
       margin={{top:"large",
     left:"large"}}
       round>
-        <h4>Browse  Garages</h4>
+        <CardHeader>
+        <Header><h4>Browse  Garages</h4></Header>
+        </CardHeader>
           {garages.map(g=>{
             return(<>
             <Button key={g.name} label={g.name}
@@ -43,15 +50,14 @@ function LandingPage(){
             onClick={()=>navigate('/garage/' + g.name)}></Button>
             </>)
           })}
+        </Card>
+        
       </Box>
       <Box gridArea="main">
       <Page>
         <PageContent>
           <PageHeader title="Popular Posts" />
           <Grid rows="small" gap="large" pad={{ bottom: "large" }}>
-            <PostTemplate title={"I Love Cars"} user={"user1"} date={"Jan 1"} text={"Cars are my favorite"}/>
-            <PostTemplate title={"I Love Cars"} user={"user1"} date={"Jan 1"} text={"Cars are my favorite"}/>
-            <PostTemplate title={"I Love Cars"} user={"user1"} date={"Jan 1"} text={"Cars are my favorite"}/>
           </Grid>
         </PageContent>
         
