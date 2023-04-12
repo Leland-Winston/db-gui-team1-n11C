@@ -44,7 +44,7 @@ function AppBar({ setView, setDark, dark, setCurrentUser }) {
           />
 
           <NavLink to={user == null && "/login"
-            || ("/profile/" + user.username + "/" + user.id)}>
+            || ("/profile/" + user.username + "/")}>
             <Button
               icon={
                 user == null && <Login color="light-1" />

@@ -125,15 +125,6 @@ app.post("/posts", (req, res) => {
     res.send("created post");
   });
 });
-app.get("/posts/author/:id", (req, res) => {
-  const id = req.params.id;
-  const query = `SELECT * FROM posts P WHERE P.post_id=${id}`;
-  connection.query(query, (err, rows, fields) => {
-    if (err) throw err;
-    res.status(200);
-    res.send(rows);
-  });
-});
 app.get("/posts/garage/:id", (req, res) => {
   const id = req.params.id;
   const query = `SELECT * FROM posts P WHERE P.garage='${id}'`;

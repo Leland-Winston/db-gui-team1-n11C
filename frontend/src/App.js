@@ -38,7 +38,6 @@ function App() {
             <Route path="/profile/:username" element={<ProfileView />} />
             <Route path="/garage/:garagename" element={<GarageView />} />
             <Route path="/garage/:garage/post/:post" element={<PostView />} />
-            <Route path="/profile/:username/:id" element={<ProfileView />} />
             <Route path="/newpost/:username/:garage" element={<NewPost />} />
           </Routes>
         </Grommet>
