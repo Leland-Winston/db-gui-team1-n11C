@@ -5,3 +5,8 @@ export const getGarageByName = (name) =>{
     .then(x=>x.data)
     .catch(err=>err)
 }
+export const getAllGarages = () =>{
+    return axios.get(url + '/garages')
+    .then(x=>x.data)
+    .catch(err=>err)
+}

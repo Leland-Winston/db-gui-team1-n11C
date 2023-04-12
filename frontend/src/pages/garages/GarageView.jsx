@@ -27,7 +27,7 @@ export default function GarageView() {
                 <PageContent>
                     <Grid
                         rows={['xxsmall', 'medium']}
-                        columns={['large', 'medium']}
+                        columns={['flex', 'medium']}
                         gap="small"
                         areas={[
                             { name: 'posts', start: [0, 1], end: [0, 1] },

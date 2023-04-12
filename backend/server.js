@@ -146,6 +146,14 @@ app.get("/comments/:id", (req, res) => {
 
 //GARAGES
 //*************************************************************/
+app.get("/garages", (req, res)=>{
+  const query = `SELECT * from garages`;
+  connection.query(query, (err, rows, fields) => {
+    if (err) throw err;
+    res.status(200);
+    res.send(rows);
+  });
+})
 app.get("/garages/:name", (req, res) => {
   const name = req.params.name;
   const query = `SELECT * from garages G where G.name='${name}'`;
