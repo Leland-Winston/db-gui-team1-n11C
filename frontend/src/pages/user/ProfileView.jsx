@@ -17,27 +17,23 @@ import {
 } from "grommet";
 import PostTemplate from "../../components/PostTemplate";
 import { Car, Sidebar } from "grommet-icons";
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { getUserByUsername } from "../../api/userApi";
 import { getPostsByAuthorId } from "../../api/postApi";
 import { useState } from "react";
+import UserContext from "../../UserContext";
+
 export const ProfileView = () => {
   const params = useParams();
-  // let data = {
-  //   username: "",
-  // };
-  const [user, setUser] = useState({});
+  let user = useContext(UserContext);
   const [ posts, setPosts ] = useState([]);
+
   useEffect(() => {
-    getUserByUsername(params.username).then((x) => {
-      setUser(x[0]);
-    });
-  }, []);
-  useEffect(() => {
-    getPostsByAuthorId(params.id).then(x => setPosts(x));
+    getPostsByAuthorId(user.id).then(x => setPosts(x));
   }, [])
 
+  console.log(posts);
   return (
     user.username != "" && (
       <>
