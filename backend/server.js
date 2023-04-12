@@ -143,15 +143,6 @@ app.get("/posts/garage/:id", (req, res) => {
     res.send(rows);
   });
 });
-app.get("/posts/author/:id", (req, res) => {
-  const id = req.params.id;
-  const query = `SELECT * FROM posts P WHERE P.author=${id}`;
-  connection.query(query, (err, rows, fields) => {
-    if (err) throw err;
-    res.status(200);
-    res.send(rows);
-  });
-});
 app.get("/comments/:id", (req, res) => {
   const id = req.params.id;
   const query = `SELECT * FROM comments C WHERE C.post_id=${id}`;
