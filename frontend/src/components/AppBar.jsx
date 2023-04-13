@@ -3,11 +3,13 @@ import { useState, useContext } from "react";
 import { Box, Button, Header, Heading, Menu, ResponsiveContext, Text } from "grommet";
 import { deepMerge } from "grommet/utils";
 import { Moon, Sun, Close, Send, User, Menu as MenuIcon, ContactInfo, Logout, Login, HomeRounded } from "grommet-icons";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import UserContext from "../UserContext";
 function AppBar({ setView, setDark, dark, setCurrentUser }) {
   const size = useContext(ResponsiveContext);
   const user = useContext(UserContext);
+
+  let location = useLocation();
   let navigate = useNavigate();
   const logout = () => {
     setCurrentUser(null);
@@ -51,29 +53,31 @@ function AppBar({ setView, setDark, dark, setCurrentUser }) {
             }}
           />
 
-          <NavLink to={user == null && "/login"
-            || ("/profile/" + user)}>
-            <Button
-              icon={
-                user == null && <Login color="light-1" />
-                ||
-                <ContactInfo color="light-1" />}
-              a11yTitle={"Login"}
-              tip={{
-                content: (
-                  <Box pad="small" round="small"
-                    background={dark ? "dark-1" : "light-3"}
-                  >
-                    {user == null && "Login"
-                      ||
-                      "My Profile"}
-                  </Box>
-                ),
-                plain: true,
-              }}
 
-            />
-          </NavLink>
+          <Button
+            icon={
+              user == null && <Login color="light-1" />
+              ||
+              <ContactInfo color="light-1" />}
+            a11yTitle={"Login"}
+            tip={{
+              content: (
+                <Box pad="small" round="small"
+                  background={dark ? "dark-1" : "light-3"}
+                >
+                  {user == null && "Login"
+                    ||
+                    "My Profile"}
+                </Box>
+              ),
+              plain: true,
+            }}
+            onClick={() => navigate('/login', {
+              state: {
+                previous: location.pathname
+              }
+            })}
+          />
           {user !== null &&
             < Button
               icon={<Logout color='light-1' />}

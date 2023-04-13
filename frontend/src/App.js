@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { Login } from "./pages/user/login.jsx";
 import AppBar from "./components/AppBar.jsx";
 import { Grommet, grommet } from "grommet";
@@ -18,6 +18,7 @@ const theme = deepMerge(grommet, appTheme);
 function App() {
   const userContext = useContext(UserContext);
   const [currentUser, setCurrentUser] = useState(null);
+  
   const _setCurrentUser = (newUser) => {
     setCurrentUser(newUser);
     window.localStorage.setItem('currentUser', newUser)

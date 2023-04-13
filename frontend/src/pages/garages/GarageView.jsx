@@ -8,6 +8,8 @@ import PostTemplate from "../../components/PostTemplate";
 import { Page, PageContent, Grid, Button, Box, Card, CardHeader, CardBody, CardFooter, Heading, Paragraph } from "grommet";
 export default function GarageView() {
     let navigate = useNavigate();
+    let location = useLocation();
+    console.log(location)
     let currUser = useContext(UserContext);
     let garageName = useParams().garagename;
     let [currGarage, setCurrGarage] = useState(null);
