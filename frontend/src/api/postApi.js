@@ -25,7 +25,7 @@ export const getAllPostsAndComments = () => {
     .then((x) => x.data)
     .catch((err) => err);
 };
-export const getPostsByAuthorId = (author) =>
+export const getPostsByAuthor = (author) =>
   new Promise((resolve, reject) => {
     return axios
       .get(url + "/posts/author/" + author)
@@ -35,6 +35,7 @@ export const getPostsByAuthorId = (author) =>
         reject(error);
       });
   });
+  
 export const getNestedComments = (post) => {
   let comments = [];
   axios.get(url + "/posts/comments/" + post).then((c) => console.log(c));

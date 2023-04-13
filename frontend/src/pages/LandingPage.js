@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Box,
   Button,
@@ -13,15 +13,22 @@ import {
   } from "grommet";
   import PostTemplate from "../components/PostTemplate";
 import PostView from "./posts/PostView";
-import { getAllGarages } from "../api/garageApi";
+import { getAllGarages, getGaragesByMember } from "../api/garageApi";
 import { useNavigate } from "react-router-dom";
+import UserContext from "../UserContext";
 function LandingPage(){
   let navigate = useNavigate();
+  let currentUser = useContext(UserContext);
   let [garages, setGarages] = useState([]);
-    let [loaded, setLoaded] = useState(false)
-    
+    let [loaded, setLoaded] = useState(false);
+    let [joinedGarages, setJoinedGarages] = useState([]);
     useEffect(() => {
       getAllGarages().then(x=>setGarages(x))
+      getGaragesByMember(currentUser).then(x=>{
+        x[0].forEach(g=>{
+          setJoinedGarages([...joinedGarages, ...g.garage_name])
+        })
+      })
     }, [])
     return(<>
     <Grid
@@ -45,9 +52,13 @@ function LandingPage(){
         </CardHeader>
           {garages.map(g=>{
             return(<>
+            <div>
             <Button key={g.name} label={g.name}
             margin="xsmall"
             onClick={()=>navigate('/garage/' + g.name)}></Button>
+            {joinedGarages.includes(g.name)&&<h1>Join</h1>}
+            </div>
+            
             </>)
           })}
         </Card>

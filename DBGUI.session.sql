@@ -35,8 +35,8 @@ CREATE TABLE IF NOT EXISTS garages(
   num_posts INT DEFAULT 0
 );
 CREATE TABLE IF NOT EXISTS memberships(
-  garage_id INT PRIMARY KEY,
-  member_id INT NOT NULL
+  garage_name VARCHAR(255) PRIMARY KEY,
+  username VARCHAR(255) NOT NULL
 );
 CREATE TABLE IF NOT EXISTS awards(
   award_type INT NOT NULL,

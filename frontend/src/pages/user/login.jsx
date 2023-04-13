@@ -37,11 +37,9 @@ export const Login = ({ setCurrentUser, redirect }) => {
     console.log(formValues);
     getUserByUsername(formValues.username).then(x => {
       if (!!x[0]) {
-        setCurrentUser({
-          username: x[0].username,
-          id: x[0].user_id
-        });
-        navigate(redirect ? "/" + redirect : "/")
+        setCurrentUser(x[0].username);
+        window.localStorage.setItem('currentUser', x[0].username)
+        navigate("/")
       }
       else {
         setValidCredentials(false)

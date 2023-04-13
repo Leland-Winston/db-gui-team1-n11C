@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import { Login } from "./pages/user/login.jsx";
 import AppBar from "./components/AppBar.jsx";
@@ -12,13 +12,21 @@ import { ProfileView } from "./pages/user/ProfileView";
 import { NewPost } from "./pages/user/NewPost";
 import PostView from "./pages/posts/PostView.jsx";
 import GarageView from "./pages/garages/GarageView.jsx"
+import { getUserByUsername } from "./api/userApi.js";
 const theme = deepMerge(grommet, appTheme);
 
 function App() {
   const userContext = useContext(UserContext);
   const [currentUser, setCurrentUser] = useState(null);
-  const _setCurrentUser = (newUser) => setCurrentUser(newUser);
+  const _setCurrentUser = (newUser) => {
+    setCurrentUser(newUser);
+    window.localStorage.setItem('currentUser', newUser)
+  };
   const [dark, setDark] = useState("dark");
+  useEffect(()=>{
+    const u = window.localStorage.getItem('currentUser');
+    setCurrentUser(u)
+  }, [])
   return (
     <>
       <UserContext.Provider value={currentUser}>

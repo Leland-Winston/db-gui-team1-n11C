@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useContext } from "react";
-import { Box, Button, Header, Menu, ResponsiveContext, Text } from "grommet";
+import { Box, Button, Header, Heading, Menu, ResponsiveContext, Text } from "grommet";
 import { deepMerge } from "grommet/utils";
 import { Moon, Sun, Close, Send, User, Menu as MenuIcon, ContactInfo, Logout, Login, HomeRounded } from "grommet-icons";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -9,9 +9,9 @@ function AppBar({ setView, setDark, dark, setCurrentUser }) {
   const size = useContext(ResponsiveContext);
   const user = useContext(UserContext);
   let navigate = useNavigate();
-
   const logout = () => {
     setCurrentUser(null);
+    window.localStorage.removeItem("currentUser")
     navigate('/')
   }
   return (
@@ -25,6 +25,13 @@ function AppBar({ setView, setDark, dark, setCurrentUser }) {
           direction="row"
           gap="medium"
         >
+          <Button
+            onClick={() => navigate('/')}
+            a11yTitle="Home"
+            icon={<img src="https://i.imgur.com/PycqvbA.png"
+              style={{ height: '1em' }} />}>
+
+          </Button>
           <Button
             a11yTitle={
               dark ? "Switch to Light Mode" : "Switch to Dark Mode"
@@ -45,7 +52,7 @@ function AppBar({ setView, setDark, dark, setCurrentUser }) {
           />
 
           <NavLink to={user == null && "/login"
-            || ("/profile/" + user.username + "/")}>
+            || ("/profile/" + user)}>
             <Button
               icon={
                 user == null && <Login color="light-1" />

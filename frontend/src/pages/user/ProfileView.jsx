@@ -20,20 +20,20 @@ import { Car, Sidebar } from "grommet-icons";
 import React, { useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { getUserByUsername } from "../../api/userApi";
-import { getPostsByAuthorId } from "../../api/postApi";
+import { getPostsByAuthor } from "../../api/postApi";
 import { useState } from "react";
 import UserContext from "../../UserContext";
 
 export const ProfileView = () => {
   const params = useParams();
-  let user = useContext(UserContext);
-  const [ posts, setPosts ] = useState([]);
-
+  const username = params.username
+  const [posts, setPosts] = useState([]);
+  const [user, setUser] = useState({})
   useEffect(() => {
-    getPostsByAuthorId(user.id).then(x => setPosts(x));
+    getPostsByAuthor(username).then(x => setPosts(x));
+    getUserByUsername(username).then(x => setUser(x[0]))
   }, [])
 
-  console.log(posts);
   return (
     user.username != "" && (
       <>
@@ -57,24 +57,21 @@ export const ProfileView = () => {
             </Card>
             {/* map user's posts here into post templates */}
             <Card margin="small">
-            <Table>
-              <TableHeader>
-                <Box margin="small">
-                <Heading>My Posts</Heading>
-                </Box>
+              <Table>
+                <TableHeader>
+                  <Box margin="small">
+                    <Heading>My Posts</Heading>
+                  </Box>
                 </TableHeader>
-            <TableBody>
-            {
-              posts.map(post => <TableRow key={post.post_id}>
-              <TableCell><PostTemplate title={post.title}
-                                        user={user.username}
-                                        date={"jan 1"}
-                                        text={post.content}></PostTemplate></TableCell>
-              </TableRow>
-              )
-            }
-            </TableBody>
-            </Table>
+                <TableBody>
+                  {
+                    posts.map(post => <TableRow key={post.post_id}>
+                      <TableCell><PostTemplate currPost={post}></PostTemplate></TableCell>
+                    </TableRow>
+                    )
+                  }
+                </TableBody>
+              </Table>
             </Card>
           </PageContent>
         </Page>

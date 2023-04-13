@@ -10,3 +10,8 @@ export const getAllGarages = () =>{
     .then(x=>x.data)
     .catch(err=>err)
 }
+export const getGaragesByMember = (username) =>{
+    return axios.get(url + '/memberships/user/' + username)
+    .then(x=>x.data)
+    .catch(err=>err)
+}

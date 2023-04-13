@@ -116,15 +116,15 @@ app.get("/posts/:id", (req, res) => {
     res.send(rows);
   });
 });
-app.post("/posts", (req, res) => {
-  const { author, title, content, parent, garage_id } = req.body;
-  const query = `INSERT INTO posts (author, title, content, parent, garage_id) VALUES (${author}, '${title}', '${content}', ${parent}, ${garage_id})`;
+app.get("/posts/author/:username", (req, res) =>{
+  const username = req.params.username
+  const query = `SELECT * FROM posts P WHERE P.author='${username}'`;
   connection.query(query, (err, rows, fields) => {
     if (err) throw err;
     res.status(200);
-    res.send("created post");
+    res.send(rows);
   });
-});
+})
 app.get("/posts/garage/:id", (req, res) => {
   const id = req.params.id;
   const query = `SELECT * FROM posts P WHERE P.garage='${id}'`;
@@ -164,7 +164,6 @@ app.get("/garages/:name", (req, res) => {
   });
 });
 app.post("/garages", (req, res) => {
-  console.log(req.body);
   const { name, creator, description } = req.body;
   const query = `INSERT INTO garages (name, creator, description) VALUES ('${name}', '${creator}', '${description}')`;
   connection.query(query, (err, rows, fields) => {
@@ -173,7 +172,15 @@ app.post("/garages", (req, res) => {
     res.send(name + " created");
   });
 });
-
+app.get('/memberships/user/:username', (req, res)=>{
+  const username = req.params.username;
+  const query = `SELECT garage_name FROM memberships M WHERE M.username='${username}'`
+  connection.query(query, (err, rows, fields) => {
+    if (err) throw err;
+    res.status(200);
+    res.send(rows)
+  });
+})
 //COMMENTS
 //*************************************************************/
 app.post("/comments", (req, res) => {
