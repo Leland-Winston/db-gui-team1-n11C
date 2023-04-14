@@ -2,7 +2,8 @@ import react, { useEffect, useState, useContext } from "react";
 import { getCommentsFromPost, getPostById } from "../../api/postApi";
 import { useParams } from "react-router-dom";
 import Comment from "./Comment";
-import { Page, Box, Grid, Card, CardBody, CardHeader, CardFooter, PageContent } from "grommet";
+import { Button, Page, Box, Grid, Card, CardBody, CardHeader, CardFooter, PageContent, TextInput } from "grommet";
+import UserContext from "../../UserContext";
 const constructCommentTree = async (allComments, commentTree) => {
     allComments.forEach(newComment => {
         if (newComment.parent !== null) { //comment is not a root
@@ -29,11 +30,23 @@ const recusriveInsert = (newComment, root) => {
     }
 }
 export default function PostView() {
+    let currUser = useContext(UserContext)
     let id = useParams().post;
     let [commentTree, setCommentTree] = useState([]);
     let [currPost, setCurrPost] = useState({});
     let [comments, setComments] = useState([]);
     let [commentsLoaded, setCommentsLoaded] = useState(false);
+    let [commenting, setCommenting] = useState(false);
+    let [commentValue, setCommentValue] = useState("")
+    const sendComment = () => {
+        let newRootComment = {
+            author: currUser,
+            content: commentValue,
+            parent: null
+        }
+        //sendRootComment(newRootComment);
+        commentTree.push(newRootComment)
+    }
     useEffect(() => {
         getPostById(id).then(x => {
             setCurrPost(x[0]);
@@ -86,11 +99,25 @@ export default function PostView() {
                             {commentTree.map(c => {
                                 return <Comment comment={c}></Comment>
                             })}
+                            <Button label="Send Comment"
+
+                                onClick={() => {
+                                    if (commentValue != "") {
+                                        sendComment();
+                                    }
+                                }}>
+                            </Button>
+
+                            <TextInput onChange={(x) => {
+                                setCommentValue(x.target.value)
+                            }
+                            }></TextInput>
+
                         </CardFooter>
                     </Card>
 
                 </PageContent>
-            </Page>
+            </Page >
         </>
     )
 }

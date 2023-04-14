@@ -13,7 +13,7 @@ export default function Comment({ comment, onClick }) {
                 <p>{comment.content}</p>
             </CardBody>
             <CardFooter>
-                <Accordion>
+                <Accordion multiple={true}>
                     <AccordionPanel>
                         {comment.children.map(c => {
                             return <Comment comment={c}></Comment>

@@ -44,4 +44,4 @@ CREATE TABLE IF NOT EXISTS awards(
   recipient_id INT NOT NULL,
   post_id INT NOT NULL
 );
-CREATE TABLE IF NOT EXISTS likes(user_id INT NOT NULL, post_id INT NOT NULL);
+CREATE TABLE IF NOT EXISTS likes(username INT NOT NULL, post_id INT NOT NULL);
