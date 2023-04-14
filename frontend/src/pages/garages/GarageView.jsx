@@ -9,7 +9,6 @@ import { Page, PageContent, Grid, Button, Box, Card, CardHeader, CardBody, CardF
 export default function GarageView() {
     let navigate = useNavigate();
     let location = useLocation();
-    console.log(location)
     let currUser = useContext(UserContext);
     let garageName = useParams().garagename;
     let [currGarage, setCurrGarage] = useState(null);
@@ -64,7 +63,10 @@ export default function GarageView() {
                                     <Button label="Create Post" primary fill="horizontal"
                                         onClick={() => navigate(
                                             currUser ? '/newpost/' + currGarage.name
-                                                : '/login')}></Button>
+                                                : '/login', {
+                                                    state:
+                                                        { previous: location.pathname }
+                                        })}></Button>
                                 </CardBody>
                             </Card>
                         </Box>

@@ -72,7 +72,7 @@ function AppBar({ setView, setDark, dark, setCurrentUser }) {
               ),
               plain: true,
             }}
-            onClick={() => navigate('/login', {
+            onClick={() => navigate(user !== null ? '/profile/' + user : '/login', {
               state: {
                 previous: location.pathname
               }
