@@ -92,7 +92,7 @@ app.put("/users/clear", (req, res) => {
 app.post("/posts", (req, res) => {
   const { author, title, content, parent, garage } = req.body;
   console.log("creating post from" + author);
-  const query = `INSERT INTO posts (author, title, content, parent, garage) VALUES ('${author}', '${title}', '${content}', ${parent}, '${garage}')`;
+  const query = `INSERT INTO posts (author, title, content, garage) VALUES ('${author}', '${title}', '${content}', '${garage}')`;
   connection.query(query, (err, rows, fields) => {
     if (err) throw err;
     res.status(200);

@@ -8,7 +8,7 @@ import {
   TextArea,
 } from "grommet";
 import { createPost } from "../../api/postApi";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import UserContext from "../../UserContext";
 
@@ -17,11 +17,10 @@ export const NewPost = () => {
   let currUser = useContext(UserContext)
   let params = useParams();
   const post = {
-    author: currUser.username,
+    author: '',
     title: '',
     content: '',
-    parent: null,
-    garage_id: params.garage,
+    garage_id: '',
   }
 
   const [formValues, setFormValues] = useState(post);
@@ -29,7 +28,11 @@ export const NewPost = () => {
     setFormValues({ ...formValues, ...delta })
   }
 
-
+  useEffect(() => {
+    console.log(currUser)
+    console.log(params.garage)
+    _setFormValue({ author: currUser, garage: params.garage })
+  }, [])
   return (
     <>
       <Page>
