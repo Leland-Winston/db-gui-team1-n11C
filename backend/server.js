@@ -190,7 +190,8 @@ app.post('/memberships', (req, res)=>{
   });
 })
 //WHY DOES app.delete NOT WORK HERE???????????????????
-app.put('/memberships', (req, res)=>{
+//it works :))))
+app.delete('/memberships', (req, res)=>{
   const {garage, username} = req.body;
   console.log("deleting" + username + " from " + garage)
   const query = `DELETE FROM memberships M WHERE M.garage_name='${garage}' AND M.username='${username}'`

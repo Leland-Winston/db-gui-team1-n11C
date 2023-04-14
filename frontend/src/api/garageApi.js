@@ -24,9 +24,9 @@ export const addUserToGarage = (garage, username) =>{
 }
 export const removeUserFromGarage = (garage, username) =>{
     console.log(garage + " " + username)
-    return axios.put(url + '/memberships', 
-    {garage:garage,
-    username:username})
+    return axios.delete(url + '/memberships', 
+    {data:{garage:garage,
+    username:username}})
     .then(x=>x)
     .catch(err=>err)
 }
