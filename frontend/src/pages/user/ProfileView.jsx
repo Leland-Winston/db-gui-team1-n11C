@@ -23,6 +23,7 @@ import { getUserByUsername } from "../../api/userApi";
 import { getPostsByAuthor } from "../../api/postApi";
 import { useState } from "react";
 import UserContext from "../../UserContext";
+import { PostList } from "../../components/PostList";
 
 export const ProfileView = () => {
   const params = useParams();
@@ -56,23 +57,7 @@ export const ProfileView = () => {
               </CardBody>
             </Card>
             {/* map user's posts here into post templates */}
-            <Card margin="small">
-              <Table>
-                <TableHeader>
-                  <Box margin="small">
-                    <Heading>My Posts</Heading>
-                  </Box>
-                </TableHeader>
-                <TableBody>
-                  {
-                    posts.map(post => <TableRow key={post.post_id}>
-                      <TableCell><PostTemplate currPost={post}></PostTemplate></TableCell>
-                    </TableRow>
-                    )
-                  }
-                </TableBody>
-              </Table>
-            </Card>
+            <PostList title="My Posts" posts={posts}/>
           </PageContent>
         </Page>
       </>

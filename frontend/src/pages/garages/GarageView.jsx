@@ -4,9 +4,12 @@ import { useParams, useNavigate, Link, useLocation, NavLink } from "react-router
 import UserContext from "../../UserContext";
 import { addUserToGarage, getGarageByName, getGaragesByMember, removeUserFromGarage } from "../../api/garageApi";
 import { getPostsByGarageName } from "../../api/postApi";
-import PostTemplate from "../../components/PostTemplate";
+import { PostList } from "../../components/PostList";
 import { Page, PageContent, Grid, Button, Box, Card, CardHeader, CardBody, CardFooter, Heading, Paragraph } from "grommet";
+
+
 export default function GarageView() {
+
     let navigate = useNavigate();
     let location = useLocation();
     let currUser = useContext(UserContext);
@@ -60,12 +63,14 @@ export default function GarageView() {
                         ]}
                     >
                         <Box gridArea="posts">
-                            {posts.length > 0 && posts.map(p => {
+                            {/* {posts.length > 0 && posts.map(p => {
                                 return (<>
                                     <PostTemplate currPost={p} />
                                 </>
                                 )
-                            })}
+                            })} */
+                            <PostList title="Garage Posts" posts={posts}/>}
+
                         </Box>
                         <Box gridArea="info">
                             <Card>
