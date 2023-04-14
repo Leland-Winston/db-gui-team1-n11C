@@ -30,3 +30,9 @@ export const removeUserFromGarage = (garage, username) =>{
     .then(x=>x)
     .catch(err=>err)
 }
+
+export const createGarage = (body) => {
+    return axios.post(url + '/garages', body)
+    .then(x=>x.data)
+    .catch(err=>err)
+}
