@@ -20,7 +20,7 @@ export const NewPost = () => {
     author: '',
     title: '',
     content: '',
-    garage_id: '',
+    garage: '',
   }
 
   const [formValues, setFormValues] = useState(post);
@@ -55,11 +55,11 @@ export const NewPost = () => {
               label="submit"
               onClick={() => {
                 createPost({
-                  author: params.username,
+                  author: currUser,
                   title: formValues.title,
                   content: formValues.content,
                   parent: null,
-                  garage_id: params.garage
+                  garage: params.garage
                 });
                 setFormValues({ title: "", content: "" })
               }}
