@@ -18,14 +18,20 @@ const theme = deepMerge(grommet, appTheme);
 function App() {
   const userContext = useContext(UserContext);
   const [currentUser, setCurrentUser] = useState(null);
+  const [dark, setDark] = useState("dark");
   
   const _setCurrentUser = (newUser) => {
     setCurrentUser(newUser);
     window.localStorage.setItem('currentUser', newUser)
   };
-  const [dark, setDark] = useState("dark");
+  const _setDark = (theme) =>{
+    setDark(theme);
+    window.localStorage.setItem('theme', theme ? "dark" : "light")
+  }
   useEffect(()=>{
     const u = window.localStorage.getItem('currentUser');
+    const t = window.localStorage.getItem('theme');
+    _setDark(t==="dark" ? true : false);
     setCurrentUser(u)
   }, [])
   return (
@@ -33,7 +39,7 @@ function App() {
       <UserContext.Provider value={currentUser}>
         <Grommet theme={theme} full themeMode={dark ? "dark" : "light"}>
           <AppBar
-            setDark={setDark}
+            setDark={_setDark}
             dark={dark}
             setCurrentUser={_setCurrentUser}
           ></AppBar>
