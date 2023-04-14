@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useContext, useEffect } from "react";
 import { useParams, useNavigate, Link, useLocation, NavLink } from "react-router-dom";
 import UserContext from "../../UserContext";
-import { getGarageByName } from "../../api/garageApi";
+import { addUserToGarage, getGarageByName, getGaragesByMember, removeUserFromGarage } from "../../api/garageApi";
 import { getPostsByGarageName } from "../../api/postApi";
 import PostTemplate from "../../components/PostTemplate";
 import { Page, PageContent, Grid, Button, Box, Card, CardHeader, CardBody, CardFooter, Heading, Paragraph } from "grommet";
@@ -12,7 +12,9 @@ export default function GarageView() {
     let currUser = useContext(UserContext);
     let garageName = useParams().garagename;
     let [currGarage, setCurrGarage] = useState(null);
+    let [joined, setJoined] = useState(false);
     let [posts, setPosts] = useState([]);
+
     useEffect(() => {
         const loadData = async () => getGarageByName(garageName).then(x => {
             if (!!x[0]) {
@@ -24,6 +26,24 @@ export default function GarageView() {
         })
         loadData().then(loadPosts())
     }, [])
+    useEffect(() => {
+        getGaragesByMember(currUser).then(x => {
+            console.log(x)
+            x.forEach(m => {
+                if (m.garage_name == currGarage.name) {
+                    setJoined(true)
+                }
+            })
+        })
+    }, [currGarage])
+    const joinGarage = () => {
+        addUserToGarage(currGarage.name, currUser);
+        setJoined(true)
+    }
+    const leaveGarage = () => {
+        removeUserFromGarage(currGarage.name, currUser);
+        setJoined(false)
+    }
 
     return (
         currGarage !== null &&
@@ -55,6 +75,17 @@ export default function GarageView() {
                                             {currGarage.name}
                                         </Heading>
                                     </Box>
+                                    {
+                                        !joined &&
+                                        <Button label="Join Garage"
+                                            onClick={() => joinGarage()}>
+                                        </Button>
+                                        ||
+                                        <Button label="Leave Garage"
+                                            onClick={() => leaveGarage()}>
+                                        </Button>
+                                    }
+
                                 </CardHeader>
                                 <CardBody pad="small">
                                     <Paragraph>
@@ -64,8 +95,8 @@ export default function GarageView() {
                                         onClick={() => navigate(
                                             currUser ? '/newpost/' + currGarage.name
                                                 : '/login', {
-                                                    state:
-                                                        { previous: location.pathname }
+                                            state:
+                                                { previous: '/newpost/' + currGarage.name }
                                         })}></Button>
                                 </CardBody>
                             </Card>

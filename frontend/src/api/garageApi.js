@@ -15,3 +15,18 @@ export const getGaragesByMember = (username) =>{
     .then(x=>x.data)
     .catch(err=>err)
 }
+export const addUserToGarage = (garage, username) =>{
+    return axios.post(url + '/memberships', 
+    {garage:garage,
+    username:username})
+    .then(x=>x.data)
+    .catch(err=>err)
+}
+export const removeUserFromGarage = (garage, username) =>{
+    console.log(garage + " " + username)
+    return axios.put(url + '/memberships', 
+    {garage:garage,
+    username:username})
+    .then(x=>x)
+    .catch(err=>err)
+}

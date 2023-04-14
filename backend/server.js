@@ -181,6 +181,26 @@ app.get('/memberships/user/:username', (req, res)=>{
     res.send(rows)
   });
 })
+app.post('/memberships', (req, res)=>{
+  const {garage, username} = req.body;
+  const query = `INSERT INTO memberships (garage_name, username) VALUES ('${garage}', '${username}')`
+  connection.query(query, (err, rows, fields) => {
+    if (err) throw err;
+    res.status(200);
+  });
+})
+//WHY DOES app.delete NOT WORK HERE???????????????????
+app.put('/memberships', (req, res)=>{
+  const {garage, username} = req.body;
+  console.log("deleting" + username + " from " + garage)
+  const query = `DELETE FROM memberships M WHERE M.garage_name='${garage}' AND M.username='${username}'`
+  connection.query(query, (err, rows, fields) => {
+    if (err) throw err;
+    res.status(200);
+    res.send("removed" + username + " from " + garage)
+
+  });
+})
 //COMMENTS
 //*************************************************************/
 app.post("/comments", (req, res) => {
