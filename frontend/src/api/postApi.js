@@ -7,12 +7,16 @@ export const createPost = (post) => {
     .then((x) => x.data)
     .catch((err) => err);
 };
-export const getPosts = () => {
+export const getPosts = () => 
+  new Promise((resolve, reject) => {
   return axios
     .get(url + "/posts")
-    .then((x) => x.data)
-    .catch((err) => err);
-};
+    .then((x) => resolve(x.data))
+    .catch((err) => {
+      alert(err);
+    reject(err)
+  });
+});
 export const getPostsByGarageId = (id) => {
   return axios
     .get(url + "/posts/garage/" + id)
