@@ -180,6 +180,13 @@
         "horizontal": "26px"
       }
     },
+    "card":{
+      "hover":{
+        "container": {
+          "elevation": "medium"
+        }
+      }
+    },
     "checkBox": {
       "check": {
         "radius": "10px"

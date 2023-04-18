@@ -41,20 +41,18 @@ const PostTemplate = ({ currPost }) => {
   };
 
   return (
-    <Card>
-      <div style={{ cursor: 'pointer' }} onClick={() => navigate('/garage/' + currPost.garage + '/post/' + currPost.post_id)}>
-
+    <Card style={{ cursor: 'pointer' }} onClick={() => navigate('/garage/' + currPost.garage + '/post/' + currPost.post_id)}>
         <CardHeader pad="small">
           <Box pad="none" direction="column" justify="end">
-            <Heading level={4} margin="none"
+            <Heading level={3} margin="none"
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
               style={isHover ? { textDecoration: 'underline' } : { textDecoration: 'none' }}>
               {currPost.title}
             </Heading>
-            <Heading level={6} margin="none">
-              {currPost.user}
-            </Heading>
+            <Text>
+              {currPost.author} • {currPost.garage}
+            </Text>
           </Box>
         </CardHeader>
         <CardBody pad="small">
@@ -62,8 +60,6 @@ const PostTemplate = ({ currPost }) => {
             {currPost.content}
           </Paragraph>
         </CardBody>
-      </div>
-
       <CardFooter pad="small" background="background-contrast">
         <ThumbsRating></ThumbsRating>
       </CardFooter>

@@ -24,15 +24,18 @@ import { getPostsByAuthor } from "../../api/postApi";
 import { useState } from "react";
 import UserContext from "../../UserContext";
 import { PostList } from "../../components/PostList";
+import { getGaragesByMember } from "../../api/garageApi";
 
 export const ProfileView = () => {
   const params = useParams();
   const username = params.username
   const [posts, setPosts] = useState([]);
   const [user, setUser] = useState({})
+  const [garages, setGarages] = useState([]);
   useEffect(() => {
     getPostsByAuthor(username).then(x => setPosts(x));
     getUserByUsername(username).then(x => setUser(x[0]))
+    getGaragesByMember(username).then(x => setGarages(x))
   }, [])
 
   return (
@@ -51,11 +54,11 @@ export const ProfileView = () => {
               </CardHeader>
               <CardBody>
                 <Box direction="row" gap="small" pad="small">
-                  <Tag value="tag 1"></Tag>
-                  <Tag value="tag 2"></Tag>
+                  {garages.map((garage) => {<Tag value={garage.name} key={garage.garage_id}></Tag>})}
                 </Box>
               </CardBody>
             </Card>
+            <Heading margin="small">My Posts</Heading>
             {/* map user's posts here into post templates */}
             <PostList title="My Posts" posts={posts}/>
           </PageContent>
