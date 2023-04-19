@@ -198,6 +198,19 @@ app.post('/memberships', (req, res)=>{
     res.status(200);
   });
 })
+
+
+app.delete('/garages/:name', (req, res)=>{ 
+  const name = req.params.name;
+  const query = `DELETE FROM posts P WHERE P.garage='${name}'; 
+  DELETE FROM memberships M WHERE M.garage_name='${name}';
+  DELETE FROM garages G WHERE G.name='${name}';`
+  connection.query(query, (err, rows, fields) => {
+    if (err) throw err;
+    res.status(200);
+    res.send("deleted " + name)
+  })
+})
 //WHY DOES app.delete NOT WORK HERE???????????????????
 //it works :))))
 app.delete('/memberships', (req, res)=>{
