@@ -243,6 +243,20 @@ app.delete('/memberships', (req, res)=>{
 
   });
 })
+//LIKES
+//*************************************************************/
+app.put("/rating/:post/:id/", (req, res) => {
+  const {action} = req.body;
+  const id = req.params.id;
+  if (action == "like"){
+    const query = `UPDATE posts SET rating=rating+1 WHERE post_id=${id}`
+    connection.query(query, (err, rows, fields) => {
+      if (err) throw err;
+      res.status(200);
+      res.send(rows);
+    });
+  }
+})
 //COMMENTS
 //*************************************************************/
 app.post("/comments", (req, res) => {
