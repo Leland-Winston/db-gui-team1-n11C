@@ -245,7 +245,7 @@ app.delete('/memberships', (req, res)=>{
 })
 //LIKES
 //*************************************************************/
-app.put("/rating/post/:id/", (req, res) => {
+app.put('/rating/post/:id', (req, res) => {
   const {action} = req.body;
   const id = req.params.id;
   if (action == "like"){
