@@ -9,13 +9,15 @@ import {
 } from "grommet";
 import { createPost } from "../../api/postApi";
 import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import UserContext from "../../UserContext";
+import { Navigate } from "grommet-icons";
 
 
 export const NewPost = () => {
   let currUser = useContext(UserContext)
   let params = useParams();
+  let navigate = useNavigate();
   const post = {
     author: '',
     title: '',
@@ -61,7 +63,8 @@ export const NewPost = () => {
                   parent: null,
                   garage: params.garage
                 });
-                setFormValues({ title: "", content: "" })
+                setFormValues({ title: "", content: "" });
+                navigate('/garage/' + params.garage)
               }}
             />
           </Form>
