@@ -25,7 +25,7 @@ import {
   Paragraph,
   ResponsiveContext,
   Text,
-  ThumbsRating
+  ThumbsRating,
 } from "grommet";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../UserContext.js";
@@ -45,30 +45,59 @@ const PostTemplate = ({ currPost }) => {
 
   return (
     <Card>
-        <CardHeader pad="small">
-          <Box pad="none" direction="column" justify="end">
-            <Heading level={3} margin="none"
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-              style={isHover ? { textDecoration: 'underline' } : { textDecoration: 'none' }}>
-              {currPost.title}
-            </Heading>
-            <Text size="xsmall">
-              {currPost.author} • {currPost.garage}
-            </Text>
+      <CardHeader pad="small">
+        <Box pad="none" direction="column" justify="end">
+          <Heading
+            level={3}
+            margin="none"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            onClick={() =>
+              navigate(
+                "/garage/" + currPost.garage + "/post/" + currPost.post_id
+              )
+            }
+          >
+            <Anchor>{currPost.title}</Anchor>
+            
+          </Heading>
+          <Box direction="row">
+            <Anchor
+              size="xsmall"
+              onClick={() => navigate("/profile/" + currPost.author)}
+            >
+              {currPost.author}
+            </Anchor>
+            <Text size="small">/</Text>
+            <Anchor
+              size="xsmall"
+              
+              onClick={() => navigate("/garage/" + currPost.garage)}
+            >
+              {currPost.garage}
+            </Anchor>
           </Box>
-          {user === currPost.author && 
+        </Box>
+        {user === currPost.author && (
           <Box direction="row" justify="end">
-            <Button label="X" onClick={() => deletePost(currPost.post_id)}>
-            </Button>
+            <Button
+              label="X"
+              onClick={() => deletePost(currPost.post_id)}
+            ></Button>
           </Box>
-          }
-        </CardHeader>
-        <CardBody pad="small" style={{ cursor: 'pointer' }} onClick={() => navigate('/garage/' + currPost.garage + '/post/' + currPost.post_id)}>
-          <Paragraph maxLines={size === "small" ? 1 : 5} margin={{ top: 'none' }}>
-            {currPost.content}
-          </Paragraph>
-        </CardBody>
+        )}
+      </CardHeader>
+      <CardBody
+        pad="small"
+        style={{ cursor: "pointer" }}
+        onClick={() =>
+          navigate("/garage/" + currPost.garage + "/post/" + currPost.post_id)
+        }
+      >
+        <Paragraph maxLines={size === "small" ? 1 : 5} margin={{ top: "none" }}>
+          {currPost.content}
+        </Paragraph>
+      </CardBody>
       <CardFooter pad="small" background="background-contrast">
         <ThumbsRating></ThumbsRating>
       </CardFooter>
