@@ -7,6 +7,9 @@ export const createPost = (post) => {
     .then((x) => x.data)
     .catch((err) => err);
 };
+export const deletePost = (id) => {
+  return axios.post(url+"/posts/"+id)
+}
 export const getPosts = () => 
   new Promise((resolve, reject) => {
   return axios

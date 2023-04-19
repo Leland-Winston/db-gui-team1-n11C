@@ -28,9 +28,11 @@ import {
   ThumbsRating
 } from "grommet";
 import { useNavigate } from "react-router-dom";
+import UserContext from "../UserContext.js";
 
 const PostTemplate = ({ currPost }) => {
   let navigate = useNavigate();
+  let user = useContext(UserContext);
   const size = React.useContext(ResponsiveContext);
   let [isHover, setIsHover] = useState(false);
   const handleMouseEnter = () => {

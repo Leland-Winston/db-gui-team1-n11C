@@ -38,7 +38,7 @@ function AppBar({ setView, setDark, dark, setCurrentUser }) {
             a11yTitle={
               dark ? "Switch to Light Mode" : "Switch to Dark Mode"
             }
-            icon={dark ? <Moon color="light-1" /> : <Sun color="light-1" />}
+            icon={dark ? <Sun color="light-1" /> : <Moon color="light-1" />}
             onClick={() => setDark(!dark)}
             tip={{
               content: (

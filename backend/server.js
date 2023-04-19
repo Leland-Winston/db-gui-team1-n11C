@@ -143,6 +143,15 @@ app.get("/comments/:id", (req, res) => {
     res.send(rows);
   });
 });
+app.delete("/posts/:id", (req, res) => {
+  const id = req.params.id;
+  const query = `DELETE FROM posts P WHERE P.post_id=${id}`
+  connection.query(query, (err, rows, fields) => {
+    if (err) throw err;
+    res.status(200);
+    res.send(rows);
+  });
+})
 
 //GARAGES
 //*************************************************************/
