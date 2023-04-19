@@ -44,6 +44,7 @@ export const GarageBrowser = ({ garages }) => {
         })}
         <Button
           margin="medium"
+          primary
           label="Create Garage"
           onClick={() => navigate(currUser ? "/newgarage/"
             : '/login', {

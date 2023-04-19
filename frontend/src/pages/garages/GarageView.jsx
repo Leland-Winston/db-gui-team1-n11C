@@ -96,13 +96,15 @@ export default function GarageView() {
                                     <Paragraph>
                                         {currGarage.description}
                                     </Paragraph>
-                                    <Button label="Create Post" primary fill="horizontal"
+                                    <Button label="Create Post" primary fill="horizontal" margin={{bottom: 'small'}}
                                         onClick={() => navigate(
                                             currUser ? '/newpost/' + currGarage.name
                                                 : '/login', {
                                             state:
                                                 { previous: '/newpost/' + currGarage.name }
                                         })}></Button>
+                                        {currUser === currGarage.creator && <Button label="Delete Garage"
+                                        /* onClick={() => deleteGarage(currGarage.garage_id)} */></Button>}
                                 </CardBody>
                             </Card>
                         </Box>
