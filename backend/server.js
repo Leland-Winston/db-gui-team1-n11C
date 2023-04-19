@@ -265,6 +265,46 @@ app.put("/rating/post/:id/", (req, res) => {
     });
   }
 })
+app.get('/likes/:id/:username', (req, res)=>{
+  const username = req.params.username;
+  const id = req.params.id;
+  const query = `SELECT * FROM likes L WHERE L.username='${username}' AND L.post_id=${id}`
+  connection.query(query, (err, rows, fields) => {
+    if (err) throw err;
+    res.status(200);
+    res.send(rows);
+  });
+})
+app.post('/likes', (req, res)=>{
+  const {id, username, score} = req.body;
+  const query = `INSERT INTO likes (username, post_id, score) VALUES ('${username}', ${id}, ${score})`
+  connection.query(query, (err, rows, fields) => {
+    if (err) throw err;
+    res.status(200);
+    res.send(rows);
+  });
+})
+app.put('/likes/:id/:username', (req, res)=>{
+  const {action} = req.body;
+  const id = req.params.id;
+  const username = req.params.username;
+  if (action == "like"){
+    const query = `UPDATE likes SET score=score+1 WHERE post_id=${id} AND username='${username}'`
+    connection.query(query, (err, rows, fields) => {
+      if (err) throw err;
+      res.status(200);
+      res.send(rows);
+    });
+  }
+  if(action == "dislike"){
+    const query = `UPDATE likes SET score=score-1 WHERE post_id=${id} AND username='${username}'`
+    connection.query(query, (err, rows, fields) => {
+      if (err) throw err;
+      res.status(200);
+      res.send(rows);
+    });
+  }
+})
 //COMMENTS
 //*************************************************************/
 app.post("/comments", (req, res) => {

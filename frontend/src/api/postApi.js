@@ -64,3 +64,23 @@ export const getPostsByGarageName = (name)=>{
   .then(x=>x.data)
   .catch(err=>err)
 }
+export const addNewRating = (id, username, score) =>{
+  return axios.post(url + '/likes/', {id:id, username:username, score:score})
+  .then(x=>x.data)
+  .catch(err=>err)
+}
+export const updatePostRating = (id, action) =>{
+  return axios.put(url + '/rating/post/' + id, {action:action})
+  .then(x=>x.data)
+  .catch(err=>err)
+}
+export const setUserScore = (id, username, action) =>{
+  return axios.put(url + '/likes/' + id + '/' + username, {action:action})
+  .then(x=>x.data)
+  .catch(err=>err)
+}
+export const getUserScore = (id, username) =>{
+  return axios.get(url + '/likes/' + id + "/" + username)
+  .then(x=>x.data)
+  .catch(err=>err)
+}
