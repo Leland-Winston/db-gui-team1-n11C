@@ -50,7 +50,7 @@ const PostTemplate = ({ currPost }) => {
               style={isHover ? { textDecoration: 'underline' } : { textDecoration: 'none' }}>
               {currPost.title}
             </Heading>
-            <Text>
+            <Text size="xsmall">
               {currPost.author} • {currPost.garage}
             </Text>
           </Box>
