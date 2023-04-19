@@ -8,18 +8,18 @@ export const createPost = (post) => {
     .catch((err) => err);
 };
 export const deletePost = (id) => {
-  return axios.post(url+"/posts/"+id)
-}
-export const getPosts = () => 
+  return axios.delete(url + "/posts/" + id);
+};
+export const getPosts = () =>
   new Promise((resolve, reject) => {
-  return axios
-    .get(url + "/posts")
-    .then((x) => resolve(x.data))
-    .catch((err) => {
-      alert(err);
-    reject(err)
+    return axios
+      .get(url + "/posts")
+      .then((x) => resolve(x.data))
+      .catch((err) => {
+        alert(err);
+        reject(err);
+      });
   });
-});
 export const getPostsByGarageId = (id) => {
   return axios
     .get(url + "/posts/garage/" + id)
@@ -42,7 +42,7 @@ export const getPostsByAuthor = (author) =>
         reject(error);
       });
   });
-  
+
 export const getNestedComments = (post) => {
   let comments = [];
   axios.get(url + "/posts/comments/" + post).then((c) => console.log(c));
@@ -59,28 +59,33 @@ export const getCommentsFromPost = (id) => {
     .then((x) => x.data)
     .catch((err) => err);
 };
-export const getPostsByGarageName = (name)=>{
-  return axios.get(url + '/posts/garage/' +name)
-  .then(x=>x.data)
-  .catch(err=>err)
-}
-export const addNewRating = (id, username, score) =>{
-  return axios.post(url + '/likes/', {id:id, username:username, score:score})
-  .then(x=>x.data)
-  .catch(err=>err)
-}
-export const updatePostRating = (id, action) =>{
-  return axios.put(url + '/rating/post/' + id, {action:action})
-  .then(x=>x.data)
-  .catch(err=>err)
-}
-export const setUserScore = (id, username, action) =>{
-  return axios.put(url + '/likes/' + id + '/' + username, {action:action})
-  .then(x=>x.data)
-  .catch(err=>err)
-}
-export const getUserScore = (id, username) =>{
-  return axios.get(url + '/likes/' + id + "/" + username)
-  .then(x=>x.data)
-  .catch(err=>err)
-}
+export const getPostsByGarageName = (name) => {
+  return axios
+    .get(url + "/posts/garage/" + name)
+    .then((x) => x.data)
+    .catch((err) => err);
+};
+export const addNewRating = (id, username, score) => {
+  return axios
+    .post(url + "/likes/", { id: id, username: username, score: score })
+    .then((x) => x.data)
+    .catch((err) => err);
+};
+export const updatePostRating = (id, action) => {
+  return axios
+    .put(url + "/rating/post/" + id, { action: action })
+    .then((x) => x.data)
+    .catch((err) => err);
+};
+export const setUserScore = (id, username, action) => {
+  return axios
+    .put(url + "/likes/" + id + "/" + username, { action: action })
+    .then((x) => x.data)
+    .catch((err) => err);
+};
+export const getUserScore = (id, username) => {
+  return axios
+    .get(url + "/likes/" + id + "/" + username)
+    .then((x) => x.data)
+    .catch((err) => err);
+};
