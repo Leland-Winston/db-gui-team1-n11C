@@ -1,6 +1,7 @@
 import {
   Avatar,
   Box,
+  Button,
   Card,
   CardBody,
   CardHeader,
@@ -37,6 +38,7 @@ export const ProfileView = () => {
     getUserByUsername(username).then(x => setUser(x[0]))
     getGaragesByMember(username).then(x => setGarages(x))
   }, [])
+  let currUser = useContext(UserContext);
 
   return (
     user.username != "" && (
@@ -50,6 +52,7 @@ export const ProfileView = () => {
                   <Avatar background="brand" size="xlarge">
                     <Car size="large"></Car>
                   </Avatar>
+                  {user.username === currUser &&  (<Button label="Edit Profile"></Button>)}
                 </Box>
               </CardHeader>
               <CardBody>
@@ -58,7 +61,7 @@ export const ProfileView = () => {
                 </Box>
               </CardBody>
             </Card>
-            <Heading margin="small">My Posts</Heading>
+            {user.username === currUser &&  (<Heading margin="small">My Posts</Heading>) || <Heading margin="small">Posts</Heading>}
             {/* map user's posts here into post templates */}
             <PostList title="My Posts" posts={posts}/>
           </PageContent>

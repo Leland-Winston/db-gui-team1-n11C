@@ -28,9 +28,12 @@ import {
   ThumbsRating
 } from "grommet";
 import { useNavigate } from "react-router-dom";
+import UserContext from "../UserContext.js";
+import { deletePost } from "../api/postApi.js";
 
 const PostTemplate = ({ currPost }) => {
   let navigate = useNavigate();
+  let user = useContext(UserContext);
   const size = React.useContext(ResponsiveContext);
   let [isHover, setIsHover] = useState(false);
   const handleMouseEnter = () => {
@@ -41,7 +44,7 @@ const PostTemplate = ({ currPost }) => {
   };
 
   return (
-    <Card style={{ cursor: 'pointer' }} onClick={() => navigate('/garage/' + currPost.garage + '/post/' + currPost.post_id)}>
+    <Card>
         <CardHeader pad="small">
           <Box pad="none" direction="column" justify="end">
             <Heading level={3} margin="none"
@@ -54,8 +57,14 @@ const PostTemplate = ({ currPost }) => {
               {currPost.author} • {currPost.garage}
             </Text>
           </Box>
+          {user === currPost.author && 
+          <Box direction="row" justify="end">
+            <Button label="X" onClick={() => deletePost(currPost.post_id)}>
+            </Button>
+          </Box>
+          }
         </CardHeader>
-        <CardBody pad="small">
+        <CardBody pad="small" style={{ cursor: 'pointer' }} onClick={() => navigate('/garage/' + currPost.garage + '/post/' + currPost.post_id)}>
           <Paragraph maxLines={size === "small" ? 1 : 5} margin={{ top: 'none' }}>
             {currPost.content}
           </Paragraph>

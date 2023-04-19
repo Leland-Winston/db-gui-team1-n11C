@@ -7,16 +7,19 @@ export const createPost = (post) => {
     .then((x) => x.data)
     .catch((err) => err);
 };
-export const getPosts = () => 
+export const deletePost = (id) => {
+  return axios.delete(url + "/posts/" + id);
+};
+export const getPosts = () =>
   new Promise((resolve, reject) => {
-  return axios
-    .get(url + "/posts")
-    .then((x) => resolve(x.data))
-    .catch((err) => {
-      alert(err);
-    reject(err)
+    return axios
+      .get(url + "/posts")
+      .then((x) => resolve(x.data))
+      .catch((err) => {
+        alert(err);
+        reject(err);
+      });
   });
-});
 export const getPostsByGarageId = (id) => {
   return axios
     .get(url + "/posts/garage/" + id)
@@ -39,7 +42,7 @@ export const getPostsByAuthor = (author) =>
         reject(error);
       });
   });
-  
+
 export const getNestedComments = (post) => {
   let comments = [];
   axios.get(url + "/posts/comments/" + post).then((c) => console.log(c));
@@ -56,8 +59,9 @@ export const getCommentsFromPost = (id) => {
     .then((x) => x.data)
     .catch((err) => err);
 };
-export const getPostsByGarageName = (name)=>{
-  return axios.get(url + '/posts/garage/' +name)
-  .then(x=>x.data)
-  .catch(err=>err)
-}
+export const getPostsByGarageName = (name) => {
+  return axios
+    .get(url + "/posts/garage/" + name)
+    .then((x) => x.data)
+    .catch((err) => err);
+};
