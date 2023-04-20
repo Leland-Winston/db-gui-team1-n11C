@@ -226,7 +226,6 @@ app.delete('/memberships/garage/:name', (req, res)=>{
   connection.query(query, (err, rows, fields) => {
     if (err) throw err;
     res.status(200);
-    res.send("deleted " + name)
   })
 })
 

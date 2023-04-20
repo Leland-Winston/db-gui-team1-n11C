@@ -2,8 +2,8 @@ import React from "react";
 import { useState, useContext, useEffect } from "react";
 import { useParams, useNavigate, Link, useLocation, NavLink } from "react-router-dom";
 import UserContext from "../../UserContext";
-import { addUserToGarage, getGarageByName, getGaragesByMember, removeUserFromGarage } from "../../api/garageApi";
-import { getPostsByGarageName } from "../../api/postApi";
+import { addUserToGarage, deleteGarage, getGarageByName, getGaragesByMember, removeMembersFromGarage, removeUserFromGarage } from "../../api/garageApi";
+import { deleteCommentsFromPost, deletePost, deletePostsFromGarage, getPostsByGarageName } from "../../api/postApi";
 import { PostList } from "../../components/PostList";
 import { Page, PageContent, Grid, Button, Box, Card, CardHeader, CardBody, CardFooter, Heading, Paragraph } from "grommet";
 
@@ -47,7 +47,14 @@ export default function GarageView() {
         removeUserFromGarage(currGarage.name, currUser);
         setJoined(false)
     }
-
+    const cascadingDelete = () => {
+        posts.forEach(p => {
+            deleteCommentsFromPost(p.post_id)
+        })
+        deletePostsFromGarage(currGarage.name)
+        deleteGarage(currGarage.name)
+        removeMembersFromGarage(currGarage.name)
+    }
     return (
         currGarage !== null &&
         <>
@@ -69,7 +76,7 @@ export default function GarageView() {
                                 </>
                                 )
                             })} */
-                            <PostList title="Garage Posts" posts={posts}/>}
+                                <PostList title="Garage Posts" posts={posts} />}
 
                         </Box>
                         <Box gridArea="info">
@@ -96,15 +103,18 @@ export default function GarageView() {
                                     <Paragraph>
                                         {currGarage.description}
                                     </Paragraph>
-                                    <Button label="Create Post" primary fill="horizontal" margin={{bottom: 'small'}}
+                                    <Button label="Create Post" primary fill="horizontal" margin={{ bottom: 'small' }}
                                         onClick={() => navigate(
                                             currUser ? '/newpost/' + currGarage.name
                                                 : '/login', {
                                             state:
                                                 { previous: '/newpost/' + currGarage.name }
                                         })}></Button>
-                                        {currUser === currGarage.creator && <Button label="Delete Garage"
-                                        /* onClick={() => deleteGarage(currGarage.garage_id)} */></Button>}
+                                    {currUser === currGarage.creator && <Button label="Delete Garage"
+                                        onClick={() => {
+                                            cascadingDelete()
+                                            navigate('/')
+                                        }}></Button>}
                                 </CardBody>
                             </Card>
                         </Box>
