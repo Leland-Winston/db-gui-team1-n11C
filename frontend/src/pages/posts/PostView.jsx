@@ -36,6 +36,7 @@ export default function PostView() {
     let currUser = useContext(UserContext)
     let navigate = useNavigate()
     let [userRating, setUserRating] = useState(0);
+    let [score, setScore] = useState(0);
     let id = useParams().post;
     let [commentTree, setCommentTree] = useState([]);
     let [currPost, setCurrPost] = useState({});
@@ -58,12 +59,14 @@ export default function PostView() {
         if (action == "like") {
             if (userRating < 1) {
                 setUserRating(userRating + 1)
+                setScore(score + 1)
                 updatePostRating(currPost.post_id, "like")
                 sendRating("like");
 
             }
             else {
                 setUserRating(userRating - 1)
+                setScore(score - 1)
                 updatePostRating(currPost.post_id, "dislike")
                 sendRating("dislike");
 
@@ -72,12 +75,14 @@ export default function PostView() {
         else {
             if (userRating > -1) {
                 setUserRating(userRating - 1)
+                setScore(score - 1)
                 updatePostRating(currPost.post_id, "dislike")
                 sendRating("dislike");
 
             }
             else {
                 setUserRating(userRating + 1)
+                setScore(score + 1)
                 updatePostRating(currPost.post_id, "like")
                 sendRating("like");
 
@@ -127,7 +132,7 @@ export default function PostView() {
                                         onClick={currUser ? () => rate("like") :
                                             () => { navigate('/login', { state: { previous: '/garage/' + currPost.garage + '/post/' + currPost.post_id } }) }}></Button>
 
-                                    <h6>{currPost.rating + userRating}</h6>
+                                    <h6>{currPost.rating + score}</h6>
                                     <Button icon={<CaretDown color={userRating == -1 ? "brand" : ""}></CaretDown>}
                                         pad={0}
                                         onClick={() => { rate("dislike") }}></Button>
