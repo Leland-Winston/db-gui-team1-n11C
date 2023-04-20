@@ -2,7 +2,7 @@ import react, { useEffect, useState, useContext } from "react";
 import { getCommentsFromPost, getPostById } from "../../api/postApi";
 import { useParams } from "react-router-dom";
 import Comment from "./Comment";
-import { Page, Box, Grid, Card, CardBody, CardHeader, CardFooter, PageContent } from "grommet";
+import { Page, Box, Grid, Card, CardBody, CardHeader, CardFooter, PageContent, Button } from "grommet";
 const constructCommentTree = async (allComments, commentTree) => {
     allComments.forEach(newComment => {
         if (newComment.parent !== null) { //comment is not a root
@@ -57,7 +57,6 @@ export default function PostView() {
         <>
             <Page kind="narrow">
                 <PageContent>
-
                     <Card>
                         <CardHeader>
                             <Grid
@@ -82,13 +81,13 @@ export default function PostView() {
                         <CardBody>
                             <p>{currPost.content}</p>
                         </CardBody>
-                        <CardFooter>
+                        <CardFooter margin="small">
+                            <Button primary label="Create Comment" pad="medium"> </Button>
                             {commentTree.map(c => {
                                 return <Comment comment={c}></Comment>
                             })}
                         </CardFooter>
                     </Card>
-
                 </PageContent>
             </Page>
         </>
