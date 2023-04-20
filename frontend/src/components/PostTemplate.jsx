@@ -36,15 +36,17 @@ const PostTemplate = ({ currPost }) => {
   let user = useContext(UserContext);
   const size = React.useContext(ResponsiveContext);
   let [isHover, setIsHover] = useState(false);
+  let [visible, setVisible] = useState(true);
   const handleMouseEnter = () => {
     setIsHover(true);
   };
   const handleMouseLeave = () => {
     setIsHover(false);
   };
-
   return (
-    <Card>
+    <div style={{ display: visible ? 'block' : 'none' }}>
+
+      <Card>
         <CardHeader pad="small">
           <Box pad="none" direction="column" justify="end">
             <Heading level={3} margin="none"
@@ -57,11 +59,11 @@ const PostTemplate = ({ currPost }) => {
               {currPost.author} • {currPost.garage}
             </Text>
           </Box>
-          {user === currPost.author && 
-          <Box direction="row" justify="end">
-            <Button label="X" onClick={() => deletePost(currPost.post_id)}>
-            </Button>
-          </Box>
+          {user === currPost.author &&
+            <Box direction="row" justify="end">
+              <Button label="X" onClick={() => { deletePost(currPost.post_id); setVisible(false) }}>
+              </Button>
+            </Box>
           }
         </CardHeader>
         <CardBody pad="small" style={{ cursor: 'pointer' }} onClick={() => navigate('/garage/' + currPost.garage + '/post/' + currPost.post_id)}>
@@ -69,10 +71,12 @@ const PostTemplate = ({ currPost }) => {
             {currPost.content}
           </Paragraph>
         </CardBody>
-      <CardFooter pad="small" background="background-contrast">
-        <ThumbsRating></ThumbsRating>
-      </CardFooter>
-    </Card>
+        <CardFooter pad="small" background="background-contrast">
+          <ThumbsRating></ThumbsRating>
+        </CardFooter>
+      </Card>
+    </div>
+
   );
 };
 export default PostTemplate;
