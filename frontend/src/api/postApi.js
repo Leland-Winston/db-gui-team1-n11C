@@ -65,3 +65,10 @@ export const getPostsByGarageName = (name) => {
     .then((x) => x.data)
     .catch((err) => err);
 };
+
+export const createComment = (comment) => {
+  return axios
+  .post(url + "/comments", comment)
+  .then(x => x.data)
+  .catch(err => err);
+};
