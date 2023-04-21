@@ -5,7 +5,9 @@ import Comment from "./Comment";
 import { Page, Box, Grid, Card, CardBody, CardHeader, CardFooter, PageContent, Button } from "grommet";
 const constructCommentTree = async (allComments, commentTree) => {
     allComments.forEach(newComment => {
-        if (newComment.parent !== null) { //comment is not a root
+        console.log(newComment)
+
+        if (newComment.parent !== 0) { //comment is not a root
             commentTree.forEach(root => {
                 //recursively insert into each root
                 recusriveInsert(newComment, root)
@@ -42,7 +44,7 @@ export default function PostView() {
     useEffect(() => {
         async function loadComments() {
             const response = await getCommentsFromPost(id);
-            setComments(response)
+            setComments(response);
             constructCommentTree(comments, commentTree)
             console.log("comments loaded:" + commentTree.length)
             if (commentTree.length > 0) setCommentsLoaded(true)
@@ -75,19 +77,18 @@ export default function PostView() {
                                     <h3>{currPost.title}</h3>
                                 </Box>
                                 <h6>{currPost.author}</h6>
-
                             </Grid>
                         </CardHeader>
                         <CardBody>
                             <p>{currPost.content}</p>
                         </CardBody>
-                        <CardFooter margin="small">
+                        <CardFooter pad={{horizontal: "small"}} margin="small">
                             <Button primary label="Create Comment" pad="medium"> </Button>
-                            {commentTree.map(c => {
-                                return <Comment comment={c}></Comment>
-                            })}
                         </CardFooter>
                     </Card>
+                    {commentTree.map(c => {
+                                return <Comment comment={c}></Comment>
+                    })}
                 </PageContent>
             </Page>
         </>
