@@ -1,8 +1,9 @@
 import react, { useEffect, useState, useContext } from "react";
-import { getCommentsFromPost, getPostById } from "../../api/postApi";
-import { useParams } from "react-router-dom";
+import { getCommentsFromPost, getPostById, createComment } from "../../api/postApi";
+import { useParams, useNavigate} from "react-router-dom";
 import Comment from "./Comment";
-import { Page, Box, Grid, Card, CardBody, CardHeader, CardFooter, PageContent, Button } from "grommet";
+import { Page, Box, Grid, Card, CardBody, CardHeader, CardFooter, PageContent, Button, TextArea, FormField} from "grommet";
+
 const constructCommentTree = async (allComments, commentTree) => {
     allComments.forEach(newComment => {
         console.log(newComment.length)
@@ -30,17 +31,34 @@ const recusriveInsert = (newComment, root) => {
         }
     }
 }
+
+let aComment = {
+    post_id: undefined,
+    author: undefined,
+    parent: 0,
+    content: undefined,
+    rating:0
+}
+
 export default function PostView() {
     let id = useParams().post;
+
     let [commentTree, setCommentTree] = useState([]);
     let [currPost, setCurrPost] = useState({});
     let [comments, setComments] = useState([]);
     let [commentsLoaded, setCommentsLoaded] = useState(false);
+    let [newComment, setNewComment] = useState(aComment);
+
+    const _setNewComment = (delta) => {
+        setNewComment({ ...newComment, ...delta })
+      }
+
     useEffect(() => {
         getPostById(id).then(x => {
             setCurrPost(x[0]);
         });
-    }, [])
+    }, []);
+
     useEffect(() => {
         async function loadComments() {
             const response = await getCommentsFromPost(id);
@@ -53,7 +71,21 @@ export default function PostView() {
             console.log("loading comments")
             loadComments().then(() => console.log(commentTree));
         }
-    }, [currPost])
+    }, [currPost]);
+
+    const addComment = (id, author) => {
+        let aComment = {
+            post_id: id,
+            author: author,
+            parent: 0,
+            content: newComment,
+            rating:0
+        }
+
+        createComment(aComment)
+        setNewComment(undefined)
+    }
+
     return (
         !!currPost &&
         <>
@@ -83,11 +115,16 @@ export default function PostView() {
                             <p>{currPost.content}</p>
                         </CardBody>
                         <CardFooter pad={{horizontal: "small", bottom:"small"}} margin="small">
-                            <Button primary label="Create Comment" pad="medium"> </Button>
+                            <Button primary label="Add Comment" pad="xsmall" onClick={() => {addComment(id, currPost.author)}}>
+                            </Button>
+
+                            <TextArea placeholder="Add comment" rows={2}
+                                onChange={(event) => setNewComment(event.target.value)}>
+                            </TextArea>
                         </CardFooter>
                     </Card>
                     {commentTree.map(c => {
-                        return <Comment comment={c}></Comment>
+                        return <Comment comment={c} onClick={addComment}></Comment>
                     })}
                 </PageContent>
             </Page>
