@@ -92,9 +92,9 @@ app.put("/users/clear", (req, res) => {
 //POSTS
 //*************************************************************/
 app.post("/posts", (req, res) => {
-  const { author, title, content, parent, garage } = req.body;
+  const { author, title, content, garage, car_id } = req.body;
   console.log("creating post from" + author);
-  const query = `INSERT INTO posts (author, title, content, garage) VALUES ('${author}', '${title}', '${content}', '${garage}')`;
+  const query = `INSERT INTO posts (author, title, content, garage, car_id) VALUES ('${author}', '${title}', '${content}', '${garage}', ${car_id})`;
   connection.query(query, (err, rows, fields) => {
     if (err) throw err;
     res.status(200);
@@ -164,7 +164,6 @@ app.delete('/posts/garage/:name', (req, res)=>{
     res.send("deleted " + name)
   })
 })
-
 //GARAGES
 //*************************************************************/
 app.get("/garages", (req, res)=>{
@@ -319,14 +318,14 @@ app.post("/comments", (req, res) => {
 //////////////////////////////////////////////
 app.get("/cars/:garage", (req, res)=>{
   const garage = req.params.garage;
-  const query = `SELECT * FROM cars C WHERE C.garage_name='${garage}'`;
+  const query = `SELECT DISTINCT model FROM cars C WHERE C.garage_name='${garage}'`;
   connection.query(query, (err, rows, fields) => {
     if (err) throw err;
     res.status(200);
     res.send(rows);
   });
 })
-app.get("/cars/:garage/find", (req, res)=>{
+app.post("/cars/:garage/find", (req, res)=>{
   const garage = req.params.garage;
   const {model, year} = req.body;
   const query = `SELECT car_id FROM cars C WHERE C.garage_name='${garage}' AND C.model='${model}' AND C.year=${year}`;
@@ -336,14 +335,14 @@ app.get("/cars/:garage/find", (req, res)=>{
     res.send(rows);
   });
 })
-app.post("/cars/:garage/", (req, res)=>{
+app.post("/cars/:garage", (req, res)=>{
   const garage = req.params.garage;
   const {model, year} = req.body;
   const query = `INSERT INTO cars (garage_name, model, year) VALUES ('${garage}', '${model}', ${year})`
-  connection.query(query, (err, rows, fields) => {
+  connection.query(query, (err, result) => {
     if (err) throw err;
-    res.status(200);
-    res.send(rows);
+    const newCarId = result.insertId;
+    res.status(201).json({id:newCarId})
   });
 })
 app.post("/cars/newgarage/:garage", (req, res)=>{

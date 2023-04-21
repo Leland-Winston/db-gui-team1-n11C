@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS posts(
   garage VARCHAR(255) NOT NULL,
   title VARCHAR(255) NOT NULL,
   content VARCHAR(2000) NOT NULL,
+  car_id INT,
   rating INT DEFAULT 0
 );
 CREATE TABLE IF NOT EXISTS comments(

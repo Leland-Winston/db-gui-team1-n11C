@@ -31,7 +31,6 @@ export default function GarageView() {
     }, [])
     useEffect(() => {
         getGaragesByMember(currUser).then(x => {
-            console.log(x)
             x.forEach(m => {
                 if (m.garage_name == currGarage.name) {
                     setJoined(true)
