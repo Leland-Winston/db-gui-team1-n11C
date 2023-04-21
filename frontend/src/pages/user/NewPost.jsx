@@ -60,13 +60,26 @@ export const NewPost = () => {
   }, [])
   const verifyCar = async () => {
     await getCarFromGarage(params.garage, formValues.model, formValues.year)
-      .then(async x => {
+      .then(x => {
         if (!!x[0]) _setFormValue({ car_id: x[0].car_id })
         else {
-          await createCar(params.garage, formValues.model, formValues.year);
-          getCarFromGarage(params.garage, formValues.model, formValues.year)
-            .then(y => _setFormValue({ car_id: y[0].car_id }))
+          createCar(params.garage, formValues.model, formValues.year);
         }
+      })
+  }
+  const _createPost = async () => {
+    await verifyCar();
+    getCarFromGarage(params.garage, formValues.model, formValues.year)
+      .then(x => {
+        createPost({
+          author: currUser,
+          title: formValues.title,
+          content: formValues.content,
+          garage: params.garage,
+          car_id: x[0].car_id
+        });
+        setFormValues({ title: "", content: "" });
+        navigate('/garage/' + params.garage)
       })
   }
   return (
@@ -99,17 +112,7 @@ export const NewPost = () => {
             <Button
               label="submit"
               onClick={async () => {
-                await verifyCar();
-
-                createPost({
-                  author: currUser,
-                  title: formValues.title,
-                  content: formValues.content,
-                  garage: params.garage,
-                  car_id: formValues.car_id
-                });
-                setFormValues({ title: "", content: "" });
-                navigate('/garage/' + params.garage)
+                await _createPost()
               }}
             />
 
