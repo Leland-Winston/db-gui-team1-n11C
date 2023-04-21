@@ -75,7 +75,7 @@ export default function GarageView() {
                                 </>
                                 )
                             })} */
-                                <PostList title="Garage Posts" posts={posts} />}
+                                <PostList title="Garage Posts" posts={posts} context={{ location: 'garage', garage: garageName }} />}
 
                         </Box>
                         <Box gridArea="info">

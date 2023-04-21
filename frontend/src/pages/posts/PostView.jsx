@@ -106,7 +106,7 @@ export default function PostView() {
             if (commentTree.length > 0) setCommentsLoaded(true)
         }
         if (!commentsLoaded) {
-            loadComments().then(() => console.log(commentTree));
+            loadComments();
         }
     }, [currPost])
     return (
