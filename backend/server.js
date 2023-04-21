@@ -49,6 +49,8 @@ app.get("/db", (req, res) => {
   });
 });
 
+///////////////////////////////////////////////
+//USERS
 app.post("/users", (req, res) => {
   const { username, password, admin } = req.body;
   const query = `INSERT INTO users (username, password, admin) VALUES ('${username}', '${password}', ${admin})`;
@@ -153,6 +155,16 @@ app.delete("/posts/:id", (req, res) => {
   });
 })
 
+app.delete('/posts/garage/:name', (req, res)=>{ 
+  const name = req.params.name;
+  const query = `DELETE FROM posts P WHERE P.garage='${name}';`
+  connection.query(query, (err, rows, fields) => {
+    if (err) throw err;
+    res.status(200);
+    res.send("deleted " + name)
+  })
+})
+
 //GARAGES
 //*************************************************************/
 app.get("/garages", (req, res)=>{
@@ -200,16 +212,6 @@ app.post('/memberships', (req, res)=>{
 })
 
 
-app.delete('/posts/garage/:name', (req, res)=>{ 
-  const name = req.params.name;
-  const query = `DELETE FROM posts P WHERE P.garage='${name}';`
-  connection.query(query, (err, rows, fields) => {
-    if (err) throw err;
-    res.status(200);
-    res.send("deleted " + name)
-  })
-})
-
 app.delete('/garages/:name', (req, res)=>{ 
   const name = req.params.name;
   const query = `DELETE FROM garages G WHERE G.name='${name}';`
@@ -229,8 +231,6 @@ app.delete('/memberships/garage/:name', (req, res)=>{
   })
 })
 
-//WHY DOES app.delete NOT WORK HERE???????????????????
-//it works :))))
 app.delete('/memberships', (req, res)=>{
   const {garage, username} = req.body;
   console.log("deleting" + username + " from " + garage)
@@ -315,6 +315,46 @@ app.post("/comments", (req, res) => {
     res.send(rows);
   });
 });
+//CARS
+//////////////////////////////////////////////
+app.get("/cars/:garage", (req, res)=>{
+  const garage = req.params.garage;
+  const query = `SELECT * FROM cars C WHERE C.garage_name='${garage}'`;
+  connection.query(query, (err, rows, fields) => {
+    if (err) throw err;
+    res.status(200);
+    res.send(rows);
+  });
+})
+app.get("/cars/:garage/find", (req, res)=>{
+  const garage = req.params.garage;
+  const {model, year} = req.body;
+  const query = `SELECT car_id FROM cars C WHERE C.garage_name='${garage}' AND C.model='${model}' AND C.year=${year}`;
+  connection.query(query, (err, rows, fields) => {
+    if (err) throw err;
+    res.status(200);
+    res.send(rows);
+  });
+})
+app.post("/cars/:garage/", (req, res)=>{
+  const garage = req.params.garage;
+  const {model, year} = req.body;
+  const query = `INSERT INTO cars (garage_name, model, year) VALUES ('${garage}', '${model}', ${year})`
+  connection.query(query, (err, rows, fields) => {
+    if (err) throw err;
+    res.status(200);
+    res.send(rows);
+  });
+})
+app.post("/cars/newgarage/:garage", (req, res)=>{
+  const carsList = req.body.carsList;
+  const garage = req.params.garage;
+  carsList.forEach(c=>{
+    let query = `INSERT INTO cars (garage_name, model) VALUES ('${garage}', '${c})`;
+    connection.query(query, err, rows, fields);
+  })
+  res.send(200)
+})
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
