@@ -5,7 +5,7 @@ import Comment from "./Comment";
 import { Page, Box, Grid, Card, CardBody, CardHeader, CardFooter, PageContent, Button } from "grommet";
 const constructCommentTree = async (allComments, commentTree) => {
     allComments.forEach(newComment => {
-        console.log(newComment)
+        console.log(newComment.length)
 
         if (newComment.parent !== 0) { //comment is not a root
             commentTree.forEach(root => {
@@ -82,12 +82,12 @@ export default function PostView() {
                         <CardBody>
                             <p>{currPost.content}</p>
                         </CardBody>
-                        <CardFooter pad={{horizontal: "small"}} margin="small">
+                        <CardFooter pad={{horizontal: "small", bottom:"small"}} margin="small">
                             <Button primary label="Create Comment" pad="medium"> </Button>
                         </CardFooter>
                     </Card>
                     {commentTree.map(c => {
-                                return <Comment comment={c}></Comment>
+                        return <Comment comment={c}></Comment>
                     })}
                 </PageContent>
             </Page>
