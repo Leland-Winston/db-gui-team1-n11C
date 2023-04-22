@@ -335,6 +335,16 @@ app.post("/cars/:garage/find", (req, res)=>{
     res.send(rows);
   });
 })
+app.get("/cars/instances/:garage", (req, res)=>{
+  const garage = req.params.garage;
+  const model = req.body.model;
+  const query = `SELECT car_id FROM cars C WHERE C.garage_name='${garage}' AND C.model='${model}'`
+  connection.query(query, (err, rows, fields) => {
+    if (err) throw err;
+    res.status(200);
+    res.send(rows);
+  });
+})
 app.post("/cars/:garage", (req, res)=>{
   const garage = req.params.garage;
   const {model, year} = req.body;
@@ -346,13 +356,10 @@ app.post("/cars/:garage", (req, res)=>{
   });
 })
 app.post("/cars/newgarage/:garage", (req, res)=>{
-  const carsList = req.body.carsList;
+  const carsList = [];
   const garage = req.params.garage;
-  carsList.forEach(c=>{
-    let query = `INSERT INTO cars (garage_name, model) VALUES ('${garage}', '${c})`;
-    connection.query(query, err, rows, fields);
-  })
-  res.send(200)
+  res.send(carsList)
+ 
 })
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);

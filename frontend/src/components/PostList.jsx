@@ -20,7 +20,7 @@ import {
 import PostTemplate from "./PostTemplate";
 import { useLocation, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getCarFromGarage, getModelsFromGarage } from "../api/carApi";
+import { getCarFromGarage, getIdsFromModel, getModelsFromGarage } from "../api/carApi";
 
 let vals = {
   model: '',
@@ -39,71 +39,85 @@ export const PostList = ({ title, posts, context }) => {
   }
   const applyFilters = async () => {
     setPostList(posts)
-    getCarFromGarage(context.garage, filters.model, filters.year)
-      .then(x => {
-        console.log(postList)
-        if (!!x) {
-          setPostList(posts.filter(p =>
-            p.car_id == x[0].car_id
-          ))
-        }
-      })
+    if (filters.year != null) {
+      getCarFromGarage(context.garage, filters.model, filters.year)
+        .then(x => {
+          console.log(postList)
+          if (!!x) {
+            setPostList(posts.filter(p =>
+              p.car_id == x[0].car_id
+            ))
+          }
+        })
+    }
+    else {
+      getIdsFromModel(context.garage, filters.model)
+        .then(x => {
+          console.log(x)
+        })
+    }
   }
   const resetFilters = async () => {
+    document.getElementById("test")
     setFilters(vals)
     setPostList(posts);
   }
   useEffect(() => {
     setPostList(posts)
-    if (context.location == "garage") {
-      const loadModels = async () => getModelsFromGarage(context.garage).then(x => {
-        if (!!x[0]) {
-          x.forEach(m => {
-            if (!models.includes(m)) {
-              models.push(m.model)
-            }
-          })
-        }
-      })
-      loadModels().then(() => {
-        models = models.filter((m, index) => {
-          return models.indexOf(m) === index;
+    const load = async () => {
+      if (context.location == "garage") {
+        const loadModels = async () => getModelsFromGarage(context.garage).then(x => {
+          if (!!x[0]) {
+            x.forEach(m => {
+              if (!models.includes(m)) {
+                models.push(m.model)
+              }
+            })
+          }
         })
-        setModelList(models);
-        setLoaded(true)
-      })
+        loadModels().then(() => {
+          models = models.filter((m, index) => {
+            return models.indexOf(m) === index;
+          })
+          setModelList(models);
+
+        })
+      }
     }
+    load().then(() => setLoaded(true))
   }, [])
   return (
+    loaded &&
     <>
-      <Grid
-        columns={['small', 'small', 'xsmall']}
-        rows={['flex']}
-
-      >
-        <Box>
-          <Select
-            options={modelList}
-            onChange={x => addFilter({ model: x.value })}>
-          </Select>
-        </Box>
-        <Box margin={{ horizontal: 'small' }}>
-          <Select
-            options={Array.from({ length: 100 }, (v, k) => 123 - k + 1900)}
-            onChange={x => addFilter({ year: x.value })}
-          >
-          </Select>
-        </Box>
-        <Box>
-          <Button label="Clear"
-            onClick={() => resetFilters()}></Button>
-          <Button label="Apply Filters"
-            onClick={() => applyFilters()}></Button>
-        </Box>
-      </Grid >
+      {context.location == "garage" &&
+        <Grid
+          columns={['small', 'small', 'xsmall']}
+          rows={['flex']}
+        >
+          <Box>
+            <Select
+              options={modelList}
+              onChange={x => addFilter({ model: x.value })}>
+            </Select>
+          </Box>
+          <Box margin={{ horizontal: 'small' }}>
+            <Select id="test"
+              options={Array.from({ length: 100 }, (v, k) => 123 - k + 1900)}
+              onChange={x => addFilter({ year: x.value })}
+            >
+            </Select>
+          </Box>
+          <Box>
+            <Button label="Clear"
+              onClick={() => resetFilters()}></Button>
+            <Button label="Apply Filters"
+              onClick={() => applyFilters()}></Button>
+          </Box>
+        </Grid >
+      }
       <Table>
         <TableBody>
-          {postList.map((post) => (
+          {postList.length > 0 && postList.map((post) => (
             <TableRow key={post.post_id}>
               <TableCell>
                 <PostTemplate currPost={post}></PostTemplate>
