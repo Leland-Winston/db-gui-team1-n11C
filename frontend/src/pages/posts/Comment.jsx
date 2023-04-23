@@ -1,8 +1,9 @@
 import { useState, useContext } from "react";
 import UserContext  from "../../UserContext";
+import { createComment } from "../../api/postApi";
 import { Accordion, AccordionPanel, Card, CardBody, CardFooter, CardHeader, Button, TextArea } from "grommet";
 
-export default function Comment({ comment, addComment }) {
+export default function Comment({ comment }) {
     let currUser = useContext(UserContext);
 
     let aComment = {
@@ -10,13 +11,26 @@ export default function Comment({ comment, addComment }) {
         author: currUser,
         parent: comment.comment_id,
         content: undefined,
-        rating: 0
     }
 
     let [newComment, setNewComment] = useState(aComment);
 
     const _setNewComment = (delta) => {
         setNewComment({ ...newComment, ...delta })
+    }
+
+    const addReply = async (reply) => {
+        aComment = {
+            post_id: reply.post_id,
+            author: reply.author,
+            parent: comment.comment_id,
+            content: reply.content,
+        }
+
+        console.log(aComment)
+
+        await createComment(aComment)
+        setNewComment({post_id: undefined, author: undefined, parent: 0, content: undefined})
     }
 
     return (<>
@@ -28,13 +42,13 @@ export default function Comment({ comment, addComment }) {
                 <p>{comment.content}</p>
             </CardBody>
             <CardFooter pad={{bottom:"small"}}>
-                <Button primary pad="xsmall" margin={{left: "medium", right: "medium"}} label="Add comment" onClick={() => {addComment({ newComment })}}></Button> 
+                <Button primary pad="xsmall" margin={{left: "medium", right: "medium"}} label="Add comment" onClick={() => {addReply( newComment )}}></Button> 
                 <TextArea rows={1} margin={{right:"medium"}} onChange={(event) => _setNewComment({content: event.target.value})}></TextArea>
             </CardFooter>
             <Accordion>
                 <AccordionPanel>
                     {comment.children.map(c => {
-                        return <Comment pad="xsmall" comment={c} addComment={addComment}></Comment>
+                        return <Comment pad="xsmall" comment={c}></Comment>
                     })}
                 </AccordionPanel>
          </Accordion>
