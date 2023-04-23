@@ -45,7 +45,6 @@ export default function PostView() {
         author: currPost.author,
         parent: 0,
         content: undefined,
-        rating:0
     }
 
     let [newComment, setNewComment] = useState(aComment);
@@ -77,17 +76,16 @@ export default function PostView() {
 
     const addComment = (comment) => {
         aComment = {
-            post_id: comment.id,
+            post_id: id,
             author: comment.author,
             parent: comment.parent,
             content: comment.content,
-            rating: comment.rating
         }
 
         console.log(aComment)
 
         createComment(aComment)
-        setNewComment({id: undefined, author: undefined, parent: 0, content: undefined, rating: 0})
+        setNewComment({id: undefined, author: undefined, parent: 0, content: undefined})
     }
 
     return (
@@ -119,7 +117,7 @@ export default function PostView() {
                             <p>{currPost.content}</p>
                         </CardBody>
                         <CardFooter pad={{horizontal: "small", bottom:"small"}} margin="small">
-                            <Button primary label="Add Comment" pad="xsmall" onClick={() => {addComment(id, currPost.author, 0, newComment.content, 0)}}></Button>
+                            <Button primary label="Add Comment" pad="xsmall" onClick={() => {addComment(newComment)}}></Button>
 
                             <TextArea rows={2}
                                 onChange={(event) => _setNewComment({content: event.target.value})}>
@@ -127,7 +125,7 @@ export default function PostView() {
                         </CardFooter>
                     </Card>
                     {commentTree.map(c => {
-                        return <Comment comment={c} onClick={addComment}></Comment>
+                        return <Comment comment={c}></Comment>
                     })}
                 </PageContent>
             </Page>
