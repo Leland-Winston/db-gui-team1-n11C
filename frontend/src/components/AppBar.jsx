@@ -26,8 +26,6 @@ function AppBar({ setView, setDark, dark, setCurrentUser }) {
         <Box
           direction="row"
           gap="medium"
-          justify="end"
-          fill
         >
           <Button
             onClick={() => navigate('/')}
@@ -36,7 +34,6 @@ function AppBar({ setView, setDark, dark, setCurrentUser }) {
               style={{ height: '1em' }} />}>
 
           </Button>
-          <Box fill justify="end" direction="row">
           <Button
             a11yTitle={
               dark ? "Switch to Light Mode" : "Switch to Dark Mode"
@@ -55,6 +52,8 @@ function AppBar({ setView, setDark, dark, setCurrentUser }) {
               plain: true,
             }}
           />
+
+
           <Button
             icon={
               user == null && <Login color="light-1" />
@@ -93,7 +92,6 @@ function AppBar({ setView, setDark, dark, setCurrentUser }) {
                 plain: true,
               }}
               onClick={() => logout()} />}
-              </Box>
         </Box>
       </Header>
 

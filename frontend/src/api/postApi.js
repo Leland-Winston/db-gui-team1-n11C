@@ -89,22 +89,13 @@ export const getUserScore = (id, username) => {
     .then((x) => x.data)
     .catch((err) => err);
 };
-export const deletePostsFromGarage = (name) => {
-  return axios
-    .delete(url + "/posts/garage/" + name)
-    .then((x) => x.data)
-    .catch((err) => err);
-};
-export const deleteCommentsFromPost = (id) => {
-  return axios
-    .delete(url + "/comments/post/" + id)
-    .then((x) => x.data)
-    .catch((err) => err);
-};
-
-export const createComment = (comment) => {
-  return axios
-    .post(url + "/comments", comment)
-    .then((x) => x.data)
-    .catch((err) => err);
-};
+export const deletePostsFromGarage = (name) =>{
+  return axios.delete(url + '/posts/garage/' + name)
+  .then(x=>x.data)
+  .catch(err=>err)
+}
+export const deleteCommentsFromPost = (id) =>{
+  return axios.delete(url + '/comments/post/' + id)
+  .then(x=>x.data)
+  .catch(err=>err)
+}

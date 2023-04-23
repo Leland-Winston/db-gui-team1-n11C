@@ -170,9 +170,6 @@
         "round": false
       }
     },
-    "anchor":{
-      "color": "text-weak"
-    },
     "button": {
       "border": {
         "width": "2px",

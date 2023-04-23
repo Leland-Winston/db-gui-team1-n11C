@@ -6,16 +6,9 @@ import { CaretDown, CaretUp } from "grommet-icons";
 import { Button, Page, Box, Grid, Card, CardBody, CardHeader, CardFooter, PageContent } from "grommet";
 import UserContext from "../../UserContext";
 import { getUserByUsername } from "../../api/userApi";
-import { getCommentsFromPost, getPostById, createComment } from "../../api/postApi";
-import { useParams } from "react-router-dom";
-import Comment from "./Comment";
-import { Page, Box, Grid, Card, CardBody, CardHeader, CardFooter, PageContent, Button, TextArea, FormField} from "grommet";
-
 const constructCommentTree = async (allComments, commentTree) => {
     allComments.forEach(newComment => {
-        console.log(newComment.length)
-
-        if (newComment.parent !== 0) { //comment is not a root
+        if (newComment.parent !== null) { //comment is not a root
             commentTree.forEach(root => {
                 //recursively insert into each root
                 recusriveInsert(newComment, root)
@@ -45,7 +38,6 @@ export default function PostView() {
     let [userRating, setUserRating] = useState(0);
     let [score, setScore] = useState(0);
     let id = useParams().post;
-
     let [commentTree, setCommentTree] = useState([]);
     let [currPost, setCurrPost] = useState({});
     let [comments, setComments] = useState([]);
@@ -98,22 +90,6 @@ export default function PostView() {
         }
 
     }
-
-    let aComment = {
-        post_id: id,
-        author: currPost.author,
-        parent: 0,
-        content: undefined,
-        rating:0
-    }
-
-    let [newComment, setNewComment] = useState(aComment);
-
-    const _setNewComment = (delta) => {
-        setNewComment({ ...newComment, ...delta })
-        console.log(newComment)
-    }
-
     useEffect(() => {
         getPostById(id).then(x => {
             setCurrPost(x[0]);
@@ -125,30 +101,14 @@ export default function PostView() {
     useEffect(() => {
         async function loadComments() {
             const response = await getCommentsFromPost(id);
-            setComments(response);
+            setComments(response)
             constructCommentTree(comments, commentTree)
             if (commentTree.length > 0) setCommentsLoaded(true)
         }
         if (!commentsLoaded) {
             loadComments();
         }
-    }, [currPost]);
-
-    const addComment = (comment) => {
-        aComment = {
-            post_id: comment.id,
-            author: comment.author,
-            parent: comment.parent,
-            content: comment.content,
-            rating: comment.rating
-        }
-
-        console.log(aComment)
-
-        createComment(aComment)
-        setNewComment({id: undefined, author: undefined, parent: 0, content: undefined, rating: 0})
-    }
-
+    }, [currPost])
     return (
         !!currPost &&
         <>
@@ -185,17 +145,13 @@ export default function PostView() {
                         <CardBody pad={{ horizontal: 'medium' }}>
                             <p>{currPost.content}</p>
                         </CardBody>
-                        <CardFooter pad={{horizontal: "small", bottom:"small"}} margin="small">
-                            <Button primary label="Add Comment" pad="xsmall" onClick={() => {addComment(id, currPost.author, 0, newComment.content, 0)}}></Button>
-
-                            <TextArea rows={2}
-                                onChange={(event) => _setNewComment({content: event.target.value})}>
-                            </TextArea>
+                        <CardFooter>
+                            {commentTree.map(c => {
+                                return <Comment comment={c}></Comment>
+                            })}
                         </CardFooter>
                     </Card>
-                    {commentTree.map(c => {
-                        return <Comment comment={c} onClick={addComment}></Comment>
-                    })}
+
                 </PageContent>
             </Page >
         </>
