@@ -14,7 +14,6 @@ const garageValues = {
     description: "",
 }
 
-
 export const CreateGarage = () => {
     let [formValues, setformValues] = useState(garageValues);
     let currUser = useContext(UserContext);

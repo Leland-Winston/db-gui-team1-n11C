@@ -25,7 +25,7 @@ import {
   Paragraph,
   ResponsiveContext,
   Text,
-  ThumbsRating
+  ThumbsRating,
 } from "grommet";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../UserContext.js";
