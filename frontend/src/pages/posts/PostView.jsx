@@ -1,6 +1,6 @@
 import react, { useEffect, useState, useContext } from "react";
 import { getCommentsFromPost, getPostById, createComment } from "../../api/postApi";
-import { useParams, useNavigate} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Comment from "./Comment";
 import { Page, Box, Grid, Card, CardBody, CardHeader, CardFooter, PageContent, Button, TextArea, FormField} from "grommet";
 
@@ -32,14 +32,6 @@ const recusriveInsert = (newComment, root) => {
     }
 }
 
-let aComment = {
-    post_id: undefined,
-    author: undefined,
-    parent: 0,
-    content: undefined,
-    rating:0
-}
-
 export default function PostView() {
     let id = useParams().post;
 
@@ -47,11 +39,21 @@ export default function PostView() {
     let [currPost, setCurrPost] = useState({});
     let [comments, setComments] = useState([]);
     let [commentsLoaded, setCommentsLoaded] = useState(false);
+
+    let aComment = {
+        post_id: id,
+        author: currPost.author,
+        parent: 0,
+        content: undefined,
+        rating:0
+    }
+
     let [newComment, setNewComment] = useState(aComment);
 
     const _setNewComment = (delta) => {
         setNewComment({ ...newComment, ...delta })
-      }
+        console.log(newComment)
+    }
 
     useEffect(() => {
         getPostById(id).then(x => {
@@ -73,17 +75,19 @@ export default function PostView() {
         }
     }, [currPost]);
 
-    const addComment = (id, author) => {
-        let aComment = {
-            post_id: id,
-            author: author,
-            parent: 0,
-            content: newComment,
-            rating:0
+    const addComment = (comment) => {
+        aComment = {
+            post_id: comment.id,
+            author: comment.author,
+            parent: comment.parent,
+            content: comment.content,
+            rating: comment.rating
         }
 
+        console.log(aComment)
+
         createComment(aComment)
-        setNewComment(undefined)
+        setNewComment({id: undefined, author: undefined, parent: 0, content: undefined, rating: 0})
     }
 
     return (
@@ -108,18 +112,17 @@ export default function PostView() {
                                 <Box gridArea="title" background="light-2">
                                     <h3>{currPost.title}</h3>
                                 </Box>
-                                <h6>{currPost.author}</h6>
+                                <h2>{currPost.author}</h2>
                             </Grid>
                         </CardHeader>
                         <CardBody>
                             <p>{currPost.content}</p>
                         </CardBody>
                         <CardFooter pad={{horizontal: "small", bottom:"small"}} margin="small">
-                            <Button primary label="Add Comment" pad="xsmall" onClick={() => {addComment(id, currPost.author)}}>
-                            </Button>
+                            <Button primary label="Add Comment" pad="xsmall" onClick={() => {addComment(id, currPost.author, 0, newComment.content, 0)}}></Button>
 
-                            <TextArea placeholder="Add comment" rows={2}
-                                onChange={(event) => setNewComment(event.target.value)}>
+                            <TextArea rows={2}
+                                onChange={(event) => _setNewComment({content: event.target.value})}>
                             </TextArea>
                         </CardFooter>
                     </Card>
