@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import UserContext  from "../../UserContext";
 import { createComment } from "../../api/postApi";
-import { Accordion, AccordionPanel, Card, CardBody, CardFooter, CardHeader, Button, TextArea } from "grommet";
+import { Accordion, AccordionPanel, Card, CardBody, CardFooter, CardHeader, Button, TextArea, Grid, Box} from "grommet";
 
 export default function Comment({ comment }) {
     let currUser = useContext(UserContext);
@@ -45,13 +45,16 @@ export default function Comment({ comment }) {
                 <Button primary pad="xsmall" margin={{left: "medium", right: "medium"}} label="Add comment" onClick={() => {addReply( newComment )}}></Button> 
                 <TextArea rows={1} margin={{right:"medium"}} onChange={(event) => _setNewComment({content: event.target.value})}></TextArea>
             </CardFooter>
+
             <Accordion>
                 <AccordionPanel>
                     {comment.children.map(c => {
-                        return <Comment pad="xsmall" comment={c}></Comment>
+                        return (<>
+                            <Comment comment={c}></Comment>
+                        </>)
                     })}
                 </AccordionPanel>
-         </Accordion>
+                </Accordion>
         </Card>
     </>)
 }

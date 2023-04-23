@@ -67,6 +67,7 @@ export default function PostView() {
             constructCommentTree(comments, commentTree)
             console.log("comments loaded:" + commentTree.length)
             if (commentTree.length > 0) setCommentsLoaded(true)
+            _setNewComment({post_id: currPost.post_id})
         }
         if (!commentsLoaded) {
             console.log("loading comments")
@@ -74,7 +75,7 @@ export default function PostView() {
         }
     }, [currPost]);
 
-    const addComment = (comment) => {
+    const addComment = async (comment) => {
         aComment = {
             post_id: id,
             author: comment.author,
@@ -84,8 +85,8 @@ export default function PostView() {
 
         console.log(aComment)
 
-        createComment(aComment)
-        setNewComment({id: undefined, author: undefined, parent: 0, content: undefined})
+        await createComment(aComment)
+        setNewComment({post_id: undefined, author: undefined, parent: 0, content: undefined})
     }
 
     return (
@@ -125,7 +126,7 @@ export default function PostView() {
                         </CardFooter>
                     </Card>
                     {commentTree.map(c => {
-                        return <Comment comment={c}></Comment>
+                        return <><Comment comment={c}></Comment></>
                     })}
                 </PageContent>
             </Page>
