@@ -42,6 +42,12 @@ export default function PostView() {
     let [currPost, setCurrPost] = useState({});
     let [comments, setComments] = useState([]);
     let [commentsLoaded, setCommentsLoaded] = useState(false);
+    let aComment = {
+        post_id: id,
+        author: currPost.author,
+        parent: 0,
+        content: undefined,
+    }
     const sendRating = (action) => {
         getUserScore(currPost.post_id, currUser)
             .then(x => {
@@ -54,7 +60,8 @@ export default function PostView() {
             }
             )
         console.log(userRating)
-    }
+
+    
     const rate = (action) => {
         if (action == "like") {
             if (userRating < 1) {
@@ -104,11 +111,27 @@ export default function PostView() {
             setComments(response)
             constructCommentTree(comments, commentTree)
             if (commentTree.length > 0) setCommentsLoaded(true)
+            _setNewComment({post_id: currPost.post_id})
         }
         if (!commentsLoaded) {
             loadComments();
         }
-    }, [currPost])
+    }, [currPost]);
+
+    const addComment = async (comment) => {
+        aComment = {
+            post_id: id,
+            author: comment.author,
+            parent: comment.parent,
+            content: comment.content,
+        }
+
+        console.log(aComment)
+
+        await createComment(aComment)
+        setNewComment({post_id: undefined, author: undefined, parent: 0, content: undefined})
+    }
+
     return (
         !!currPost &&
         <>
@@ -145,15 +168,19 @@ export default function PostView() {
                         <CardBody pad={{ horizontal: 'medium' }}>
                             <p>{currPost.content}</p>
                         </CardBody>
-                        <CardFooter>
-                            {commentTree.map(c => {
-                                return <Comment comment={c}></Comment>
-                            })}
+                        <CardFooter pad={{horizontal: "small", bottom:"small"}} margin="small">
+                            <Button primary label="Add Comment" pad="xsmall" onClick={() => {addComment(newComment)}}></Button>
+
+                            <TextArea rows={2}
+                                onChange={(event) => _setNewComment({content: event.target.value})}>
+                            </TextArea>
                         </CardFooter>
                     </Card>
-
+                    {commentTree.map(c => {
+                        return <><Comment comment={c}></Comment></>
+                    })}
                 </PageContent>
             </Page >
         </>
     )
-}
+}}
