@@ -5,7 +5,7 @@ import UserContext from "../../UserContext";
 import { addUserToGarage, deleteGarage, getGarageByName, getGaragesByMember, removeMembersFromGarage, removeUserFromGarage } from "../../api/garageApi";
 import { deleteCommentsFromPost, deletePost, deletePostsFromGarage, getPostsByGarageName } from "../../api/postApi";
 import { PostList } from "../../components/PostList";
-import { Page, PageContent, Grid, Button, Box, Card, CardHeader, CardBody, CardFooter, Heading, Paragraph } from "grommet";
+import { Select, Page, PageContent, Grid, Button, Box, Card, CardHeader, CardBody, CardFooter, Heading, Paragraph } from "grommet";
 
 
 export default function GarageView() {
@@ -17,7 +17,7 @@ export default function GarageView() {
     let [currGarage, setCurrGarage] = useState(null);
     let [joined, setJoined] = useState(false);
     let [posts, setPosts] = useState([]);
-
+    let [sort, setSort] = useState('new')
     useEffect(() => {
         const loadData = async () => getGarageByName(garageName).then(x => {
             if (!!x[0]) {
@@ -69,14 +69,26 @@ export default function GarageView() {
                         ]}
                     >
                         <Box gridArea="posts">
+                            <Box>
+                                <Select id="sort"
+                                    value={sort}
+                                    options={['Popular', 'New']}
+                                    onChange={x => {
+                                        setSort(x.value)
+                                    }}>
+                                </Select>
+                            </Box>
                             {/* {posts.length > 0 && posts.map(p => {
                                 return (<>
                                     <PostTemplate currPost={p} />
                                 </>
                                 )
                             })} */
+
                                 posts.length > 0 &&
-                                <PostList title="Garage Posts" posts={posts} context={{ location: 'garage', garage: garageName }} />}
+                                <PostList title="Garage Posts" posts={
+                                    sort == "new" ? posts.sort((a, b) => (a.post_id < b.post_id) ? 1 : -1) : posts.sort((a, b) => (a.rating < b.rating) ? 1 : -1)
+                                } context={{ location: 'garage', garage: garageName }} />}
 
                         </Box>
                         <Box gridArea="info">

@@ -37,6 +37,7 @@ export const PostList = ({ title, posts, context }) => {
   const addFilter = async (delta) => {
     setFilters({ ...filters, ...delta })
   }
+
   const applyFilters = async () => {
     setPostList(posts)
     if (filters.year != null) {
@@ -113,6 +114,7 @@ export const PostList = ({ title, posts, context }) => {
             <Button label="Apply Filters"
               onClick={() => applyFilters()}></Button>
           </Box>
+
         </Grid >
       }
       <Table>

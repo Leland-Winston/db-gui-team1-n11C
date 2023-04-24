@@ -144,7 +144,10 @@ export default function PostView() {
         <>
             <Page kind="narrow">
                 <PageContent>
+                    <Button label="Back"
+                        onClick={() => navigate('/garage/' + currPost.garage)}></Button>
                     <Card>
+
                         <CardHeader>
                             <Grid
                                 rows={['xxxsmall', 'xsmall']}
@@ -155,6 +158,7 @@ export default function PostView() {
                                     { name: 'main', start: [1, 1], end: [1, 1] },
                                 ]}
                             >
+
                                 <Box gridArea="rating"
                                     alignContent="center" style={{ alignContent: 'center', alignItems: 'center' }}>
                                     <Button icon={<CaretUp color={userRating == 1 ? "brand" : ""}></CaretUp>}

@@ -31,12 +31,16 @@ function LandingPage() {
   let [joinedGarages, setJoinedGarages] = useState([]);
   let [posts, setPosts] = useState([]);
   const size = useContext(ResponsiveContext);
-
+  const sortPopular = async () =>{
+    
+  }
   useEffect(() => {
     getAllGarages().then((x) => setGarages(x));
-    getPosts().then((x) => setPosts(x));
+    getPosts().then((x) => {
+      setPosts(x)
+      setLoaded(true)
+    })
   }, []);
-
   return (
     <>
       {size !== "small" ? ( // DISPLAY FOR MEDIUM - LARGE SCREENS
@@ -67,10 +71,11 @@ function LandingPage() {
             <Page>
               <PageContent>
                 <Heading>Popular Posts</Heading>
-                <PostList
-                  posts={posts}
+                {loaded &&<PostList
+                  posts={posts.sort((a, b)=> (a.rating < b.rating) ? 1: -1)}
                   context={size}
-                ></PostList>
+                ></PostList>}
+                
               </PageContent>
             </Page>
           </Box>
@@ -102,7 +107,7 @@ function LandingPage() {
             gridArea="main"
           >
                 <PostList
-                  posts={posts}
+                  posts={posts.sort((a, b)=> (a.rating < b.rating) ? 1: -1)}
                 ></PostList>
                 </Box>
                 </AccordionPanel>

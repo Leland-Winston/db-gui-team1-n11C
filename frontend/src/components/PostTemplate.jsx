@@ -72,7 +72,7 @@ const PostTemplate = ({ currPost }) => {
           </Paragraph>
         </CardBody>
         <CardFooter pad="small" background="background-contrast">
-          <ThumbsRating></ThumbsRating>
+          {'Score: ' + currPost.rating}
         </CardFooter>
       </Card>
     </div>
