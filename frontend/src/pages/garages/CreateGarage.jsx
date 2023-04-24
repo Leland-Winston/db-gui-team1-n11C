@@ -1,12 +1,12 @@
 import React from "react";
 import { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Page, PageContent, Grid, Button, Box, Card, CardHeader, CardBody, CardFooter, Heading, Paragraph, Form, FormField, TextInput, TextArea, Tag } from "grommet";
 import UserContext from "../../UserContext";
 
-import { createGarage, getGarageByName } from "../../api/garageApi";
+import { createGarage, getGarageByName, editGarage } from "../../api/garageApi";
 import { Cards } from "grommet/components";
-import { createCar, createNewCarModel } from "../../api/carApi";
+import { createCar, createNewCarModel, getModelsFromGarage } from "../../api/carApi";
 
 const garageValues = {
     creator: "",
@@ -15,8 +15,9 @@ const garageValues = {
 }
 
 
-export const CreateGarage = () => {
+export const CreateGarage = ({ mode }) => {
     let [formValues, setformValues] = useState(garageValues);
+    let currGarage = useParams().garage;
     let currUser = useContext(UserContext);
     let navigate = useNavigate();
     let [models, setModels] = useState([])
@@ -32,26 +33,39 @@ export const CreateGarage = () => {
     const _setFormValue = (delta) => {
         setformValues({ ...formValues, ...delta });
     }
-
     const sendGarage = async () => {
-        await getGarageByName(formValues.name).then(async x => {
-            if (!!x[0]) {
-                setErrors(true)
-            }
-            else {
-                await createGarage(formValues);
+        if (mode == "edit") {
+            editGarage(formValues).then(() => {
                 models.forEach(m => {
                     createCar(formValues.name, m, 0)
                 })
-                navigate("/garage/" + formValues.name);
-            }
-        })
+            })
+
+        }
+        else {
+            await getGarageByName(formValues.name).then(async x => {
+                if (!!x[0]) {
+                    setErrors(true)
+                }
+                else {
+                    await createGarage(formValues);
+                    models.forEach(m => {
+                        createCar(formValues.name, m, 0)
+                    })
+                }
+            })
+        }
+
+        navigate("/garage/" + formValues.name);
 
     }
-
-
     useEffect(() => {
         _setFormValue({ creator: currUser });
+        if (mode == "edit") {
+            getGarageByName(currGarage).then(x => {
+                _setFormValue(x[0])
+            })
+        }
     }, []);
 
     return (<>
@@ -60,6 +74,7 @@ export const CreateGarage = () => {
                 <Form>
                     <FormField label="Garage Name" required>
                         <TextInput
+                            disabled={mode == "edit"}
                             value={formValues.name}
                             onChange={(event) => _setFormValue({ name: event.target.value })}
                         ></TextInput>
@@ -72,7 +87,7 @@ export const CreateGarage = () => {
                             onChange={(event) => _setFormValue({ description: event.target.value })}
                         ></TextArea>
                     </FormField>
-                    <Grid columns={['small', 'flex']}
+                    {mode == "edit" || <Grid columns={['small', 'flex']}
                         rows={['small', 'flex']}
                         areas={[
                             { name: 'label', start: [0, 0], end: [1, 0] },
@@ -89,24 +104,27 @@ export const CreateGarage = () => {
                                 }}></Button>
                         </Box>
                         <Box gridArea="carDisplay" pad={'small'} style={{ display: 'flex' }}>
-                            {models.map(x => {
-                                return <Card width={'max-Content'} pad={'small'}>
-                                    <CardHeader>{x}
-                                        <Button label="X"
-                                            onClick={() => { removeModel(x) }}></Button></CardHeader>
-                                </Card>
-                            })}
+                            {
+                                models.map(x => {
+                                    return <Card width={'max-Content'} pad={'small'}>
+                                        <CardHeader>{x}
+                                            <Button label="X"
+                                                onClick={() => { removeModel(x) }}></Button></CardHeader>
+                                    </Card>
+                                })
+                            }
                         </Box>
-                    </Grid>
+                    </Grid>}
                     {errors && <p>A Garage with this name already exists</p>}
                     <Button
                         primary
-                        disabled={models.length < 1 && !errors}
-                        label="Create Garage"
+                        disabled={mode != "edit" && (models.length < 1 && !errors)}
+                        label={mode == "edit" ? "Update Garage" : "Create Garage"}
                         onClick={() => {
                             sendGarage();
                         }}
                     ></Button>
+
                 </Form>
             </PageContent>
         </Page>

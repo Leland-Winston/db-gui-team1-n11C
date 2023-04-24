@@ -53,6 +53,7 @@ function App() {
             <Route path="/garage/:garage/post/:post" element={<PostView />} />
             <Route path="/newpost/:garage" element={<NewPost />} />
             <Route path="/newgarage" element={<CreateGarage />} />
+            <Route path="/editgarage/:garage" element={<CreateGarage mode="edit"></CreateGarage>}/>
           </Routes>
         </Grommet>
       </UserContext.Provider>

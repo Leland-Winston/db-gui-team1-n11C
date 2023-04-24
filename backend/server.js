@@ -192,6 +192,14 @@ app.post("/garages", (req, res) => {
     res.send(name + " created");
   });
 });
+app.put("/garages", (req, res)=>{
+  const { name, creator, description } = req.body;
+  const query = `UPDATE garages SET description='${description}' WHERE name='${name}'`
+  connection.query(query, (err, rows, fields) => {
+    if (err) throw err;
+    res.status(200);
+  });
+})
 app.get('/memberships/user/:username', (req, res)=>{
   const username = req.params.username;
   const query = `SELECT garage_name FROM memberships M WHERE M.username='${username}'`

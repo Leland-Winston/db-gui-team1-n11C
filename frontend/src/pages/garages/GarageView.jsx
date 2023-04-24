@@ -75,6 +75,7 @@ export default function GarageView() {
                                 </>
                                 )
                             })} */
+                                posts.length > 0 &&
                                 <PostList title="Garage Posts" posts={posts} context={{ location: 'garage', garage: garageName }} />}
 
                         </Box>
@@ -109,6 +110,12 @@ export default function GarageView() {
                                             state:
                                                 { previous: '/newpost/' + currGarage.name }
                                         })}></Button>
+                                    {
+                                        currUser == currGarage.creator &&
+                                        <Button label="Edit Garage"
+                                            onClick={() => { navigate('/editgarage/' + currGarage.name) }}>
+                                        </Button>
+                                    }
                                     {currUser === currGarage.creator && <Button label="Delete Garage"
                                         onClick={() => {
                                             cascadingDelete()

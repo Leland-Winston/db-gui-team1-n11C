@@ -45,3 +45,8 @@ export const removeMembersFromGarage = (name) =>{
     .then(x=>x.data)
     .catch(err=>err)
 }
+export const editGarage = (newGarage) =>{
+    return axios.put(url + '/garages', newGarage)
+    .then(x=>x.data)
+    .catch(err=>err)
+}
