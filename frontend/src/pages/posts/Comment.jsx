@@ -19,9 +19,9 @@ export default function Comment({ comment }) {
         setNewComment({ ...newComment, ...delta })
         console.log(newComment)
     }
-    const _deleteComment = async () => {
-        await deleteComment(comment.comment_id)
-            .then(() => setVisible(false))
+    const _deleteComment = () => {
+        deleteComment(comment.comment_id)
+        setVisible(false)
     }
     const addReply = async (reply) => {
         aComment = {
@@ -34,7 +34,7 @@ export default function Comment({ comment }) {
         console.log(aComment)
 
         await createComment(aComment)
-        setNewComment({ post_id: undefined, author: undefined, parent: null, content: '' })
+        setNewComment({ content: '' })
     }
 
     return (visible && <>
