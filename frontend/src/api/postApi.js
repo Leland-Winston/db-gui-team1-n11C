@@ -99,3 +99,14 @@ export const deleteCommentsFromPost = (id) =>{
   .then(x=>x.data)
   .catch(err=>err)
 }
+export const createComment = (comment) => {
+  return axios
+  .post(url + "/comments", comment)
+  .then(x => x.data)
+  .catch(err => err);
+};
+export const deleteComment = (id) =>{
+  return axios.delete(url + '/comments/' + id)
+  .then(x=>x.data)
+  .catch(err=>err)
+}

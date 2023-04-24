@@ -322,6 +322,14 @@ app.post("/comments", (req, res) => {
     res.send(rows);
   });
 });
+app.delete("/comments/:id", (req , res)=>{
+  const id = req.params.id;
+  const query = `DELETE FROM comments C WHERE C.comment_id=${id}`
+  connection.query(query, (err, rows, fields) => {
+    if (err) throw err;
+    res.status(200);
+  });
+})
 //CARS
 //////////////////////////////////////////////
 app.get("/cars/:garage", (req, res)=>{

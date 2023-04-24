@@ -1,9 +1,9 @@
 import react, { useEffect, useState, useContext } from "react";
-import { addNewRating, getCommentsFromPost, getPostById, getUserScore, setUserScore, updatePostRating } from "../../api/postApi";
+import { addNewRating, createComment, getCommentsFromPost, getPostById, getUserScore, setUserScore, updatePostRating } from "../../api/postApi";
 import { useNavigate, useParams } from "react-router-dom";
 import Comment from "./Comment";
 import { CaretDown, CaretUp } from "grommet-icons";
-import { Button, Page, Box, Grid, Card, CardBody, CardHeader, CardFooter, PageContent } from "grommet";
+import { TextArea, Button, Page, Box, Grid, Card, CardBody, CardHeader, CardFooter, PageContent } from "grommet";
 import UserContext from "../../UserContext";
 import { getUserByUsername } from "../../api/userApi";
 const constructCommentTree = async (allComments, commentTree) => {
@@ -45,8 +45,14 @@ export default function PostView() {
     let aComment = {
         post_id: id,
         author: currPost.author,
-        parent: 0,
+        parent: null,
         content: undefined,
+    }
+    let [newComment, setNewComment] = useState(aComment);
+
+    const _setNewComment = (delta) => {
+        setNewComment({ ...newComment, ...delta })
+        console.log(newComment)
     }
     const sendRating = (action) => {
         getUserScore(currPost.post_id, currUser)
@@ -60,8 +66,8 @@ export default function PostView() {
             }
             )
         console.log(userRating)
+    }
 
-    
     const rate = (action) => {
         if (action == "like") {
             if (userRating < 1) {
@@ -111,7 +117,8 @@ export default function PostView() {
             setComments(response)
             constructCommentTree(comments, commentTree)
             if (commentTree.length > 0) setCommentsLoaded(true)
-            _setNewComment({post_id: currPost.post_id})
+            _setNewComment({ post_id: currPost.post_id })
+            _setNewComment({ author: currUser })
         }
         if (!commentsLoaded) {
             loadComments();
@@ -129,7 +136,7 @@ export default function PostView() {
         console.log(aComment)
 
         await createComment(aComment)
-        setNewComment({post_id: undefined, author: undefined, parent: 0, content: undefined})
+        setNewComment({ post_id: undefined, author: undefined, parent: 0, content: undefined })
     }
 
     return (
@@ -168,11 +175,11 @@ export default function PostView() {
                         <CardBody pad={{ horizontal: 'medium' }}>
                             <p>{currPost.content}</p>
                         </CardBody>
-                        <CardFooter pad={{horizontal: "small", bottom:"small"}} margin="small">
-                            <Button primary label="Add Comment" pad="xsmall" onClick={() => {addComment(newComment)}}></Button>
+                        <CardFooter pad={{ horizontal: "small", bottom: "small" }} margin="small">
+                            <Button primary label="Add Comment" pad="xsmall" onClick={() => { addComment(newComment) }}></Button>
 
                             <TextArea rows={2}
-                                onChange={(event) => _setNewComment({content: event.target.value})}>
+                                onChange={(event) => _setNewComment({ content: event.target.value })}>
                             </TextArea>
                         </CardFooter>
                     </Card>
@@ -183,4 +190,4 @@ export default function PostView() {
             </Page >
         </>
     )
-}}
+}
