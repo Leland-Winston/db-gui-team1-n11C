@@ -11,30 +11,31 @@ import { Register } from "./pages/user/Register.jsx";
 import { ProfileView } from "./pages/user/ProfileView";
 import { NewPost } from "./pages/user/NewPost";
 import PostView from "./pages/posts/PostView.jsx";
-import GarageView from "./pages/garages/GarageView.jsx"
+import GarageView from "./pages/garages/GarageView.jsx";
 import { CreateGarage } from "./pages/garages/CreateGarage.jsx";
 import { getUserByUsername } from "./api/userApi.js";
+import { EditProfile } from "./pages/user/EditProfile.jsx";
 const theme = deepMerge(grommet, appTheme);
 
 function App() {
   const userContext = useContext(UserContext);
   const [currentUser, setCurrentUser] = useState(null);
   const [dark, setDark] = useState("dark");
-  
+
   const _setCurrentUser = (newUser) => {
     setCurrentUser(newUser);
-    window.localStorage.setItem('currentUser', newUser)
+    window.localStorage.setItem("currentUser", newUser);
   };
-  const _setDark = (theme) =>{
+  const _setDark = (theme) => {
     setDark(theme);
-    window.localStorage.setItem('theme', theme ? "dark" : "light")
-  }
-  useEffect(()=>{
-    const u = window.localStorage.getItem('currentUser');
-    const t = window.localStorage.getItem('theme');
-    _setDark(t==="dark" ? true : false);
-    setCurrentUser(u)
-  }, [])
+    window.localStorage.setItem("theme", theme ? "dark" : "light");
+  };
+  useEffect(() => {
+    const u = window.localStorage.getItem("currentUser");
+    const t = window.localStorage.getItem("theme");
+    _setDark(t === "dark" ? true : false);
+    setCurrentUser(u);
+  }, []);
   return (
     <>
       <UserContext.Provider value={currentUser}>
@@ -46,14 +47,24 @@ function App() {
           ></AppBar>
           <Routes>
             <Route path="/" element={<LandingPage />} />
-            <Route path="/login" element={<Login setCurrentUser={_setCurrentUser}/>}/>
-            <Route path="/register" element={<Register />} />
+            <Route
+              path="/login"
+              element={<Login setCurrentUser={_setCurrentUser} />}
+            />
+            <Route
+              path="/register"
+              element={<Register setCurrentUser={_setCurrentUser} />}
+            />
             <Route path="/profile/:username" element={<ProfileView />} />
             <Route path="/garage/:garagename" element={<GarageView />} />
             <Route path="/garage/:garage/post/:post" element={<PostView />} />
             <Route path="/newpost/:garage" element={<NewPost />} />
             <Route path="/newgarage" element={<CreateGarage />} />
-            <Route path="/editgarage/:garage" element={<CreateGarage mode="edit"></CreateGarage>}/>
+            <Route
+              path="/editgarage/:garage"
+              element={<CreateGarage mode="edit"></CreateGarage>}
+            />
+            <Route path="/profile/edit/:username" element={<EditProfile />} />
           </Routes>
         </Grommet>
       </UserContext.Provider>

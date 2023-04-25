@@ -12,3 +12,8 @@ export const createUser = (user) =>{
     .then(x=>x.data)
     .catch(err=>err)
 }
+export const updateUsername = (user) => {
+    return axios.put(url + '/users/username/' + user.username, {newName: user.newName})
+    .then(x=>x.data)
+    .catch(x=>x.data)
+}

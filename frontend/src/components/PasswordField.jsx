@@ -10,10 +10,11 @@ export const PasswordField = () => {
   return (
     <Box width="medium"
           direction="row"
-          margin="large"
+          margin="none"
           align="center"
           round="small"
-          border>
+          border
+          >
       <TextInput plain name="password" type={reveal ? 'text' : 'password'}
         value={value} onChange={(event) => setValue(event.target.value)}/>
       <Button

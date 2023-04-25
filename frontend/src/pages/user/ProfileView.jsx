@@ -19,7 +19,7 @@ import {
 import PostTemplate from "../../components/PostTemplate";
 import { Car, Sidebar } from "grommet-icons";
 import React, { useEffect, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getUserByUsername } from "../../api/userApi";
 import { getPostsByAuthor } from "../../api/postApi";
 import { useState } from "react";
@@ -39,6 +39,7 @@ export const ProfileView = () => {
     getGaragesByMember(username).then(x => setGarages(x))
   }, [])
   let currUser = useContext(UserContext);
+  let navigate = useNavigate();
 
   return (
     user.username != "" && (
@@ -52,7 +53,7 @@ export const ProfileView = () => {
                   <Avatar background="brand" size="xlarge">
                     <Car size="large"></Car>
                   </Avatar>
-                  {user.username === currUser &&  (<Button label="Edit Profile"></Button>)}
+                  {user.username === currUser &&  (<Button label="Edit Profile" onClick={() => navigate("/profile/edit/" + user.username)}></Button>)}
                 </Box>
               </CardHeader>
               <CardBody>
