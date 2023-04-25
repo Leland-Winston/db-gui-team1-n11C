@@ -158,7 +158,7 @@ export default function PostView() {
                         <CardBody pad={{ horizontal: 'medium' }} overflow={"auto"} responsive>
                         <Grid
                                 rows={['xxxsmall', 'xsmall']}
-                                columns={['xsmall', 'large']}
+                                columns={['xsmall', 'flex']}
                                 gap="small"
                                 areas={[
                                     { name: 'rating', start: [0, 0], end: [0, 1] },
