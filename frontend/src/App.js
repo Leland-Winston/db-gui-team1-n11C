@@ -48,7 +48,7 @@ function App() {
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<Login setCurrentUser={_setCurrentUser}/>}/>
-            <Route path="/register" element={<Register />} />
+            <Route path="/register" element={<Register setCurrentUser={_setCurrentUser}/>} />
             <Route path="/profile/:username" element={<ProfileView />} />
             <Route path="/garage/:garagename" element={<GarageView />} />
             <Route path="/garage/:garage/post/:post" element={<PostView />} />

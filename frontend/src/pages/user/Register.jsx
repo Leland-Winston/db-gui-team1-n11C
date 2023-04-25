@@ -23,7 +23,7 @@ const credentials = {
     password: '',
     confirmPassword: '',
 }
-export const Register = () => {
+export const Register = ({setCurrentUser}) => {
     let navigate = useNavigate();
     let [validCredentials, setValidCredentials] = useState(true);
     let [errorMessage, setErrorMessage] = useState("");
@@ -31,6 +31,15 @@ export const Register = () => {
     const _setFormValue = (delta) => {
         setFormValues({ ...formValues, ...delta })
     }
+    const login = () => {
+        getUserByUsername(formValues.username).then(x => {
+          if (!!x[0]) {
+            setCurrentUser(x[0].username);
+            window.localStorage.setItem('currentUser', x[0].username);
+            navigate('/');
+          }
+        })
+      }
     const registerUser = () => {
         if (formValues.password === formValues.confirmPassword) {
             setValidCredentials(true)
@@ -44,7 +53,7 @@ export const Register = () => {
                         username: formValues.username,
                         password: formValues.password,
                         admin: false
-                    }).then(navigate('/'))
+                    }).then(login())
                 }
             })
         }

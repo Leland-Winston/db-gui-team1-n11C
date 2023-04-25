@@ -89,7 +89,7 @@ app.put("/users/clear", (req, res) => {
 
 app.put('/users/username/:username', (req, res) => {
     let name = req.params.username;
-    let newName = req.body.username;
+    let newName = req.body.newName;
     connection.query(`UPDATE users SET username='${newName}' WHERE username='${name}';`, (err, rows, fields) => {
         if (err) throw err
 
