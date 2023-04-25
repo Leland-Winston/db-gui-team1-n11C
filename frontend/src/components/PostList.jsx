@@ -53,7 +53,7 @@ export const PostList = ({ posts, context }) => {
         (x) => {
           console.log(postList);
           if (!!x) {
-            setPostList(posts.filter((p) => p.car_id == x[0].car_id));
+            setFilteredPosts(posts.filter((p) => p.car_id == x[0].car_id));
           }
         }
       );
@@ -83,9 +83,9 @@ export const PostList = ({ posts, context }) => {
             }
           });
         loadModels().then(() => {
-          models = models.filter((m, index) => {
+          setModelList(models.filter((m, index) => {
             return models.indexOf(m) === index;
-          });
+          }))
           setModelList(models);
         });
       }

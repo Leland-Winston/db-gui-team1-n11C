@@ -47,11 +47,12 @@ CREATE TABLE IF NOT EXISTS cars(
   garage_name VARCHAR(255) NOT NULL,
   model VARCHAR(255) NOT NULL,
   year INT DEFAULT 0
-)
+);
 CREATE TABLE IF NOT EXISTS comments(
   comment_id INT AUTO_INCREMENT PRIMARY KEY,
-  author INT NOT NULL,
+  author VARCHAR(255) NOT NULL,
   post_id INT NOT NULL,
+  parent INT,
   content VARCHAR(1000) NOT NULL,
   rating INT DEFAULT 0
 );
