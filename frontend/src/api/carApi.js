@@ -6,7 +6,7 @@ export const getModelsFromGarage = (garage)=>{
     .catch(err=>err)
 }
 export const getCarFromGarage = (garage, model, year)=>{
-    return axios.post(url + '/cars/' + garage + '/find', {model:model, year:year})
+    return axios.get(url + '/cars/' + garage + '/find', {model:model, year:year})
     .then(x=>x.data)
     .catch(err=>err)
 }

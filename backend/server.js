@@ -375,7 +375,7 @@ app.get("/cars/:garage", (req, res)=>{
     res.send(rows);
   });
 })
-app.post("/cars/:garage/find", (req, res)=>{
+app.get("/cars/:garage/find", (req, res)=>{
   const garage = req.params.garage;
   const {model, year} = req.body;
   const query = `SELECT car_id FROM cars C WHERE C.garage_name='${garage}' AND C.model='${model}' AND C.year=${year}`;
