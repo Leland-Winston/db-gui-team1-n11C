@@ -70,6 +70,7 @@ export const PostList = ({ posts, context }) => {
     setFilters(vals);
     setPostList(posts);
   };
+
   useEffect(() => {
     setPostList(posts);
     const load = async () => {
@@ -117,14 +118,14 @@ export const PostList = ({ posts, context }) => {
       <>
         {context.location == "garage" && (
           <Grid columns={["small", "small"]} rows={["flex"]}>
-            <Box pad={{top: "small", start: "small"}}>
+            <Box pad={{ top: "small", start: "small" }}>
               <Select
                 options={modelList}
                 onChange={(x) => addFilter({ model: x.value })}
                 placeholder="model"
               ></Select>
             </Box>
-            <Box margin={{ horizontal: "small" }} pad={{top: "small"}}>
+            <Box margin={{ horizontal: "small" }} pad={{ top: "small" }}>
               <Select
                 id="test"
                 options={Array.from({ length: 100 }, (v, k) => 123 - k + 1900)}
@@ -133,14 +134,13 @@ export const PostList = ({ posts, context }) => {
               ></Select>
             </Box>
             <Box direction="row" pad={"small"}>
-            <Button
+              <Button
                 label="Apply Filters"
                 onClick={() => applyFilters()}
                 fill
                 primary
               ></Button>
               <Button label="Clear" onClick={() => resetFilters()}></Button>
-              
             </Box>
           </Grid>
         )}
@@ -153,7 +153,7 @@ export const PostList = ({ posts, context }) => {
             placeholder="search for user or keyword"
           ></TextInput>
         </Box>
-        <Box margin={{top: "medium"}}>
+        <Box margin={{ top: "medium" }}>
           <Table>
             <TableBody>
               {filteredPosts.map((post) => (
