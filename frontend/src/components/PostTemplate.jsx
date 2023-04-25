@@ -25,7 +25,7 @@ import {
   Paragraph,
   ResponsiveContext,
   Text,
-  ThumbsRating
+  ThumbsRating,
 } from "grommet";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../UserContext.js";
@@ -44,39 +44,58 @@ const PostTemplate = ({ currPost }) => {
     setIsHover(false);
   };
   return (
-    <div style={{ display: visible ? 'block' : 'none' }}>
-
+    <div style={{ display: visible ? "block" : "none" }}>
       <Card>
         <CardHeader pad="small">
           <Box pad="none" direction="column" justify="end">
-            <Heading level={3} margin="none"
+            <Heading
+              level={3}
+              margin="none"
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
-              style={isHover ? { textDecoration: 'underline' } : { textDecoration: 'none' }}>
+              style={
+                isHover
+                  ? { textDecoration: "underline" }
+                  : { textDecoration: "none" }
+              }
+            >
               {currPost.title}
             </Heading>
             <Text size="xsmall">
               {currPost.author} • {currPost.garage}
             </Text>
           </Box>
-          {user === currPost.author &&
+          {user === currPost.author && (
             <Box direction="row" justify="end">
-              <Button label="X" onClick={() => { deletePost(currPost.post_id); setVisible(false) }}>
-              </Button>
+              <Button
+                label="X"
+                onClick={() => {
+                  deletePost(currPost.post_id);
+                  setVisible(false);
+                }}
+              ></Button>
             </Box>
-          }
+          )}
         </CardHeader>
-        <CardBody pad="small" style={{ cursor: 'pointer' }} onClick={() => navigate('/garage/' + currPost.garage + '/post/' + currPost.post_id)}>
-          <Paragraph maxLines={size === "small" ? 1 : 5} margin={{ top: 'none' }}>
+        <CardBody
+          pad="small"
+          style={{ cursor: "pointer" }}
+          onClick={() =>
+            navigate("/garage/" + currPost.garage + "/post/" + currPost.post_id)
+          }
+        >
+          <Paragraph
+            maxLines={size === "small" ? 1 : 5}
+            margin={{ top: "none" }}
+          >
             {currPost.content}
           </Paragraph>
         </CardBody>
         <CardFooter pad="small" background="background-contrast">
-          {'Score: ' + currPost.rating}
+          {"Score: " + currPost.rating}
         </CardFooter>
       </Card>
     </div>
-
   );
 };
 export default PostTemplate;

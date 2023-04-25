@@ -78,7 +78,7 @@ export default function GarageView() {
                             })} */
 
                                 posts.length > 0 &&
-                                <PostList title="Garage Posts" posts={
+                                <PostList posts={
                                     sort == "new" ? posts.sort((a, b) => (a.post_id < b.post_id) ? 1 : -1) : posts.sort((a, b) => (a.rating < b.rating) ? 1 : -1)
                                 } context={{ location: 'garage', garage: garageName }} />}
 
