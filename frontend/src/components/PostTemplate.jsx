@@ -61,9 +61,22 @@ const PostTemplate = ({ currPost }) => {
             >
               {currPost.title}
             </Heading>
-            <Text size="xsmall">
-              {currPost.author} • {currPost.garage}
-            </Text>
+            <Box direction="row">
+            <Anchor
+              size="xsmall"
+              onClick={() => navigate("/profile/" + currPost.author)}
+            >
+              {currPost.author}
+            </Anchor>
+            <Text size="small">•</Text>
+            <Anchor
+              size="xsmall"
+              
+              onClick={() => navigate("/garage/" + currPost.garage)}
+            >
+              {currPost.garage}
+            </Anchor>
+          </Box>
           </Box>
           {user === currPost.author && (
             <Box direction="row" justify="end">
