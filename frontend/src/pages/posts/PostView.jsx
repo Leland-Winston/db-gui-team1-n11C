@@ -2,8 +2,8 @@ import react, { useEffect, useState, useContext } from "react";
 import { addNewRating, createComment, getCommentsFromPost, getPostById, getUserScore, setUserScore, updatePostRating } from "../../api/postApi";
 import { useNavigate, useParams } from "react-router-dom";
 import Comment from "./Comment";
-import { CaretDown, CaretUp } from "grommet-icons";
-import { TextArea, Button, Page, Box, Grid, Card, CardBody, CardHeader, CardFooter, PageContent } from "grommet";
+import { CaretDown, CaretUp, LinkPrevious } from "grommet-icons";
+import { TextArea, Button, Page, Box, Grid, Card, CardBody, CardHeader, CardFooter, Heading, PageContent, Text } from "grommet";
 import UserContext from "../../UserContext";
 import { getUserByUsername } from "../../api/userApi";
 const constructCommentTree = async (allComments, commentTree) => {
@@ -11,7 +11,7 @@ const constructCommentTree = async (allComments, commentTree) => {
         if (newComment.parent !== null) { //comment is not a root
             commentTree.forEach(root => {
                 //recursively insert into each root
-                recusriveInsert(newComment, root)
+                recursiveInsert(newComment, root)
             })
         }
         else { //add new root
@@ -19,14 +19,14 @@ const constructCommentTree = async (allComments, commentTree) => {
         }
     })
 }
-const recusriveInsert = (newComment, root) => {
+const recursiveInsert = (newComment, root) => {
     if (newComment.parent == root.comment_id) {
         root.children.push({ ...newComment, ...{ children: [] } })
     }
     else {
         if (root.children.length > 0) {
             root.children.forEach(c => {
-                recusriveInsert(newComment, c)
+                recursiveInsert(newComment, c)
             })
         }
     }
@@ -144,12 +144,19 @@ export default function PostView() {
         <>
             <Page kind="narrow">
                 <PageContent>
+                    <Box pad="small" justify="start" width={"small"} flex responsive>
                     <Button label="Back"
-                        onClick={() => navigate('/garage/' + currPost.garage)}></Button>
+                        onClick={() => navigate('/garage/' + currPost.garage)}
+                        icon={<LinkPrevious></LinkPrevious>}></Button>
+                    </Box>
                     <Card>
-
-                        <CardHeader>
-                            <Grid
+                        <CardHeader background={"brand"}>
+                            <Box pad={{start: "medium"}}>
+                        <Heading level={3} margin={"small"} color={"text-strong"}>{currPost.title}</Heading>
+                        </Box>
+                        </CardHeader>
+                        <CardBody pad={{ horizontal: 'medium' }} overflow={"auto"} responsive>
+                        <Grid
                                 rows={['xxxsmall', 'xsmall']}
                                 columns={['xsmall', 'large']}
                                 gap="small"
@@ -166,25 +173,27 @@ export default function PostView() {
                                         onClick={currUser ? () => rate("like") :
                                             () => { navigate('/login', { state: { previous: '/garage/' + currPost.garage + '/post/' + currPost.post_id } }) }}></Button>
 
-                                    <h6>{currPost.rating + score}</h6>
+                                    <Heading level="6" margin={"none"}>{currPost.rating + score}</Heading>
                                     <Button icon={<CaretDown color={userRating == -1 ? "brand" : ""}></CaretDown>}
                                         pad={0}
                                         onClick={() => { rate("dislike") }}></Button>
                                 </Box>
-                                <Box gridArea="main" pad="medium">
-                                    <h1>{currPost.title}</h1>
+                                <Box margin="small">
+                                <Box gridArea="main" pad="small" width={"40rem"}>
+                                    <Text>{currPost.content}</Text>
+                                </Box>
                                 </Box>
                             </Grid>
-                        </CardHeader>
-                        <CardBody pad={{ horizontal: 'medium' }}>
-                            <p>{currPost.content}</p>
                         </CardBody>
                         <CardFooter pad={{ horizontal: "small", bottom: "small" }} margin="small">
-                            <Button primary label="Add Comment" pad="xsmall" onClick={() => { addComment(newComment) }}></Button>
-
-                            <TextArea rows={2}
+                            <Box direction="column" fill>
+                            <TextArea rows={3}
                                 onChange={(event) => _setNewComment({ content: event.target.value })}>
                             </TextArea>
+                            <Box margin={{top: "small"}} width={"small"}>
+                            <Button primary label="Add Comment" pad="xsmall" onClick={() => { addComment(newComment) }}></Button>
+                            </Box>
+                            </Box>
                         </CardFooter>
                     </Card>
                     {commentTree.map(c => {

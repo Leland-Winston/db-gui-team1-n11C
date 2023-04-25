@@ -5,7 +5,7 @@ import UserContext from "../../UserContext";
 import { addUserToGarage, deleteGarage, getGarageByName, getGaragesByMember, removeMembersFromGarage, removeUserFromGarage } from "../../api/garageApi";
 import { deleteCommentsFromPost, deletePost, deletePostsFromGarage, getPostsByGarageName } from "../../api/postApi";
 import { PostList } from "../../components/PostList";
-import { Select, Page, PageContent, Grid, Button, Box, Card, CardHeader, CardBody, CardFooter, Heading, Paragraph } from "grommet";
+import { Select, Page, PageContent, Grid, Button, Box, Card, CardHeader, CardBody, CardFooter, Heading, Paragraph, ResponsiveContext } from "grommet";
 
 
 export default function GarageView() {
@@ -13,6 +13,7 @@ export default function GarageView() {
     let navigate = useNavigate();
     let location = useLocation();
     let currUser = useContext(UserContext);
+    let size = useContext(ResponsiveContext);
     let garageName = useParams().garagename;
     let [currGarage, setCurrGarage] = useState(null);
     let [joined, setJoined] = useState(false);
@@ -60,13 +61,14 @@ export default function GarageView() {
             <Page>
                 <PageContent>
                     <Grid
-                        rows={['xxsmall', 'medium']}
-                        columns={['flex', 'medium']}
+                        rows={size != "small" ? ['xxsmall', 'medium'] : ['medium', 'flex']}
+                        columns={size != "small" ? ['flex', 'medium'] : ['flex', 'flex']}
                         gap="small"
-                        areas={[
+                        areas={size != "small" ? [
                             { name: 'posts', start: [0, 1], end: [0, 1] },
                             { name: 'info', start: [1, 1], end: [1, 1] },
-                        ]}
+                        ] : [{ name: 'info', start: [0, 0], end: [1, 0] },
+                        { name: 'posts', start: [0, 1], end: [1, 1] },]}
                     >
                         <Box gridArea="posts">
                         

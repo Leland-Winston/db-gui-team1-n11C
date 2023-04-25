@@ -18,12 +18,13 @@ import {
   TableHeader,
   Tab,
   Tabs,
+  ResponsiveContext,
 } from "grommet";
 import { DataSearch, TextInput } from "grommet/components";
 import { Search } from "grommet-icons";
 import PostTemplate from "./PostTemplate";
 import { useLocation, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   getCarFromGarage,
   getIdsFromModel,
@@ -37,6 +38,7 @@ let vals = {
 };
 export const PostList = ({ posts, context }) => {
   const location = useLocation();
+  let size = useContext(ResponsiveContext);
   let [models, setModels] = useState([]);
   let [modelList, setModelList] = useState([]);
   let [loaded, setLoaded] = useState(false);
@@ -83,9 +85,11 @@ export const PostList = ({ posts, context }) => {
             }
           });
         loadModels().then(() => {
-          setModelList(models.filter((m, index) => {
-            return models.indexOf(m) === index;
-          }))
+          setModelList(
+            models.filter((m, index) => {
+              return models.indexOf(m) === index;
+            })
+          );
           setModelList(models);
         });
       }
@@ -112,26 +116,31 @@ export const PostList = ({ posts, context }) => {
     loaded && (
       <>
         {context.location == "garage" && (
-          <Grid columns={["small", "small", "xsmall"]} rows={["flex"]}>
-            <Box>
+          <Grid columns={["small", "small"]} rows={["flex"]}>
+            <Box pad={{top: "small", start: "small"}}>
               <Select
                 options={modelList}
                 onChange={(x) => addFilter({ model: x.value })}
+                placeholder="model"
               ></Select>
             </Box>
-            <Box margin={{ horizontal: "small" }}>
+            <Box margin={{ horizontal: "small" }} pad={{top: "small"}}>
               <Select
                 id="test"
                 options={Array.from({ length: 100 }, (v, k) => 123 - k + 1900)}
                 onChange={(x) => addFilter({ year: x.value })}
+                placeholder="year"
               ></Select>
             </Box>
-            <Box>
-              <Button label="Clear" onClick={() => resetFilters()}></Button>
-              <Button
+            <Box direction="row" pad={"small"}>
+            <Button
                 label="Apply Filters"
                 onClick={() => applyFilters()}
+                fill
+                primary
               ></Button>
+              <Button label="Clear" onClick={() => resetFilters()}></Button>
+              
             </Box>
           </Grid>
         )}
@@ -144,7 +153,7 @@ export const PostList = ({ posts, context }) => {
             placeholder="search for user or keyword"
           ></TextInput>
         </Box>
-        <Box>
+        <Box margin={{top: "medium"}}>
           <Table>
             <TableBody>
               {filteredPosts.map((post) => (
