@@ -17,3 +17,6 @@ export const updateUsername = (user) => {
     .then(x=>x.data)
     .catch(x=>x.data)
 }
+export const updatePassword = (user) => {
+    return axios.put(url + '/users/password/' + user.name, {password: user.newPass})
+}

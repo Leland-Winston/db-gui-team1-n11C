@@ -69,15 +69,7 @@ export default function GarageView() {
                         ]}
                     >
                         <Box gridArea="posts">
-                            <Box>
-                                <Select id="sort"
-                                    value={sort}
-                                    options={['Popular', 'New']}
-                                    onChange={x => {
-                                        setSort(x.value)
-                                    }}>
-                                </Select>
-                            </Box>
+                        
                             {/* {posts.length > 0 && posts.map(p => {
                                 return (<>
                                     <PostTemplate currPost={p} />

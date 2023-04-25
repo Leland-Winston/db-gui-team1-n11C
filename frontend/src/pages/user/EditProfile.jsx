@@ -14,7 +14,11 @@ import {
 import { Car } from "grommet-icons";
 import React, { useEffect, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getUserByUsername, updateUsername } from "../../api/userApi";
+import {
+  getUserByUsername,
+  updatePassword,
+  updateUsername,
+} from "../../api/userApi";
 import { useState } from "react";
 import UserContext from "../../UserContext";
 import { PasswordField } from "../../components/PasswordField";
@@ -24,37 +28,38 @@ export const EditProfile = () => {
   const username = params.username;
   let navigate = useNavigate();
   const [user, setUser] = useState({});
-  const [formValues, setFormValues] = useState({ newName: "" });
+  const [formValues, setFormValues] = useState({
+    currPass: "",
+    newPass: "",
+    confirmPass: "",
+  });
+  const [validCredentials, setValidCredentials] = useState(true);
   const _setFormValue = (delta) => {
     setFormValues({ ...formValues, ...delta });
   };
   useEffect(() => {
     getUserByUsername(username).then((x) => setUser(x[0]));
   }, []);
-  let currUser = useContext(UserContext);
 
+  const verify = () => {
+    console.log(formValues);
+    if (user.password != formValues.currPass) {
+      setValidCredentials(false);
+      alert("current password is wrong");
+    } else if (formValues.newPass !== formValues.confirmPass) {
+      setValidCredentials(false);
+      alert("new passwords must match");
+    } else {
+      setValidCredentials(true);
+      updateUser();
+    }
+  };
   const updateUser = () => {
-    getUserByUsername(formValues.newName).then(
-      (x) => {
-        if (!!x[0]) {
-          alert("Username Already Exists");
-        } else {
-          updateUsername({
-            username: username,
-            newName: formValues.newName,
-          }).then(navigate("/profile/" + formValues.newName));
-        }
-      }
-      // if (formValues.password === formValues.confirmPassword) {
-      //     setValidCredentials(true)
-      //     getUserByUsername(formValues.username).then(x => {
-
-      //     })
-      // }
-      // else {
-      //     setValidCredentials(false)
-      //     setErrorMessage("Invalid Credentials")
-      // }
+    if (!validCredentials) {
+      return;
+    }
+    updatePassword({ name: username, newPass: formValues.newPass }).then(
+      navigate("/profile/" + username)
     );
   };
 
@@ -69,7 +74,7 @@ export const EditProfile = () => {
                   <Avatar background="brand" size="xlarge">
                     <Car size="large"></Car>
                   </Avatar>
-                  <Button label="Change Avatar"></Button>
+                  {/* <Button label="Change Avatar"></Button> */}
                   <Heading level={2}>{user.username}</Heading>
                 </Box>
               </CardHeader>
@@ -81,29 +86,37 @@ export const EditProfile = () => {
                   gap="medium"
                   fill="horizontal"
                 >
-                  <FormField label="New Username">
+                  <FormField label="Enter your current password">
                     <Box border round="small">
                       <TextInput
                         plain
-                        name="username"
+                        name="current password"
                         onChange={(e) => {
-                          _setFormValue({ newName: e.target.value });
+                          _setFormValue({ currPass: e.target.value });
                         }}
                       />
                     </Box>
                   </FormField>
                   <FormField label="New Password">
-                    <PasswordField></PasswordField>
+                    <TextInput
+                      onChange={(e) => {
+                        _setFormValue({ newPass: e.target.value });
+                      }}
+                    ></TextInput>
                   </FormField>
                   <FormField label="Confirm Password">
-                    <PasswordField></PasswordField>
+                    <TextInput
+                      onChange={(e) => {
+                        _setFormValue({ confirmPass: e.target.value });
+                      }}
+                    ></TextInput>
                   </FormField>
                   <Box direction="row">
                     <Box pad="small">
                       <Button
                         primary
                         label="Make Changes"
-                        onClick={() => updateUser()}
+                        onClick={() => verify()}
                       ></Button>
                     </Box>
                     <Box pad="small">

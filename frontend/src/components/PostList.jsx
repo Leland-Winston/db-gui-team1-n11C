@@ -31,7 +31,7 @@ let vals = {
   year: null,
   query: ''
 }
-export const PostList = ({ title, posts, context }) => {
+export const PostList = ({ posts, context }) => {
   const location = useLocation();
   let [models, setModels] = useState([]);
   let [modelList, setModelList] = useState([]);
@@ -105,7 +105,7 @@ export const PostList = ({ title, posts, context }) => {
   const [filteredPosts, setFilteredPosts] = useState(posts);
   useEffect(() => {
     getFilteredPosts();
-  }, [filteredPosts]);
+  }, [searchText]);
 
   return (
     loaded &&

@@ -15,6 +15,7 @@ import {
   TableCell,
   TableHeader,
   Tag,
+  ResponsiveContext,
 } from "grommet";
 import PostTemplate from "../../components/PostTemplate";
 import { Car, Sidebar } from "grommet-icons";
@@ -29,7 +30,7 @@ import { getGaragesByMember } from "../../api/garageApi";
 
 export const ProfileView = () => {
   const params = useParams();
-  const username = params.username
+  const username = params.username;
   const [posts, setPosts] = useState([]);
   const [user, setUser] = useState({})
   const [garages, setGarages] = useState([]);
@@ -40,6 +41,7 @@ export const ProfileView = () => {
   }, [])
   let currUser = useContext(UserContext);
   let navigate = useNavigate();
+  let size = useContext(ResponsiveContext);
 
   return (
     user.username != "" && (
@@ -53,7 +55,7 @@ export const ProfileView = () => {
                   <Avatar background="brand" size="xlarge">
                     <Car size="large"></Car>
                   </Avatar>
-                  {user.username === currUser &&  (<Button label="Edit Profile" onClick={() => navigate("/profile/edit/" + user.username)}></Button>)}
+                  {user.username === currUser &&  (<Button label="Edit Password" onClick={() => navigate("/profile/edit/" + user.username)}></Button>)}
                 </Box>
               </CardHeader>
               <CardBody>
@@ -64,7 +66,7 @@ export const ProfileView = () => {
             </Card>
             {user.username === currUser &&  (<Heading margin="small">My Posts</Heading>) || <Heading margin="small">Posts</Heading>}
             {/* map user's posts here into post templates */}
-            <PostList title="My Posts" posts={posts}/>
+            <PostList posts={posts} context={size}/>
           </PageContent>
         </Page>
       </>

@@ -108,6 +108,7 @@ function LandingPage() {
           >
                 <PostList
                   posts={posts.sort((a, b)=> (a.rating < b.rating) ? 1: -1)}
+                  context={size}
                 ></PostList>
                 </Box>
                 </AccordionPanel>
