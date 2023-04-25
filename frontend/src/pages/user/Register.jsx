@@ -32,6 +32,7 @@ export const Register = ({setCurrentUser}) => {
         setFormValues({ ...formValues, ...delta })
     }
     const login = () => {
+        console.log("logging in ...")
         getUserByUsername(formValues.username).then(x => {
           if (!!x[0]) {
             setCurrentUser(x[0].username);
@@ -53,8 +54,9 @@ export const Register = ({setCurrentUser}) => {
                         username: formValues.username,
                         password: formValues.password,
                         admin: false
-                    }).then(login())
+                    })
                 }
+                login()
             })
         }
         else {
