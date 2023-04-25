@@ -23,7 +23,7 @@ const credentials = {
     password: '',
     confirmPassword: '',
 }
-export const Register = ({setCurrentUser}) => {
+export const Register = ({ setCurrentUser }) => {
     let navigate = useNavigate();
     let [validCredentials, setValidCredentials] = useState(true);
     let [errorMessage, setErrorMessage] = useState("");
@@ -34,17 +34,17 @@ export const Register = ({setCurrentUser}) => {
     const login = () => {
         console.log("logging in ...")
         getUserByUsername(formValues.username).then(x => {
-          if (!!x[0]) {
-            setCurrentUser(x[0].username);
-            window.localStorage.setItem('currentUser', x[0].username);
-            navigate('/');
-          }
+            if (!!x[0]) {
+                setCurrentUser(x[0].username);
+                window.localStorage.setItem('currentUser', x[0].username);
+                navigate('/');
+            }
         })
-      }
-    const registerUser = () => {
+    }
+    const registerUser = async () => {
         if (formValues.password === formValues.confirmPassword) {
             setValidCredentials(true)
-            getUserByUsername(formValues.username).then(x => {
+            await getUserByUsername(formValues.username).then(x => {
                 if (!!x[0]) {
                     setValidCredentials(false)
                     setErrorMessage("User Already Exists")
@@ -56,8 +56,8 @@ export const Register = ({setCurrentUser}) => {
                         admin: false
                     })
                 }
-                login()
             })
+
         }
         else {
             setValidCredentials(false)
@@ -97,13 +97,13 @@ export const Register = ({setCurrentUser}) => {
                                     margin="small"
                                     align="center"
                                     round="small"
-                                    >
+                                >
                                     <PasswordField />
                                 </Box>
                             </FormField>
                         </Box>
                         <Box align="center" pad="small" border="top">
-                            <FormField label="Confirm Password" name="confirmPassword" required
+                            <FormField label="Confirm Password" name="confirmPassword"
                                 onChange={e => {
                                     _setFormValue({ confirmPassword: e.target.value })
                                 }}>
@@ -113,14 +113,14 @@ export const Register = ({setCurrentUser}) => {
                                     margin="small"
                                     align="center"
                                     round="small"
-                                    >
+                                >
                                     <PasswordField />
                                 </Box>
                             </FormField>
                         </Box>
                         <Box align="center">
                             <Button type="submit" label="Register" primary fill="horizontal"
-                                onClick={() => registerUser()} />
+                                onClick={async () => { await registerUser(); login() }} />
                             {!validCredentials &&
                                 <Text pad="small">{errorMessage}</Text>
                                 ||

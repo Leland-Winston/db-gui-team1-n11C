@@ -87,7 +87,8 @@ export const ProfileView = () => {
             {(user.username === currUser && (
               <Heading margin="small">My Posts</Heading>
             )) || <Heading margin="small">Posts</Heading>}
-            <PostList posts={posts} context={size} />
+            {posts.length > 0 &&
+              <PostList posts={posts} context={size} />}
           </PageContent>
         </Page>
       </>
