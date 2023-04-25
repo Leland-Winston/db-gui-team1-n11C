@@ -45,7 +45,7 @@ const PostTemplate = ({ currPost }) => {
   };
   return (
     <div style={{ display: visible ? "block" : "none" }}>
-      <Card>
+      <Card onClick={()=>{}}>
         <CardHeader pad="small">
           <Box pad="none" direction="column" justify="end">
             <Heading
